@@ -1,1 +1,22 @@
+*, :after, :before {
+    box-sizing: border-box;
+}
+
 /* Global variables */
+:root {
+    --color-primary: #007bff;
+    --color-secondary: #6c757d;
+    --color-success: #28a745;
+    --color-info: #17a2b8;
+    --color-warning: #ffc107;
+    --color-danger: #dc3545;
+    --color-light: #f8f9fa;
+    --color-dark: #343a40;
+    --color-white: #fff;
+    --color-black: #000;
+}
+
+/* Body */
+body {
+    background-color: var(--color-secondary);
+}
