@@ -7,6 +7,7 @@ assignees: Mykola-CI
 
 ---
 
+### Theme
 As a <ins>customer</ins>, I want to <ins></ins> so I can <ins></ins>
 
 **Acceptance criteria**:
