@@ -1,0 +1,434 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block meta %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% endblock meta %}
+
+    {% block extra_meta %}
+    {% endblock %}
+
+    {% block corecss %}
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Google font Inter Variable -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Clicker+Script&family=Inter:wght@100..900&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% endblock corecss %}
+
+    {% block extra_css %}
+    {% endblock %}
+
+
+    {% block corejs %}
+    <!-- Fontawesome icons -->
+    <script src="https://kit.fontawesome.com/e0f7937b3c.js" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap JS bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    {% endblock corejs %}
+
+    {% block extra_js %}{% endblock %}
+
+    <title>
+        Carol's Whimsy
+        {% block extra_title %}{% endblock %}
+    </title>
+</head>
+<body>
+
+    <!-- Topbar -->
+    <div
+        class="top-bar container-xl position-relative d-flex align-items-center justify-content-between z-1 py-1 fw-light">
+        <div class="nav principal-logo">
+            <a class="nav-link p-0 text-reset" href="#">
+                <img src="{{ MEDIA_URL }}goodwillangel_xl_glow_poster.png" class="img-fluid"
+                    alt="Goodwill commercial sign">
+            </a>
+        </div>
+        <a class="text-decoration-none shadow-sm d-none d-md-inline text-reset fw-lighter ls-wider fs-xs" href="#!">A
+            World of
+            Enchanting Decorations</a>
+        <ul class="nav gap-2 gap-sm-4">
+            <li>
+                <a class="nav-link p-0 text-reset ls-wider fs-xs" href="#!">Wishlist</a>
+            </li>
+            <li>
+                <a class="nav-link p-0 text-reset ls-wider fs-xs" href="#!">Log In</a>
+            </li>
+            <li>
+                <a class="nav-link p-0 text-reset ls-wider fs-xs" href="#!">Log Out</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Navigation bar (Page header) -->
+    <header class="navbar-sticky sticky-top container z-fixed p-2" data-sticky-element>
+        <div class="navbar navbar-expand-lg flex-nowrap bg-body rounded-pill shadow ps-0 mx-1 pt-1 pb-1">
+            <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark rounded-pill z-0 d-none d-block-dark"></div>
+
+            <!-- Mobile offcanvas menu toggler (Hamburger) -->
+            <button type="button" class="navbar-toggler ms-3" data-bs-toggle="offcanvas" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar brand (Logo) -->
+            <a class="navbar-brand position-relative z-1 ms-4 ms-sm-5 ms-lg-4 me-2 me-sm-0 me-lg-3 py-0" id="navbarLogo"
+                href="index.html">
+                Carol's Whimsy
+            </a>
+
+            <!-- Main navigation that turns into offcanvas on screens < 992px wide (lg breakpoint) -->
+            <nav class="offcanvas offcanvas-start" id="navbarNav" tabindex="-1" aria-labelledby="navbarNavLabel">
+                <div class="offcanvas-header py-3">
+                    <h5 class="offcanvas-title" id="navbarNavLabel">Explore Carols's Whimsies</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body pt-3 pb-4 py-lg-0 mx-lg-auto">
+                    <ul class="navbar-nav position-relative">
+                        <li class="nav-item dropdown me-lg-n1 me-xl-0">
+                            <a class="nav-link dropdown-toggle fs-sm active" aria-current="page" href="#" role="button"
+                                data-bs-toggle="dropdown" data-bs-trigger="hover" aria-expanded="false">Products</a>
+                            <ul class="dropdown-menu" style="--cz-dropdown-spacer: 1rem">
+                                <li class="hover-effect-opacity px-2 mx-n2">
+                                    <a class="dropdown-item d-block mb-0" href="#">
+                                        <span class="fw-medium fst-italic">Heart By Goodwill</span>
+                                        <span class="d-block fs-xs text-body-secondary">Core Collection Classic</span>
+                                    </a>
+                                </li>
+                                <li class="hover-effect-opacity px-2 mx-n2">
+                                    <a class="dropdown-item d-block mb-0" href="#">
+                                        <span class="fw-medium fst-italic">Goodwill M&G</span>
+                                        <span
+                                            class="d-block fs-xs text-body-secondary">Christmas-Spring-Halloween</span>
+                                    </a>
+                                </li>
+                                <li class="hover-effect-opacity px-2 mx-n2">
+                                    <a class="dropdown-item d-block mb-0" href="#">
+                                        <span class="fw-medium fst-italic">Mark Roberts</span>
+                                        <span
+                                            class="d-block fs-xs text-body-secondary">Christmas-Spring-Halloween</span>
+                                    </a>
+                                </li>
+                                <li class="hover-effect-opacity px-2 mx-n2">
+                                    <a class="dropdown-item d-block mb-0" href="#">
+                                        <span class="fw-medium fst-italic">Katherine's Collection</span>
+                                        <span
+                                            class="d-block fs-xs text-body-secondary">Christmas-Spring-Halloween</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown position-static me-lg-n1 me-xl-0">
+                            <a class="nav-link dropdown-toggle fs-sm" href="#" role="button" data-bs-toggle="dropdown"
+                                data-bs-trigger="hover" aria-expanded="false">Shop</a>
+                            <div class="dropdown-menu p-4">
+                                <div class="d-flex flex-column flex-lg-row gap-4">
+                                    <div style="min-width: 190px">
+                                        <div class="h6 mb-2">By Product Categories</div>
+                                        <ul class="nav flex-column gap-2 mt-0">
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">XMAS BALLS AND BAUBLES</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">ORNAMENTS</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">TABLETOPS</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">DOLLS AND SANTAS</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">PINE TREES</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">WREATHS - GARLANDS - TEARDROPS</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">RIBBONS</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">DISPLAYS</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">LIGHT COLLECTION</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div style="min-width: 190px">
+                                        <div class="h6 mb-2">By Themes 2024</div>
+                                        <ul class="nav flex-column gap-2 mt-0">
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">ALICE IN CANDYLAND</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">ALL YOU NEED IS LOVE</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">AQUA BOTANICA</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">BECAUSE WE CANCAN</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">CASTLE IN THE SKY</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">DELFT DELIGHT</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">DRESS TO IMPRESS</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">FROZEN IN TIME</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">INTO THE WOODS</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">RELIGIOUS</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">INTO THE WOODS</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">SPHERE</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">THE CHRISTMAS LODGE</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">THE GOLDEN NUTCRACKER</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div style="min-width: 190px">
+                                        <div class="h6 mb-2">Spring / Summer 2024</div>
+                                        <ul class="nav flex-column gap-2 mt-0">
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">GOODWILL SPRING</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">KATHERINE'S COLLECTION SPRING</a>
+                                            </li>
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                                    href="#">MARK ROBERTS SPRING</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown me-lg-n1 me-xl-0">
+                            <a class="nav-link dropdown-toggle fs-sm" href="#" role="button" data-bs-toggle="dropdown"
+                                data-bs-trigger="hover" data-bs-auto-close="outside" aria-expanded="false">Account</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Personal Info</a></li>
+                                <li><a class="dropdown-item" href="#">Orders History</a></li>
+                                <li><a class="dropdown-item" href="#">Wishlist</a></li>
+                                <li><a class="dropdown-item" href="#">Payment Methods</a></li>
+                                <li><a class="dropdown-item" href="#">My Reviews</a></li>
+                                <li><a class="dropdown-item" href="#">Shipping Details</a></li>
+                                <li><a class="dropdown-item" href="#">Notifications</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown me-lg-n1 me-xl-0">
+                            <a class="nav-link dropdown-toggle fs-sm" href="#" role="button" data-bs-toggle="dropdown"
+                                data-bs-trigger="hover" data-bs-auto-close="outside"
+                                aria-expanded="false">Information</a>
+                            <ul class="dropdown-menu" style="--cz-dropdown-spacer: 1rem">
+                                <li class="dropend">
+                                    <a class="dropdown-item dropdown-toggle" href="#!" role="button"
+                                        data-bs-toggle="dropdown" data-bs-trigger="hover"
+                                        aria-expanded="false">About</a>
+                                </li>
+                                <li class="dropend">
+                                    <a class="dropdown-item dropdown-toggle" href="#!" role="button"
+                                        data-bs-toggle="dropdown" data-bs-trigger="hover" aria-expanded="false">Contact
+                                        Us</a>
+                                </li>
+                                <li><a class="dropdown-item" href="#">Terms &amp; Conditions</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item me-lg-n2 me-xl-0">
+                            <a class="nav-link fs-sm" href="#">Promotions</a>
+                        </li>
+                        <li class="nav-item me-lg-n2 me-xl-0">
+                            <a class="nav-link fs-sm" href="#">Help Center</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Button group -->
+            <div class="d-flex gap-sm-1 position-relative z-1">
+
+                <!-- Cart button -->
+                <button type="button" class="btn btn-icon btn-outline-secondary border-0 rounded-circle me-4"
+                    data-bs-toggle="offcanvas" data-bs-target="#shoppingCart" aria-controls="shoppingCart"
+                    aria-label="Shopping cart">
+                    <i class="fa-regular fa-cart-shopping"></i>
+                </button>
+
+                <!-- Search -->
+                <div class="dropdown">
+                    <button type="button" class="btn btn-icon btn-outline-secondary rounded-circle animate-scale me-2"
+                        data-bs-toggle="dropdown" data-bs-auto-close="outside" data-bs-offset="10,50"
+                        aria-label="Toggle search bar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <div id="header-search-dropdown" class="dropdown-menu dropdown-menu-end p-3 mt-4">
+                        <form class="position-relative">
+                            <input type="search" class="form-control rounded-pill" placeholder="Search..."
+                                data-autofocus="dropdown">
+                            <button type="submit" id="header-search-btn"
+                                class="btn btn-icon btn-sm btn-outline-secondary rounded-circle position-absolute top-0 end-0 mt-1 me-1"
+                                aria-label="Search">
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {% block page_header %}{% endblock %}
+
+    {% block content %}{% endblock %}
+
+    {% block footer %}
+    <!-- Page footer -->
+    <footer class="footer bg-dark pb-4" data-bs-theme="dark">
+        <div class="container pt-5 pt-lg-4 mt-sm-2 mt-md-3">
+            <div class="row pb-0">
+
+                <!-- Subscription + Social account links -->
+                <div class="col-md col-xl-8 order-md-2">
+                    <div class="text-center px-sm-4 mx-auto" style="max-width: 568px">
+                        <h3 class="pb-1 mb-2 text-white">Stay in touch with us</h3>
+                        <p class="fs-sm text-body pb-2 pb-sm-3">Receive the latest updates about our products &amp;
+                            promotions</p>
+                        <form class="needs-validation position-relative" novalidate>
+                            <input type="email" class="form-control form-control-lg rounded-pill text-start fw-light text-white-50"
+                                placeholder="You email" aria-label="Your email address" required>
+                            <button type="submit"
+                                class="btn btn-icon fs-xl btn-dark rounded-circle position-absolute top-0 end-0 mt-1 me-1"
+                                aria-label="Submit your email address" data-bs-theme="light">
+                                <i class="fa-solid fa-arrow-up-right text-white-50"></i>
+                            </button>
+                        </form>
+                        <div class="d-flex justify-content-center gap-2 pt-4 pt-md-3 mt-1 mt-md-0">
+                            <a class="btn btn-icon fs-base btn-outline-secondary border-0" href="#!"
+                                data-bs-toggle="tooltip"
+                                data-bs-template='<div class="tooltip fs-xs mb-n2" role="tooltip"><div class="tooltip-inner bg-transparent text-white p-0"></div></div>'
+                                title="YouTube" aria-label="Follow us on YouTube">
+                                <i class="fa-brands fa-youtube"></i>
+                            </a>
+                            <a class="btn btn-icon fs-base btn-outline-secondary border-0" href="#!"
+                                data-bs-toggle="tooltip"
+                                data-bs-template='<div class="tooltip fs-xs mb-n2" role="tooltip"><div class="tooltip-inner bg-transparent text-white p-0"></div></div>'
+                                title="Facebook" aria-label="Follow us on Facebook">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                            <a class="btn btn-icon fs-base btn-outline-secondary border-0" href="#!"
+                                data-bs-toggle="tooltip"
+                                data-bs-template='<div class="tooltip fs-xs mb-n2" role="tooltip"><div class="tooltip-inner bg-transparent text-white p-0"></div></div>'
+                                title="Instagram" aria-label="Follow us on Instagram">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                            <a class="btn btn-icon fs-base btn-outline-secondary border-0" href="#!"
+                                data-bs-toggle="tooltip"
+                                data-bs-template='<div class="tooltip fs-xs mb-n2" role="tooltip"><div class="tooltip-inner bg-transparent text-white p-0"></div></div>'
+                                title="Telegram" aria-label="Follow us on Telegram">
+                                <i class="fa-brands fa-telegram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category links -->
+                <div class="col-md-auto col-xl-2 text-center order-md-1 pt-4 pt-md-2">
+                    <ul class="nav d-inline-flex flex-md-column justify-content-center align-items-center gap-md-2">
+                        <li class="animate-underline my-1 mx-2 m-md-0">
+                            <a class="nav-link d-inline-flex fw-normal p-0 animate-target" href="#!">Products</a>
+                        </li>
+                        <li class="animate-underline my-1 mx-2 m-md-0">
+                            <a class="nav-link d-inline-flex fw-normal p-0 animate-target" href="#!">Shopping</a>
+                        </li>
+                        <li class="animate-underline my-1 mx-2 m-md-0">
+                            <a class="nav-link d-inline-flex fw-normal p-0 animate-target" href="#!">Deals</a>
+                        </li>
+                        <li class="animate-underline my-1 mx-2 m-md-0">
+                            <a class="nav-link d-inline-flex fw-normal p-0 animate-target" href="#!">Hotline</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Customer links -->
+                <div class="col-md-auto col-xl-2 text-center order-md-3 pt-3 pt-md-2">
+                    <ul class="nav d-inline-flex flex-md-column justify-content-center align-items-center gap-md-2">
+                        <li class="animate-underline my-1 mx-2 m-md-0">
+                            <a class="nav-link d-inline-flex fw-normal p-0 animate-target" href="#!">About Us</a>
+                        </li>
+                        <li class="animate-underline my-1 mx-2 m-md-0">
+                            <a class="nav-link d-inline-flex fw-normal p-0 animate-target" href="#!">Contact Us</a>
+                        </li>
+                        <li class="animate-underline my-1 mx-2 m-md-0">
+                            <a class="nav-link d-inline-flex fw-normal p-0 animate-target" href="#!">Help center</a>
+                        </li>
+                        <li class="animate-underline my-1 mx-2 m-md-0">
+                            <a class="nav-link d-inline-flex fw-normal p-0 animate-target" href="#!">Legal</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    {% endblock %}
+
+{% block postloadjs %}{% endblock %}
+
+</body>
+</html>
