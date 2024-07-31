@@ -17,28 +17,32 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Categories'
 
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255, unique=False)
+    friendly_name = models.CharField(max_length=254, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='categories')
+    brand = models.ForeignKey(
+        Brand, on_delete=models.CASCADE, related_name='categories')
 
     def __str__(self):
         return self.name
 
 
 class Theme(models.Model):
-    ''' To store the themes of products for the store's portfolio'''
+    '''Store the themes products relate to for the store's portfolio'''
 
     name = models.CharField(max_length=255, unique=True)
+    friendly_name = models.CharField(max_length=254, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name
-    
+
 
 class Season(models.Model):
     ''' Store seasons and occasions like Christmas, Easter, etc. '''
 
     name = models.CharField(max_length=255, unique=True)
+    friendly_name = models.CharField(max_length=254, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
@@ -55,6 +59,7 @@ class Product(models.Model):
     promo_text = models.TextField(blank=True, null=True)
     size = models.CharField(max_length=255, blank=True, null=True)
     material = models.TextField(blank=True, null=True)
+    color = models.CharField(max_length=255, blank=True, null=True)
     other_details = models.TextField(blank=True, null=True)
     discount = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     image = models.ImageField(upload_to='products/', blank=True, null=True)
