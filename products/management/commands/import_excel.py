@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from django.core.management.base import BaseCommand
-from products.models import Product, Category, Theme, Season
+from products.models import Product, Category, Theme, Season, Brand
 
 
 class Command(BaseCommand):
@@ -29,6 +29,7 @@ class Command(BaseCommand):
         COLUMN_MAPPING = {
             'name': 'name',
             'sku': 'sku',
+            'brand_id': 'brand_id',
             'category_id': 'category_id',
             'theme_id': 'theme_id',
             'season_id': 'season_id',
@@ -48,12 +49,14 @@ class Command(BaseCommand):
         # Create model instances
         for _, row in df.iterrows():
             try:
+                brand = Brand.objects.get(id=row['brand_id'])
                 category = Category.objects.get(id=row['category_id'])
                 theme = Theme.objects.get(id=row['theme_id'])
                 season = Season.objects.get(id=row['season_id'])
                 Product.objects.create(
                     name=row['name'],
                     sku=row['sku'],
+                    brand=brand,
                     category=category,
                     theme=theme,
                     season=season,
