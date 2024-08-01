@@ -19,6 +19,10 @@
     font-size: 0.875rem !important;
 }
 
+.fs-base {
+    font-size: 1rem !important;
+}
+
 .ls-tighter {
     letter-spacing: -0.05em !important;
 }
@@ -41,6 +45,16 @@
 
 .ls-widest {
     letter-spacing: 0.1em !important;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background: white;
 }
 
 /* Body */
@@ -66,6 +80,12 @@ body {
 .content-wrapper {
     flex: 1;
     margin-top: -60px;
+    /* padding-top: 126px; */
+}
+
+.content-wrapper-shop {
+    flex: 1;
+    margin-top: 20px;
     /* padding-top: 126px; */
 }
 
@@ -110,6 +130,19 @@ swiper-slide img {
 }
 
 
+/* Catalog page */
+#sorting-select {
+    font-size: 1.25rem;
+    background-color: white;
+}
+
+#sorting-select option {
+    background-color: white;
+    font-size: 1rem;
+    font-weight: 400px;
+}
+
+
 /* Media queries */
 @media (min-width: 576px) {
     #navbarLogo {
@@ -123,7 +156,7 @@ swiper-slide img {
 @media (min-width: 1800px) {
     .content-wrapper {
         margin-top: -110px;
-        /* padding-top: 126px; */
+        padding-top: 50px;
     }
     swiper-container {
         padding-top: 50px;

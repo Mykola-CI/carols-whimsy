@@ -9,7 +9,7 @@ class BrandAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'friendly_name', 'description', 'brand')
+    list_display = ('id', 'name', 'friendly_name', 'description')
     readonly_fields = ('id',)
 
 
@@ -25,7 +25,7 @@ class SeasonAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'name', 'sku', 'category', 'theme', 'season', 'price', 'image')
+        'id', 'name', 'sku', 'brand', 'category', 'theme', 'season', 'price', 'image')
     readonly_fields = ('id',)
 
 
