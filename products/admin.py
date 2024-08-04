@@ -4,7 +4,7 @@ from .models import Brand, Category, Theme, Season, Product
 
 
 class BrandAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description')
+    list_display = ('id', 'name', 'friendly_name', 'description')
     readonly_fields = ('id',)
 
 
