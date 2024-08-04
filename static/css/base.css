@@ -107,7 +107,7 @@ body {
 }
 
 swiper-container {
-    width: 85%;
+    width: 100%;
     padding-top: 20px;
     padding-bottom: 20px;
 }
@@ -145,11 +145,17 @@ swiper-slide img {
 
 /* Media queries */
 @media (min-width: 576px) {
+    .content-wrapper {
+        margin-top: -150px;
+    }
     #navbarLogo {
         font-size: 2rem;
     }
     #header-search-dropdown {
         min-width: 500px;
+    }
+    swiper-container {
+        width: 85%;
     }
 }
 

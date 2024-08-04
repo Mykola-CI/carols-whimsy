@@ -58,20 +58,56 @@
             </a>
         </nav>
 
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 gy-5" id="productGrid">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4  gx-3 gy-4 mx-3 mx-sm-0" id="productGrid">
             {% for product in products %}
             <!-- Item -->
-            <div class="col">
-                <div class="card h-100 border-0">
+            <div class="col rounded">
+                <div class="card">
                     {% if product.image %}
                     <a href="#">
-                        <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
+                        <img class="card-img-top img-fluid" style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top; " src="{{ product.image.url }}" alt="{{ product.name }}">
                     </a>
                     {% else %}
                     <a href="#">
-                        <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}gw_present24.jpg" alt="{{ product.name }}">
+                        <img class="card-img-top img-fluid" style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top;" src="{{ MEDIA_URL }}noimage.png"
+                            alt="{{ product.name }}">
                     </a>
                     {% endif %}
+                    <div class="card-body pb-0 d-flex align-items-end">
+                        <p class="mb-0 text-truncate">{{ product.name }}</p>
+                    </div>
+                    <div class="card-footer bg-white pt-0 border-0 text-left ms-3 mt-2">
+                        <div class="row">
+                            <div class="col">
+                                <p class="lead mb-0 text-left font-weight-bold">£{{ product.price }}</p>
+                                {% if product.brand %}
+                                <p class="small mt-1 mb-0 text-truncate">
+                                    <a class="text-muted"
+                                        href="#">
+                                        <i class="fa-solid fa-copyright"></i>&nbsp;{{ product.brand.friendly_name }}
+                                    </a>
+                                </p>
+                                {% endif %}
+                                {% if product.category %}
+                                <p class="small mt-1 mb-0 text-truncate">
+                                    <a class="text-muted"
+                                        href="#">
+                                        <i class="fas fa-tag mr-1"></i>&nbsp;{{ product.category.friendly_name }}
+                                    </a>
+                                </p>
+                                {% endif %}
+                                <p class="mt-2">
+                                    <small class="text-muted">
+                                        <i class="fa-solid fa-star-sharp"></i>
+                                        <i class="fa-solid fa-star-sharp"></i>
+                                        <i class="fa-solid fa-star-sharp"></i>
+                                        <i class="fa-regular fa-star-half-stroke"></i>
+                                        <i class="fa-regular fa-star-sharp"></i>
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             {% endfor %}
