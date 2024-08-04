@@ -38,7 +38,7 @@
     {% block extra_js %}{% endblock %}
 
     <title>
-        Carol's Whimsy 
+        Carol's Whimsy
         {% block extra_title %}{% endblock %}
     </title>
 </head>
@@ -54,7 +54,7 @@
             </a>
         </div>
         <a class="text-decoration-none shadow-sm d-none d-md-inline text-reset fw-lighter ls-wider fs-xs" href="#!">
-            Carol's Whimsy Holy-Jolly store is an authorised on-line reseller of Goodwill. 
+            Carol's Whimsy Holy-Jolly store is an authorised on-line reseller of Goodwill.
             A World of Enchanting Decorations
         </a>
         <ul class="nav gap-2 gap-sm-4">
@@ -82,8 +82,8 @@
             </button>
 
             <!-- Navbar brand (Logo) -->
-            <a class="navbar-brand position-relative z-1 ms-4 ms-sm-5 ms-lg-4 me-2 me-sm-0 me-lg-3 py-0" id="navbarLogo"
-                href="index.html">
+            <a class="d-none d-sm-block navbar-brand position-relative z-1 ms-4 ms-sm-5 ms-lg-4 me-2 me-sm-0 me-lg-3 py-0" id="navbarLogo"
+                href="{% url 'home' %}">
                 Carol's Whimsy
             </a>
 
@@ -301,10 +301,11 @@
             <div class="d-flex gap-sm-1 position-relative z-1">
 
                 <!-- Cart button -->
-                <button type="button" class="btn btn-icon btn-outline-secondary border-0 rounded-circle me-4"
+                <button type="button" class="btn btn-icon btn-outline-secondary border-0 me-4"
                     data-bs-toggle="offcanvas" data-bs-target="#shoppingCart" aria-controls="shoppingCart"
                     aria-label="Shopping cart">
                     <i class="fa-regular fa-cart-shopping"></i>
+                    &nbsp; £202.55
                 </button>
 
                 <!-- Search -->
@@ -347,7 +348,8 @@
                         <p class="fs-sm text-body pb-2 pb-sm-3">Receive the latest updates about our products &amp;
                             promotions</p>
                         <form class="needs-validation position-relative" novalidate>
-                            <input type="email" class="form-control form-control-lg rounded-pill text-start fw-light text-white-50"
+                            <input type="email"
+                                class="form-control form-control-lg rounded-pill text-start fw-light text-white-50"
                                 placeholder="You email" aria-label="Your email address" required>
                             <button type="submit"
                                 class="btn btn-icon fs-xl btn-dark rounded-circle position-absolute top-0 end-0 mt-1 me-1"
@@ -355,7 +357,7 @@
                                 <i class="fa-solid fa-arrow-up-right text-white-50"></i>
                             </button>
                         </form>
-                        <div class="d-flex justify-content-center gap-2 pt-4 pt-md-3 mt-1 mt-md-0">
+                        <div class="d-flex justify-content-center gap-5 pt-4 pt-md-3 mt-2 mt-md-3 mb-2">
                             <a class="btn btn-icon fs-base btn-outline-secondary border-0" href="#!"
                                 data-bs-toggle="tooltip"
                                 data-bs-template='<div class="tooltip fs-xs mb-n2" role="tooltip"><div class="tooltip-inner bg-transparent text-white p-0"></div></div>'
@@ -424,12 +426,20 @@
     </footer>
     {% endblock %}
 
-{% block postloadjs %}
+    {% block postloadjs %}
     <!-- Bootstrap JS bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-{% endblock %}
+
+    <!-- Adding tooltips to the footer social icons -->
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+    {% endblock %}
 
 </body>
 </html>
