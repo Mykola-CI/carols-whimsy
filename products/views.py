@@ -21,6 +21,15 @@ def catalog(request):
         if 'brand_query' in request.GET:
             brand = request.GET['brand_query']
             products = products.filter(brand__name=brand)
+        if 'category_query' in request.GET:
+            category = request.GET['category_query']
+            products = products.filter(category__name=category)
+        if 'theme_query' in request.GET:
+            theme = request.GET['theme_query']
+            products = products.filter(theme__name=theme)
+        if 'season_query' in request.GET:
+            season = request.GET['season_query']
+            products = products.filter(season__name=season)
 
         if 'search' in request.GET:
             search = request.GET['search']

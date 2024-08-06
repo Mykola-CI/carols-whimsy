@@ -130,7 +130,7 @@
                                             {% for group in categories %}
                                             <li class="d-flex w-100 pt-1">
                                                 <a class="btn btn-outline-secondary text-start border-0 d-block mb-0 custom-dropdown-item"
-                                                    href="#">{{ group.friendly_name }}</a>
+                                                    href="{% url 'catalog' %}?category_query={{ group.name }}">{{ group.friendly_name }}</a>
                                             </li>
                                             {% endfor %}
                                         </ul>
@@ -139,7 +139,7 @@
                                             {% for season in seasons %}
                                             <li class="d-flex w-100 pt-1">
                                                 <a class="btn btn-outline-secondary text-start border-0 d-block mb-0 custom-dropdown-item"
-                                                    href="#">{{ season.friendly_name }}</a>
+                                                    href="{% url 'catalog' %}?season_query={{ season.name }}">{{ season.friendly_name }}</a>
                                             </li>
                                             {% endfor %}
                                         </ul>
@@ -154,7 +154,7 @@
                                             {% for theme in themes %}
                                             <li class="d-flex w-100 pt-1">
                                                 <a class="btn btn-outline-secondary text-start border-0 d-block mb-0 custom-dropdown-item"
-                                                    href="#">{{ theme.friendly_name }}</a>
+                                                    href="{% url 'catalog' %}?theme_query={{ theme.name }}">{{ theme.friendly_name }}</a>
                                             </li>
                                             {% endfor %}
                                         </ul>
