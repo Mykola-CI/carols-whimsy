@@ -50,12 +50,18 @@
         <h1 class="h3 position-relative pb-sm-2 pb-md-3" style="z-index: 10">Carol's catalog</h1>
 
         <!-- All filters offcanvas toggle -->
-        <nav class="nav">
-            <a class="nav-link animate-underline px-2" href="#shopFilters" data-bs-toggle="offcanvas"
+        <nav class="d-flex justify-content-between py-3">
+            <a class="px-2" href="#shopFilters" data-bs-toggle="offcanvas"
                 aria-controls="shopFilters">
                 <i class="ci-filter me-1"></i>
                 <span class="animate-target text-nowrap">All filters</span>
             </a>
+            <a class="px-2" href="{% url 'catalog' %}"
+                aria-label="Clear all filters">
+                <i class="ci-filter me-1"></i>
+                <span class="animate-target text-nowrap">Clear All</span>
+            </a>
+            <div class="px-2"><span class="h6">{{ products_count }}</span> <span class="text-muted">Product items found</span></div>
         </nav>
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4  gx-3 gy-4 mx-3 mx-sm-0" id="productGrid">

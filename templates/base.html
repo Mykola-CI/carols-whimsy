@@ -103,9 +103,15 @@
                             <a class="nav-link dropdown-toggle fs-sm active" aria-current="page" href="#" role="button"
                                 data-bs-toggle="dropdown" data-bs-trigger="hover" aria-expanded="false">Our Brands</a>
                             <ul class="dropdown-menu mt-3 custom-dropdown-menu">
+                                <li class="px-2 mx-2">
+                                    <a class="custom-dropdown-item btn btn-outline-secondary text-start border-0 d-block mb-0" href="{% url 'catalog' %}">
+                                        <span class="fw-medium fst-italic">All Products</span>
+                                        <span class="d-block fs-xs text-body-secondary">Explore all our items</span>
+                                    </a>
+                                </li>
                                 {% for brand in brands %}
                                 <li class="px-2 mx-2">
-                                    <a class="custom-dropdown-item btn btn-outline-secondary text-start border-0 d-block mb-0" href="#">
+                                    <a class="custom-dropdown-item btn btn-outline-secondary text-start border-0 d-block mb-0" href="{% url 'catalog' %}?brand_query={{ brand.name }}">
                                         <span class="fw-medium fst-italic">{{ brand.friendly_name }}</span>
                                         <span class="d-block fs-xs text-body-secondary">{{ brand.description }}</span>
                                     </a>

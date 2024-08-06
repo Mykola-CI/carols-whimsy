@@ -15,8 +15,13 @@ def catalog(request):
     products = Product.objects.all()
 
     search = None
+    brand = None
 
     if request.GET:
+        if 'brand_query' in request.GET:
+            brand = request.GET['brand_query']
+            products = products.filter(brand__name=brand)
+
         if 'search' in request.GET:
             search = request.GET['search']
             if not search:
@@ -33,6 +38,9 @@ def catalog(request):
             )
             products = products.filter(queries)
 
+    products_count = products.count()
+    print(products_count)
+
     context = {
         'brands': brands,
         'categories': categories,
@@ -40,6 +48,7 @@ def catalog(request):
         'seasons': seasons,
         'products': products,
         'search_status': search,
+        'products_count': products_count,
     }
 
     return render(request, 'products/catalog.html', context)
