@@ -47,6 +47,14 @@
     letter-spacing: 0.1em !important;
 }
 
+.text-black-button {
+    color: #000000 !important;
+}
+
+.text-black-button:hover {
+    color: white !important;
+}
+
 .overlay {
     position: fixed;
     top: 0;
@@ -54,7 +62,7 @@
     right: 0;
     bottom: 0;
     z-index: -1;
-    background: white;
+    background: rgba(255, 255, 255, 0.626);
 }
 
 /* Body */
@@ -77,10 +85,19 @@ body {
     min-width: 300px;
 }
 
+.custom-dropdown-menu {
+    width: auto;
+}
+
+.custom-dropdown-item {
+    width: 100%;
+    white-space: nowrap;
+}
+
 .content-wrapper {
     flex: 1;
-    margin-top: -60px;
-    /* padding-top: 126px; */
+    /* margin-top: 50px;
+    margin-bottom: 100px; */
 }
 
 .content-wrapper-shop {
@@ -145,9 +162,9 @@ swiper-slide img {
 
 /* Media queries */
 @media (min-width: 576px) {
-    .content-wrapper {
+    /* .content-wrapper {
         margin-top: -150px;
-    }
+    } */
     #navbarLogo {
         font-size: 2rem;
     }

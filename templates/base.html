@@ -33,6 +33,10 @@
     {% block corejs %}
     <!-- Fontawesome icons -->
     <script src="https://kit.fontawesome.com/e0f7937b3c.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     {% endblock corejs %}
 
     {% block extra_js %}{% endblock %}
@@ -97,159 +101,56 @@
                     <ul class="navbar-nav position-relative">
                         <li class="nav-item dropdown me-lg-n1 me-xl-0">
                             <a class="nav-link dropdown-toggle fs-sm active" aria-current="page" href="#" role="button"
-                                data-bs-toggle="dropdown" data-bs-trigger="hover" aria-expanded="false">Products</a>
-                            <ul class="dropdown-menu" style="--cz-dropdown-spacer: 1rem">
-                                <li class="hover-effect-opacity px-2 mx-n2">
-                                    <a class="dropdown-item d-block mb-0" href="#">
-                                        <span class="fw-medium fst-italic">Heart By Goodwill</span>
-                                        <span class="d-block fs-xs text-body-secondary">Core Collection Classic</span>
+                                data-bs-toggle="dropdown" data-bs-trigger="hover" aria-expanded="false">Our Brands</a>
+                            <ul class="dropdown-menu mt-3 custom-dropdown-menu">
+                                {% for brand in brands %}
+                                <li class="px-2 mx-2">
+                                    <a class="custom-dropdown-item btn btn-outline-secondary text-start border-0 d-block mb-0" href="#">
+                                        <span class="fw-medium fst-italic">{{ brand.friendly_name }}</span>
+                                        <span class="d-block fs-xs text-body-secondary">{{ brand.description }}</span>
                                     </a>
                                 </li>
-                                <li class="hover-effect-opacity px-2 mx-n2">
-                                    <a class="dropdown-item d-block mb-0" href="#">
-                                        <span class="fw-medium fst-italic">Goodwill M&G</span>
-                                        <span
-                                            class="d-block fs-xs text-body-secondary">Christmas-Spring-Halloween</span>
-                                    </a>
-                                </li>
-                                <li class="hover-effect-opacity px-2 mx-n2">
-                                    <a class="dropdown-item d-block mb-0" href="#">
-                                        <span class="fw-medium fst-italic">Mark Roberts</span>
-                                        <span
-                                            class="d-block fs-xs text-body-secondary">Christmas-Spring-Halloween</span>
-                                    </a>
-                                </li>
-                                <li class="hover-effect-opacity px-2 mx-n2">
-                                    <a class="dropdown-item d-block mb-0" href="#">
-                                        <span class="fw-medium fst-italic">Katherine's Collection</span>
-                                        <span
-                                            class="d-block fs-xs text-body-secondary">Christmas-Spring-Halloween</span>
-                                    </a>
-                                </li>
+                                {% endfor %}
                             </ul>
                         </li>
                         <li class="nav-item dropdown position-static me-lg-n1 me-xl-0">
                             <a class="nav-link dropdown-toggle fs-sm" href="#" role="button" data-bs-toggle="dropdown"
                                 data-bs-trigger="hover" aria-expanded="false">Shop</a>
-                            <div class="dropdown-menu p-4">
+                            <div class="dropdown-menu mt-3 p-4">
                                 <div class="d-flex flex-column flex-lg-row gap-4">
                                     <div style="min-width: 190px">
-                                        <div class="h6 mb-2">By Product Categories</div>
-                                        <ul class="nav flex-column gap-2 mt-0">
+                                        <div class="h6 mb-2">Product Categories</div>
+                                        <ul class="nav flex-column gap-2 mt-1">
+                                            {% for group in categories %}
                                             <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">XMAS BALLS AND BAUBLES</a>
+                                                <a class="btn btn-outline-secondary text-start border-0 d-block mb-0 custom-dropdown-item"
+                                                    href="#">{{ group.friendly_name }}</a>
                                             </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">ORNAMENTS</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">TABLETOPS</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">DOLLS AND SANTAS</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">PINE TREES</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">WREATHS - GARLANDS - TEARDROPS</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">RIBBONS</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">DISPLAYS</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">LIGHT COLLECTION</a>
-                                            </li>
+                                            {% endfor %}
                                         </ul>
+                                        <div class="h6 mt-4 mb-2">Spring / Summer 2024</div>
+                                        <ul class="nav flex-column gap-2 mt-0">
+                                            {% for season in seasons %}
+                                            <li class="d-flex w-100 pt-1">
+                                                <a class="btn btn-outline-secondary text-start border-0 d-block mb-0 custom-dropdown-item"
+                                                    href="#">{{ season.friendly_name }}</a>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                        <div class="mt-4 mb-2">
+                                            <a class="btn btn-outline-secondary text-start border-0 d-block mb-0 custom-dropdown-item text-black-button"
+                                                    href="{% url 'catalog' %}"><span class="h6">All Our Items</span></a>
+                                        </div>
                                     </div>
                                     <div style="min-width: 190px">
-                                        <div class="h6 mb-2">By Themes 2024</div>
+                                        <div class="h6 mb-2">Themes 2024</div>
                                         <ul class="nav flex-column gap-2 mt-0">
+                                            {% for theme in themes %}
                                             <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">ALICE IN CANDYLAND</a>
+                                                <a class="btn btn-outline-secondary text-start border-0 d-block mb-0 custom-dropdown-item"
+                                                    href="#">{{ theme.friendly_name }}</a>
                                             </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">ALL YOU NEED IS LOVE</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">AQUA BOTANICA</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">BECAUSE WE CANCAN</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">CASTLE IN THE SKY</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">DELFT DELIGHT</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">DRESS TO IMPRESS</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">FROZEN IN TIME</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">INTO THE WOODS</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">RELIGIOUS</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">INTO THE WOODS</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">SPHERE</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">THE CHRISTMAS LODGE</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">THE GOLDEN NUTCRACKER</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div style="min-width: 190px">
-                                        <div class="h6 mb-2">Spring / Summer 2024</div>
-                                        <ul class="nav flex-column gap-2 mt-0">
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">GOODWILL SPRING</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">KATHERINE'S COLLECTION SPRING</a>
-                                            </li>
-                                            <li class="d-flex w-100 pt-1">
-                                                <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
-                                                    href="#">MARK ROBERTS SPRING</a>
-                                            </li>
+                                            {% endfor %}
                                         </ul>
                                     </div>
                                 </div>
@@ -258,7 +159,7 @@
                         <li class="nav-item dropdown me-lg-n1 me-xl-0">
                             <a class="nav-link dropdown-toggle fs-sm" href="#" role="button" data-bs-toggle="dropdown"
                                 data-bs-trigger="hover" data-bs-auto-close="outside" aria-expanded="false">Account</a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu mt-3">
                                 <li><a class="dropdown-item" href="#">Personal Info</a></li>
                                 <li><a class="dropdown-item" href="#">Orders History</a></li>
                                 <li><a class="dropdown-item" href="#">Wishlist</a></li>
@@ -272,7 +173,7 @@
                             <a class="nav-link dropdown-toggle fs-sm" href="#" role="button" data-bs-toggle="dropdown"
                                 data-bs-trigger="hover" data-bs-auto-close="outside"
                                 aria-expanded="false">Information</a>
-                            <ul class="dropdown-menu" style="--cz-dropdown-spacer: 1rem">
+                            <ul class="dropdown-menu mt-3">
                                 <li class="dropend">
                                     <a class="dropdown-item dropdown-toggle" href="#!" role="button"
                                         data-bs-toggle="dropdown" data-bs-trigger="hover"
@@ -301,7 +202,7 @@
             <div class="d-flex gap-sm-1 position-relative z-1">
 
                 <!-- Cart button -->
-                <button type="button" class="btn btn-icon btn-outline-secondary border-0 me-4"
+                <button type="button" class="btn btn-outline-secondary border-0 me-4"
                     data-bs-toggle="offcanvas" data-bs-target="#shoppingCart" aria-controls="shoppingCart"
                     aria-label="Shopping cart">
                     <i class="fa-regular fa-cart-shopping"></i>
@@ -310,7 +211,7 @@
 
                 <!-- Search -->
                 <div class="dropdown">
-                    <button type="button" class="btn btn-icon btn-outline-secondary rounded-circle animate-scale me-2"
+                    <button type="button" class="btn btn-outline-secondary rounded-circle me-2"
                         data-bs-toggle="dropdown" data-bs-auto-close="outside" data-bs-offset="10,50"
                         aria-label="Toggle search bar">
                         <i class="fa-solid fa-magnifying-glass"></i>
@@ -427,11 +328,6 @@
     {% endblock %}
 
     {% block postloadjs %}
-    <!-- Bootstrap JS bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-
     <!-- Adding tooltips to the footer social icons -->
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
