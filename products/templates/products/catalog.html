@@ -42,7 +42,7 @@
         <!-- Breadcrumb -->
         <nav class="position-relative pt-3 my-3 my-md-4" aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a class="link-dark" href="{% url 'home' %}">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Products</li>
             </ol>
         </nav>
@@ -60,12 +60,12 @@
                 <option value="price_asc" {% if sortkey == 'price_asc' %}selected{% endif %}>Price (low to high)</option>
                 <option value="price_desc" {% if sortkey == 'price_desc' %}selected{% endif %}>Price (high to low)</option>
             </select>
-            <a class="px-2" href="#shopFilters" data-bs-toggle="offcanvas"
+            <a class="px-2 link-secondary" href="#shopFilters" data-bs-toggle="offcanvas"
                 aria-controls="shopFilters">
                 <i class="fa-sharp fa-regular fa-filters"></i>
                 <span class="text-nowrap">All filters</span>
             </a>
-            <a class="px-2" href="{% url 'catalog' %}"
+            <a class="px-2 link-secondary" href="{% url 'catalog' %}"
                 aria-label="Clear all filters">
                 <i class="fa-regular fa-filter-circle-xmark"></i>
                 <span class="text-nowrap">Clear All</span>
@@ -97,7 +97,7 @@
                                 {% if product.brand %}
                                 <p class="small mt-1 mb-0 text-truncate">
                                     <a class="text-muted"
-                                        href="#">
+                                        href="{% url 'catalog' %}?brand_query={{ product.brand.name }}">
                                         <i class="fa-solid fa-copyright"></i>&nbsp;{{ product.brand.friendly_name }}
                                     </a>
                                 </p>
@@ -105,8 +105,16 @@
                                 {% if product.category %}
                                 <p class="small mt-1 mb-0 text-truncate">
                                     <a class="text-muted"
-                                        href="#">
+                                        href="{% url 'catalog' %}?category_query={{ product.category.name }}">
                                         <i class="fas fa-tag mr-1"></i>&nbsp;{{ product.category.friendly_name }}
+                                    </a>
+                                </p>
+                                {% endif %}
+                                {% if product.theme %}
+                                <p class="small mt-1 mb-0 text-truncate">
+                                    <a class="text-muted"
+                                        href="{% url 'catalog' %}?theme_query={{ product.theme.name }}">
+                                        <i class="fas fa-tag mr-1"></i>&nbsp;{{ product.theme.friendly_name }}
                                     </a>
                                 </p>
                                 {% endif %}

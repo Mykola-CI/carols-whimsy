@@ -65,6 +65,11 @@
     background: rgba(255, 255, 255, 0.626);
 }
 
+select:hover {
+    cursor: pointer;
+    background-color: rgba(255, 228, 196, 0.522) !important;
+}
+
 /* Body */
 html,
 body {
