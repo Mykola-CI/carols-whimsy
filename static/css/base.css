@@ -23,6 +23,22 @@
     font-size: 1rem !important;
 }
 
+.fs-lg {
+    font-size: 1.125rem !important;
+}
+
+.fs-xl {
+    font-size: 1.25rem !important;
+}
+
+.fs-2xl {
+    font-size: 1.5rem !important;
+}
+
+.fs-4xl {
+    font-size: 2.25rem !important;
+}
+
 .ls-tighter {
     letter-spacing: -0.05em !important;
 }
@@ -101,14 +117,11 @@ body {
 
 .content-wrapper {
     flex: 1;
-    /* margin-top: 50px;
-    margin-bottom: 100px; */
 }
 
 .content-wrapper-shop {
     flex: 1;
     margin-top: 20px;
-    /* padding-top: 126px; */
 }
 
 .footer {
@@ -147,8 +160,10 @@ swiper-slide img {
 }
 
 .caption {
-    display: none; /* Hide all captions initially */
-    margin-top: 20px; /* Adjust as needed */
+    display: none;
+    /* Hide all captions initially */
+    margin-top: 20px;
+    /* Adjust as needed */
 }
 
 
@@ -164,18 +179,36 @@ swiper-slide img {
     font-weight: 400px;
 }
 
+/* Product detail */
+.count-input {
+    div {
+        max-width: 125px !important;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;  /* Firefox */
+    }
+}
 
 /* Media queries */
 @media (min-width: 576px) {
+
     /* .content-wrapper {
         margin-top: -150px;
     } */
     #navbarLogo {
         font-size: 2rem;
     }
+
     #header-search-dropdown {
         min-width: 500px;
     }
+
     swiper-container {
         width: 85%;
     }
@@ -186,10 +219,12 @@ swiper-slide img {
         margin-top: -110px;
         padding-top: 50px;
     }
+
     swiper-container {
         padding-top: 50px;
         padding-bottom: 50px;
     }
+
     swiper-slide {
         background-position: center;
         background-size: cover;

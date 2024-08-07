@@ -67,3 +67,15 @@ def catalog(request):
     }
 
     return render(request, 'products/catalog.html', context)
+
+
+def product_detail(request, product_id):
+    """ A view to return the product detail page """
+
+    product = Product.objects.get(id=product_id)
+
+    context = {
+        'product': product,
+    }
+
+    return render(request, 'products/product_detail.html', context)
