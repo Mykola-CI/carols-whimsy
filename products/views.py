@@ -15,7 +15,7 @@ def catalog(request):
     products = Product.objects.all()
 
     search = None
-    brand = None
+    sortkey = None
 
     if request.GET:
         if 'brand_query' in request.GET:
@@ -47,8 +47,14 @@ def catalog(request):
             )
             products = products.filter(queries)
 
+        if 'sort' in request.GET:
+            sortkey = request.GET['sort']
+            if sortkey == 'price_asc':
+                products = products.order_by('price')
+            if sortkey == 'price_desc':
+                products = products.order_by('-price')
+
     products_count = products.count()
-    print(products_count)
 
     context = {
         'brands': brands,
@@ -56,8 +62,8 @@ def catalog(request):
         'themes': themes,
         'seasons': seasons,
         'products': products,
-        'search_status': search,
         'products_count': products_count,
+        'sortkey': sortkey,
     }
 
     return render(request, 'products/catalog.html', context)

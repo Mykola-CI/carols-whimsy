@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_title %} Catalog{% endblock %}
+
 
 {% block content %}
 
@@ -22,12 +24,11 @@
         <!-- Filters -->
 
         <div class="position-relative dropup mt-3">
-            <select class="form-select fw-medium py-3 position-absolute top-50" id="sorting-select"
+            <select class="form-select fw-medium py-3 position-absolute top-50"
                 aria-label="Sorting">
                 <option value="" selected>Sort by</option>
-                <option value="new">New arrivals</option>
-                <option value="price-asc">Price ascending</option>
-                <option value="price-desc">Price descending</option>
+                <option value="price_asc">Price ascending</option>
+                <option value="price_desc">Price descending</option>
             </select>
         </div>
     </div>
@@ -42,26 +43,33 @@
         <nav class="position-relative pt-3 my-3 my-md-4" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Shop Catalog</li>
+                <li class="breadcrumb-item active" aria-current="page">Products</li>
             </ol>
         </nav>
 
         <!-- Page title -->
-        <h1 class="h3 position-relative pb-sm-2 pb-md-3" style="z-index: 10">Carol's catalog</h1>
+        <div class="d-flex justify-content-between align-items-center position-relative pb-sm-2 pb-md-3">
+            <h1 class="h3">Carol's catalog</h1>
+            <div class="px-2"><span class="h6">{{ products_count }}</span> <span class="text-muted">Product items found</span></div>
+        </div>
 
         <!-- All filters offcanvas toggle -->
-        <nav class="d-flex justify-content-between py-3">
+        <nav class="d-flex justify-content-between py-3 align-items-baseline mb-3">
+            <select id="sorting-select" class="custom-select ms-2 px-3 py-2 bg-light rounded border fs-base" aria-label="Sort products select">
+                <option value="reset" {% if sortkey == None %}selected{% endif %}>Sort by...</option>
+                <option value="price_asc" {% if sortkey == 'price_asc' %}selected{% endif %}>Price (low to high)</option>
+                <option value="price_desc" {% if sortkey == 'price_desc' %}selected{% endif %}>Price (high to low)</option>
+            </select>
             <a class="px-2" href="#shopFilters" data-bs-toggle="offcanvas"
                 aria-controls="shopFilters">
-                <i class="ci-filter me-1"></i>
-                <span class="animate-target text-nowrap">All filters</span>
+                <i class="fa-sharp fa-regular fa-filters"></i>
+                <span class="text-nowrap">All filters</span>
             </a>
             <a class="px-2" href="{% url 'catalog' %}"
                 aria-label="Clear all filters">
-                <i class="ci-filter me-1"></i>
-                <span class="animate-target text-nowrap">Clear All</span>
+                <i class="fa-regular fa-filter-circle-xmark"></i>
+                <span class="text-nowrap">Clear All</span>
             </a>
-            <div class="px-2"><span class="h6">{{ products_count }}</span> <span class="text-muted">Product items found</span></div>
         </nav>
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4  gx-3 gy-4 mx-3 mx-sm-0" id="productGrid">
@@ -128,5 +136,30 @@
 {% block postloadjs %}
 {{ block.super }}
 <!-- Page specific scripts -->
+<!-- <script>
+    console.log(typeof jQuery); // Should log 'function' if jQuery is loaded
+</script> -->
+
+<script>
+    console.log("catalog.js loaded");
+    $(document).ready(function() {
+        console.log("ready!");
+        $('#sorting-select').change(function() {
+            var selector = $(this);
+            var currentUrl = new URL(window.location);
+            console.log(currentUrl);
+
+            var selectedVal = selector.val();
+            if (selectedVal != "reset") {
+                currentUrl.searchParams.set("sort", selectedVal);
+            } else {
+                currentUrl.searchParams.delete("sort");
+            }
+            window.location.replace(currentUrl);
+            
+        });
+    });
+    
+</script>
 
 {% endblock %}
