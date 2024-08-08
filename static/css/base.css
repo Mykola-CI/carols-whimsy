@@ -168,16 +168,7 @@ swiper-slide img {
 
 
 /* Catalog page */
-#sorting-select {
-    font-size: 1.25rem;
-    background-color: white;
-}
 
-#sorting-select option {
-    background-color: white;
-    font-size: 1rem;
-    font-weight: 400px;
-}
 
 /* Product detail */
 .count-input {

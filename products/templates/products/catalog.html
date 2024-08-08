@@ -55,7 +55,7 @@
 
         <!-- All filters offcanvas toggle -->
         <nav class="d-flex justify-content-between py-3 align-items-baseline mb-3">
-            <select id="sorting-select" class="custom-select ms-2 px-3 py-2 bg-light rounded border fs-base" aria-label="Sort products select">
+            <select id="sorting-select" class="btn btn-large ms-2 p-3 border rounded-pill" aria-label="Sort products select">
                 <option value="reset" {% if sortkey == None %}selected{% endif %}>Sort by...</option>
                 <option value="price_asc" {% if sortkey == 'price_asc' %}selected{% endif %}>Price (low to high)</option>
                 <option value="price_desc" {% if sortkey == 'price_desc' %}selected{% endif %}>Price (high to low)</option>

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'carols_home',
     'products',
+    'cart',
 
     # Other apps
     'crispy_forms',
@@ -83,6 +84,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
+                'cart.cart_context_processor.cart',
             ],
             'builtins': [
                 'crispy_forms.templatetags.crispy_forms_tags',
@@ -204,6 +206,9 @@ if 'USE_AWS' in os.environ:
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Cart
+CART_SESSION_ID = 'cart_content'
 
 
 # Stripe
