@@ -25,12 +25,12 @@
         <!-- Product details -->
         <div class="row gx-5 mt-5">
             <div class="col-md-6 ">
-                <div class="border">
-                    <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="Product image">
+                <div>
+                    <img class="border rounded-3 card-img-top img-fluid" src="{{ product.image.url }}" alt="Product image">
                 </div>
             </div>
             <div class="col-md-6 px-4">
-                <div class="product-details border">
+                <div class="product-details">
                     <!-- Reviews -->
                     <a class="d-none d-md-flex align-items-center gap-2 text-decoration-none mb-3" href="#reviews">
                         <div class="d-flex gap-1 fs-sm">
@@ -46,6 +46,7 @@
                     <h2 class="product-title display-6">{{ product.name }}</h2>
                     <div class="product-price mt-1">
                         <span class="blockquote-footer">{{ product.sku }}</span>
+                        <span class="blockquote-footer">(product.id {{ product.id }})</span>
                     </div>
                     <div class="product-price mt-4">
                         <span class="fs-xl ms-4">£{{ product.price }}</span>
@@ -119,8 +120,6 @@
         $('#add_to_cart_submit').on('click', function () {
             let productId = $(this).val();
 
-            console.log(productId);
-
             let quantity = $('#display_qtty').val();
 
             $.ajax({
@@ -131,10 +130,10 @@
                     'quantity': quantity,
                     'csrfmiddlewaretoken': '{{ csrf_token }}'
                 },
-                success: function (response) {
-                    alert('Product added to cart!');
+                success: function (json) {
+                    window.location.reload();
                 },
-                error: function (xhr, status, error) {
+                error: function (xhr, errmsg, err) {
                     alert('Failed to add product to cart.');
                 }
             });

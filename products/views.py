@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
 
@@ -72,9 +72,18 @@ def catalog(request):
 def product_detail(request, product_id):
     """ A view to return the product detail page """
 
-    product = Product.objects.get(id=product_id)
+    brands = Brand.objects.all()
+    categories = Category.objects.all()
+    themes = Theme.objects.all()
+    seasons = Season.objects.all()
+
+    product = get_object_or_404(Product, pk=product_id)
 
     context = {
+        'brands': brands,
+        'categories': categories,
+        'themes': themes,
+        'seasons': seasons,
         'product': product,
     }
 

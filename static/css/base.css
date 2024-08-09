@@ -184,6 +184,11 @@ swiper-slide img {
     input[type="number"] {
         -moz-appearance: textfield;  /* Firefox */
     }
+
+    span:hover {
+        cursor: pointer;
+        background-color: rgba(255, 228, 196, 0.522) !important;
+    }
 }
 
 /* Media queries */
