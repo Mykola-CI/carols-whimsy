@@ -173,7 +173,7 @@ swiper-slide img {
 /* Product detail */
 .count-input {
     div {
-        max-width: 125px !important;
+        max-width: 150px !important;
     }
     input[type="number"]::-webkit-outer-spin-button,
     input[type="number"]::-webkit-inner-spin-button {

@@ -69,14 +69,14 @@
                     <hr>
                     <!-- Count input + Add to cart button -->
                     <div class="count-input d-flex gap-3 gap-sm-4 mt-5">
-                        <button type="button" class="btn btn-lg btn-dark rounded-pill px-4 px-sm-5 px-md-4"
+                        <button type="button" value="{{ product.id }}" class="btn btn-lg btn-dark rounded-pill px-4 px-sm-5"
                             id="add_to_cart_submit">Add to cart</button>
                         <div class="count-input--group input-group flex-nowrap">
                             <span id="decrease_qtty" class="input-group-text">
                                 <i class="fa-regular fa-minus"></i>
                             </span>
                             <input id="display_qtty" type="number" class="form-control form-control-lg text-center"
-                                min="1" max="29" value="1">
+                                min="1" max="29" value="1" readonly>
                             <span id="increase_qtty" class="input-group-text">
                                 <i class="fa-regular fa-plus"></i>
                             </span>
@@ -95,6 +95,51 @@
 {% block postloadjs %}
 {{ block.super }}
 <!-- Page specific scripts -->
+<script>
+    $(document).ready(function () {
+        // Listen for clicks on the decrease button
+        $('#decrease_qtty').on('click', function () {
+            let quantityInput = $('#display_qtty');
+            let currentQuantity = parseInt(quantityInput.val());
+            if (currentQuantity > 1) {
+                quantityInput.val(currentQuantity - 1);
+            }
+        });
 
+        // Listen for clicks on the increase button
+        $('#increase_qtty').on('click', function () {
+            let quantityInput = $('#display_qtty');
+            let currentQuantity = parseInt(quantityInput.val());
+            if (currentQuantity < 29) {
+                quantityInput.val(currentQuantity + 1);
+            }
+        });
+
+        // Listen for clicks on the 'Add to Cart' button
+        $('#add_to_cart_submit').on('click', function () {
+            let productId = $(this).val();
+
+            console.log(productId);
+
+            let quantity = $('#display_qtty').val();
+
+            $.ajax({
+                type: 'POST',
+                url: '/cart/add/',
+                data: {
+                    'product_id': productId,
+                    'quantity': quantity,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    alert('Product added to cart!');
+                },
+                error: function (xhr, status, error) {
+                    alert('Failed to add product to cart.');
+                }
+            });
+        });
+    });
+</script>
 
 {% endblock %}
