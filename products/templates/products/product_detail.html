@@ -26,7 +26,8 @@
         <div class="row gx-5 mt-5">
             <div class="col-md-6 ">
                 <div>
-                    <img class="border rounded-3 card-img-top img-fluid" src="{{ product.image.url }}" alt="Product image">
+                    <img class="border rounded-3 card-img-top img-fluid" src="{{ product.image.url }}"
+                        alt="Product image">
                 </div>
             </div>
             <div class="col-md-6 px-4">
@@ -69,10 +70,22 @@
                     <br>
                     <hr>
                     <!-- Count input + Add to cart button -->
-                    <div class="count-input d-flex gap-3 gap-sm-4 mt-5">
-                        <button type="button" value="{{ product.id }}" class="btn btn-lg btn-dark fs-lg fw-light rounded-pill px-4 px-sm-5"
+                    <div class="count-input-cart d-flex gap-3 gap-sm-4 mt-5">
+                        <button type="button" value="{{ product.id }}"
+                            class="btn btn-lg btn-dark fs-lg fw-light rounded-pill px-4 px-sm-5"
                             id="add_to_cart_submit">Add to cart</button>
-                        <div class="count-input--group input-group flex-nowrap">
+                        <div class="count-input">
+                            <button id="decrease_qtty" type="button" class="btn btn-icon"
+                                aria-label="Decrement quantity">
+                                <i class="fa-regular fa-minus"></i>
+                            </button>
+                            <input id="display_qtty" type="number" class="form-control" value="1" max="29" readonly>
+                            <button id="increase_qtty" type="button" class="btn btn-icon"
+                                aria-label="Increment quantity">
+                                <i class="fa-regular fa-plus"></i>
+                            </button>
+                        </div>
+                        <!-- <div class="count-input--group input-group flex-nowrap">
                             <span id="decrease_qtty" class="input-group-text">
                                 <i class="fa-regular fa-minus"></i>
                             </span>
@@ -81,7 +94,7 @@
                             <span id="increase_qtty" class="input-group-text">
                                 <i class="fa-regular fa-plus"></i>
                             </span>
-                        </div>
+                        </div> -->
                     </div>
                     <br><br>
                 </div>

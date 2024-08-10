@@ -115,7 +115,7 @@
                                     <td class="h6 py-3 d-none d-xl-table-cell">£{{ product.price }}</td>
                                     <td class="py-3 d-none d-md-table-cell count-input-cart">
                                         <div class="count-input">
-                                            <button type="button" class="btn btn-icon" data-decrement
+                                            <button id="cart-item-decrement" type="button" class="btn btn-icon"
                                                 aria-label="Decrement quantity">
                                                 <i class="fa-regular fa-minus"></i>
                                             </button>
@@ -126,7 +126,7 @@
                                             {% endwith %}
                                             {% endif %}
                                             {% endfor %}
-                                            <button type="button" class="btn btn-icon" data-increment
+                                            <button id="cart-item-increment" type="button" class="btn btn-icon"
                                                 aria-label="Increment quantity">
                                                 <i class="fa-regular fa-plus"></i>
                                             </button>
@@ -216,7 +216,7 @@
                                     <div class="accordion-body pt-3 pb-2 ps-sm-2 px-lg-0 px-xl-2">
                                         <form class="needs-validation d-flex gap-2" novalidate>
                                             <div class="position-relative w-100">
-                                                <input type="text" class="form-control" placeholder="Enter promo code"
+                                                <input id="cart-display_quantity" type="text" class="form-control" placeholder="Enter promo code"
                                                     required>
                                                 <div class="invalid-tooltip bg-transparent py-0">Enter a valid promo
                                                     code!</div>

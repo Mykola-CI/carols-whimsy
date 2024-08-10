@@ -220,7 +220,7 @@ swiper-slide img {
 
 
 /* Product detail */
-.count-input {
+/* .count-input {
     div {
         max-width: 150px !important;
     }
@@ -231,14 +231,14 @@ swiper-slide img {
     }
 
     input[type="number"] {
-        -moz-appearance: textfield;  /* Firefox */
+        -moz-appearance: textfield; 
     }
 
     span:hover {
         cursor: pointer;
         background-color: rgba(255, 228, 196, 0.522) !important;
     }
-}
+} */
 
 /* Shopping cart summary page */
 .count-input-cart {
