@@ -24,7 +24,6 @@ class Cart():
         Add a product to the cart or update its quantity.
         """
         product_id = str(product.id)  # Ensure the product_id is a string
-        # product_qty = str(quantity)  # Ensure the quantity is an integer
 
         if product_id in self.cart:
             self.cart[product_id] += quantity
@@ -56,3 +55,15 @@ class Cart():
     def get_cart(self):
         """ Get the cart """
         return self.cart
+
+    @property
+    def get_totals(self):
+        """ Get the cart totals """
+
+        total = 0
+        for product_id, quantity in self.cart.items():
+            product_id = int(product_id)
+            product = Product.objects.get(id=product_id)
+            total += product.price * quantity
+
+        return total

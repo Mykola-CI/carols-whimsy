@@ -24,19 +24,29 @@
         <h4 class="offcanvas-title" id="shoppingCartLabel">Shopping cart</h4>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body text-center">
+    <div class="offcanvas-body text-start">
         <ul>
             {% for product in cart_products %}
-                <li>{{ product.name }} - Quantity:
-                    {% for key,value in items_quantities.items %} 
-                        {% if key == product.id|slugify %}
-                            {{ value }}
-                        {% endif %}
-                    {% endfor %}
+            <li>{{ product.name }}
+                <br>
+                <span class="fs-sm">
+                    Quantity:
+                    {% for key,value in items_quantities.items %}
+                    {% if key == product.id|slugify %}
+                    {{ value }}
+                    {% endif %}
+                    {% endfor %} |
                     Price: £{{ product.price }}
-                </li>
+                </span>
+            </li>
             {% endfor %}
         </ul>
+        <hr>
+        <div class="d-flex justify-content-between mt-4">
+            <span class="fs-sm">Subtotal:</span>
+            <span class="fs-sm">£{{ cart_totals }}</span>
+        </div>
+
         <div class="d-flex w-100 gap-3 mt-5">
             <a class="btn btn-lg btn-secondary rounded-pill w-100 fs-base fw-light" href="#">View cart</a>
             <a class="btn btn-lg btn-primary rounded-pill w-100 fs-base fw-light" href="#">Checkout</a>
