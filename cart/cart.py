@@ -67,3 +67,13 @@ class Cart():
             total += product.price * quantity
 
         return total
+
+    def get_subtotal(self, product_id):
+        """ Get the cart totals """
+
+        product_id = str(product_id)
+        subtotal = 0
+        product = Product.objects.get(id=product_id)
+        subtotal += product.price * self.cart[product_id]
+
+        return subtotal

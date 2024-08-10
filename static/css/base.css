@@ -113,6 +113,17 @@ select:hover {
     background-color: transparent !important;
 }
 
+.nav-link {
+    background: none;
+    border: 0;
+    color: #333d4c;
+    font-weight: 500;
+    padding: 0.5rem 1.25rem;
+    text-decoration: none;
+    transition: color .2s ease-in-out, background-color .2s ease-in-out, border-color .2s ease-in-out;
+}
+
+
 /* Body */
 html,
 body {
@@ -127,6 +138,17 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+}
+
+a {
+    color: inherit;
+    text-decoration: none !important;
+}
+
+a:not(.btn):hover,
+a:not(.btn):focus {
+    color: #f55266 !important;
+    text-decoration: underline !important;
 }
 
 #header-search-dropdown {

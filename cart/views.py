@@ -12,9 +12,7 @@ def cart_summary(request):
     Return: render the cart summary template
     """
 
-    cart = Cart(request)
-
-    return render(request, 'cart/cart_summary.html', {'cart': cart})
+    return render(request, 'cart/cart_summary.html')
 
 
 def add_to_cart(request):
