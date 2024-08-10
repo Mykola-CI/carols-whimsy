@@ -241,6 +241,10 @@ swiper-slide img {
 } */
 
 /* Shopping cart summary page */
+.cart-product-detail {
+    width: 20ch !important;
+}
+
 .count-input-cart {
     .count-input {
         background-color: #fff;
@@ -250,6 +254,13 @@ swiper-slide img {
         overflow: hidden;
         transform: translateZ(0);
     }
+
+    .count-input button:hover,
+    .count-input button:active
+    .count-input button:focus {
+        background-color: rgb(227, 229, 235) !important;;
+    }
+
     .btn {
         border: 0;
         border-radius: 0;
@@ -309,5 +320,9 @@ swiper-slide img {
         background-size: cover;
         width: 390px;
         aspect-ratio: 3 / 4;
+    }
+
+    .cart-product-detail {
+        width: 25ch !important;
     }
 }

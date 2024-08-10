@@ -62,20 +62,20 @@
                                     <td class="py-3 ps-0">
                                         <div class="d-flex align-items-center">
                                             {% if product.image %}
-                                            <a href="{% url 'product_detail' product.id %}" class="flex-shrink-0">
+                                            <a href="{% url 'product_detail' product.id %}" class="flex-shrink-0" style="width: 100px">
                                                 <img class="card-img-top img-fluid "
-                                                    style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top; width: 100px;"
+                                                    style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top"
                                                     src="{{ product.image.url }}" alt="{{ product.name }}">
                                             </a>
                                             {% else %}
-                                            <a href="{% url 'product_detail' product.id %}" class="flex-shrink-0">
+                                            <a href="{% url 'product_detail' product.id %}" class="flex-shrink-0" style="width: 100px">
                                                 <img class="card-img-top img-fluid"
-                                                    style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top; width: 110px;"
+                                                    style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top;"
                                                     src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
                                             </a>
                                             {% endif %}
-                                            <div class="w-100 min-w-0 ps-2 ps-xl-3 count-input-cart truncate">
-                                                <h5 class="d-flex mb-2">
+                                            <div class="w-100 min-w-0 ps-2 ps-xl-3 truncate count-input-cart cart-product-detail">
+                                                <h5 class="mb-2">
                                                     <a class="d-block fs-sm fw-medium"
                                                         href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
                                                 </h5>
@@ -88,23 +88,23 @@
                                                     </li>
                                                     <li class="d-xl-none"><span
                                                             class="text-body-secondary">Price:</span> <span
-                                                            class="text-dark-emphasis fw-medium">£{{ product.price }}</span>
+                                                            class="text-dark-emphasis fw-medium text-nowrap">£{{ product.price }}</span>
                                                     </li>
                                                 </ul>
                                                 <div class="count-input rounded-2 d-md-none mt-3">
-                                                    <button type="button" class="btn btn-sm btn-icon" data-decrement
+                                                    <button type="button" class="btn btn-sm btn-icon"
                                                         aria-label="Decrement quantity">
                                                         <i class="fa-regular fa-minus"></i>
                                                     </button>
                                                     {% for key, value in items_quantities.items %}
                                                     {% if key == product.id|slugify %}
                                                     {% with quantity=value %}
-                                                    <input type="number" class="form-control form-control-sm"
+                                                    <input type="number" class="form-control form-control-sm text-center"
                                                         value="{{ quantity }}" readonly>
                                                     {% endwith %}
                                                     {% endif %}
                                                     {% endfor %}
-                                                    <button type="button" class="btn btn-sm btn-icon" data-increment
+                                                    <button type="button" class="btn btn-sm btn-icon"
                                                         aria-label="Increment quantity">
                                                         <i class="fa-regular fa-plus"></i>
                                                     </button>
@@ -132,7 +132,7 @@
                                             </button>
                                         </div>
                                     </td>
-                                    <td class="h6 py-3 d-none d-md-table-cell">
+                                    <td class="h6 py-3 d-none d-md-table-cell text-nowrap">
                                         £
                                         {% for key, value in cart_subtotals.items %}
                                         {% if key == product.id|slugify %}
