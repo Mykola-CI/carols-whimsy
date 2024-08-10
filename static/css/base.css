@@ -98,6 +98,21 @@ select:hover {
     color: white;
 }
 
+.bg-body-tertiary {
+    background-color: rgb(245, 247, 250) !important;
+}
+
+.truncate {
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide the overflowed text */
+    text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
+}
+
+.accordion-button,
+.accordion-item {
+    background-color: transparent !important;
+}
+
 /* Body */
 html,
 body {
@@ -200,6 +215,40 @@ swiper-slide img {
     span:hover {
         cursor: pointer;
         background-color: rgba(255, 228, 196, 0.522) !important;
+    }
+}
+
+/* Shopping cart summary page */
+.count-input-cart {
+    .count-input {
+        background-color: #fff;
+        border: 1px solid #cad0d9;
+        border-radius: 0.5rem;
+        display: inline-flex;
+        overflow: hidden;
+        transform: translateZ(0);
+    }
+    .btn {
+        border: 0;
+        border-radius: 0;
+    }
+    .btn-icon {
+        flex-shrink: 0;
+        height: 2.5rem;
+        padding: 0;
+        width: 2.5rem;
+    }
+    .form-control {
+        -moz-appearance: textfield;
+        -webkit-appearance: textfield;
+        appearance: textfield;
+        background-color: transparent;
+        border: 0;
+        border-radius: 0;
+        font-weight: 500;
+        padding: 0 .25rem;
+        text-align: center;
+        width: 2.5rem;
     }
 }
 
