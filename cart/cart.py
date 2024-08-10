@@ -24,15 +24,12 @@ class Cart():
         Add a product to the cart or update its quantity.
         """
         product_id = str(product.id)  # Ensure the product_id is a string
+        # product_qty = str(quantity)  # Ensure the quantity is an integer
 
         if product_id in self.cart:
-            self.cart[product_id]['quantity'] += quantity
+            self.cart[product_id] += quantity
         else:
-            self.cart[product_id] = {
-                'name': product.name,
-                'quantity': quantity,
-                'price': str(product.price),
-            }
+            self.cart[product_id] = quantity
 
         self.save_cart()
 
@@ -44,14 +41,18 @@ class Cart():
     @property
     def is_empty(self):
         """ Check if the cart is empty """
-        print(not bool(self.cart))
+
         return not bool(self.cart)  # Return True if the cart is empty
 
     @property
-    def items(self):
-        return [
-            (item.get('name', 'Empty'),
-             item.get('quantity', 0),
-             item.get('price', '0'))
-            for item in self.cart.values()
-        ]
+    def get_products(self):
+        """ Get the products in the cart """
+        product_ids = self.cart.keys()
+        products = Product.objects.filter(id__in=product_ids)
+
+        return products
+
+    @property
+    def get_cart(self):
+        """ Get the cart """
+        return self.cart

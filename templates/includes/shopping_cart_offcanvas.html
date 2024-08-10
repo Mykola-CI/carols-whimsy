@@ -1,6 +1,6 @@
 <!-- Shopping cart offcanvas (Empty state) -->
 
-{% if cart.is_empty %}
+{% if cart_status %}
 <div class="offcanvas offcanvas-end pb-sm-2 px-sm-2" id="shoppingCart" tabindex="-1" aria-labelledby="shoppingCartLabel"
     style="width: 500px">
     <div class="offcanvas-header py-3 pt-lg-4">
@@ -26,13 +26,20 @@
     </div>
     <div class="offcanvas-body text-center">
         <ul>
-            {% for name, quantity, price in cart.items %}
-                <li>{{ name }} - Quantity: {{ quantity }}, Price: £{{ price }}</li>
+            {% for product in cart_products %}
+                <li>{{ product.name }} - Quantity:
+                    {% for key,value in items_quantities.items %} 
+                        {% if key == product.id|slugify %}
+                            {{ value }}
+                        {% endif %}
+                    {% endfor %}
+                    Price: £{{ product.price }}
+                </li>
             {% endfor %}
         </ul>
-        <div class="d-flex w-100 gap-3">
-            <a class="btn btn-lg btn-secondary w-100" href="#">View cart</a>
-            <a class="btn btn-lg btn-primary w-100" href="#">Checkout</a>
+        <div class="d-flex w-100 gap-3 mt-5">
+            <a class="btn btn-lg btn-secondary rounded-pill w-100 fs-base fw-light" href="#">View cart</a>
+            <a class="btn btn-lg btn-primary rounded-pill w-100 fs-base fw-light" href="#">Checkout</a>
         </div>
         <p class="fs-sm my-4">Explore our wide range of products and add items to your cart to proceed with your
             purchase.</p>
