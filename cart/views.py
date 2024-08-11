@@ -32,8 +32,23 @@ def add_to_cart(request):
         )
 
 
-def cart_update(request):
-    pass
+def update_cart(request):
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        new_quantity = int(request.POST.get('quantity'))
+
+        # Check if the product exists
+        product = get_object_or_404(Product, pk=product_id)
+
+        # Update the product quantity in the cart
+        cart = Cart(request)
+        cart.update(product=product, quantity=new_quantity)
+
+        return JsonResponse(
+            {'message': 'Cart updated successfully!'}
+        )
+
+
 
 
 def cart_remove(request):

@@ -18,8 +18,6 @@ def cart(request):
         cart_subtotals[str(product.id)] = (
             product.price * items_quantities[str(product.id)]
         )
-    print(items_quantities)
-    print(cart_subtotals)
 
     saving = 0
     ship_cost = 0

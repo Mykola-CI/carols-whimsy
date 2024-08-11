@@ -32,6 +32,16 @@ class Cart():
 
         self.save_cart()
 
+    def update(self, product, quantity):
+        """
+        Update the product quantity in the cart.
+        """
+        product_id = str(product.id)
+
+        if product_id in self.cart:
+            self.cart[product_id] = quantity
+            self.save_cart()
+
     def save_cart(self):
         """ Save the cart """
         self.session[settings.CART_SESSION_ID] = self.cart
