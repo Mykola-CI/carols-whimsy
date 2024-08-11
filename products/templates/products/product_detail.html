@@ -11,7 +11,7 @@
 <!-- Page content -->
 <div class="overlay"></div>
 <main class="content-wrapper-shop">
-    <div class="container pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5">
+    <div class="container-xxl pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5">
 
         <!-- Breadcrumb -->
         <nav class="position-relative pt-3 my-3 my-md-4" aria-label="breadcrumb">
@@ -44,7 +44,7 @@
                         <span class="text-body-tertiary fs-sm">23 reviews</span>
                     </a>
 
-                    <h2 class="product-title display-6">{{ product.name }}</h2>
+                    <h2 class="product-title display-6 mt-4 mt-md-0">{{ product.name }}</h2>
                     <div class="product-price mt-1">
                         <span class="blockquote-footer">{{ product.sku }}</span>
                         <span class="blockquote-footer">(product.id {{ product.id }})</span>
@@ -79,7 +79,8 @@
                                 aria-label="Decrement quantity">
                                 <i class="fa-regular fa-minus"></i>
                             </button>
-                            <input id="display_qtty" type="number" class="form-control text-center" value="1" max="29" readonly>
+                            <input id="display_qtty" type="number" class="form-control text-center" value="1" max="29"
+                                readonly>
                             <button id="increase_qtty" type="button" class="btn btn-icon"
                                 aria-label="Increment quantity">
                                 <i class="fa-regular fa-plus"></i>
@@ -97,12 +98,13 @@
             </div>
 
         </div>
+    </div>
 </main>
 
 
 {% endblock %}
 
-{% block postloadjs %}
+{% block postloadjs %}¸
 {{ block.super }}
 <!-- Page specific scripts -->
 <script>

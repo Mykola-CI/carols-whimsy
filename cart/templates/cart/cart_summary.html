@@ -11,7 +11,7 @@
 <!-- Page content -->
 <div class="overlay"></div>
 <main class="content-wrapper-shop">
-    <div class="container pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5">
+    <div class="container-xxl pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5">
 
         <!-- Breadcrumb -->
         <nav class="position-relative pt-3 my-3 my-md-4" aria-label="breadcrumb">
@@ -35,7 +35,7 @@
         </section>
         {% else %}
 
-        <section class="container pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5">
+        <section class="container-xxl pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5">
             <h1 class="h3 mb-4">Shopping cart</h1>
             <div class="row">
 
@@ -138,13 +138,10 @@
                                             {% if key == product.id|slugify %}
                                             {% with quantity=value %}
                                             <button id="cart-item-decrement" type="button"
-                                                class="btn btn-icon cart-btn-decrement" 
-                                                {% if quantity == 1 %} 
-                                                data-bs-toggle="tooltip"
-                                                data-bs-custom-class="tooltip-sm" data-bs-title="Click &nbsp; &#9932; &nbsp; if you wish to remove item"
-                                                {% else %}
-                                                {% endif %}
-                                                aria-label="Decrement quantity">
+                                                class="btn btn-icon cart-btn-decrement" {% if quantity == 1 %}
+                                                data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm"
+                                                data-bs-title="Click &nbsp; &#9932; &nbsp; if you wish to remove item"
+                                                {% else %} {% endif %} aria-label="Decrement quantity">
                                                 <i class="fa-regular fa-minus"></i>
                                             </button>
                                             <input type="number" class="form-control cart-qty-input"
@@ -167,9 +164,11 @@
                                         {% endfor %}
                                     </td>
                                     <td class="text-end py-3 px-0">
-                                        <button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip"
-                                            data-bs-custom-class="tooltip-sm" data-bs-title="Remove Item"
-                                            aria-label="Remove from cart"></button>
+                                        <a href="{% url 'remove_item' product_id=product.id %}">
+                                            <button type="submit" class="btn-close fs-sm" data-bs-toggle="tooltip"
+                                                data-bs-custom-class="tooltip-sm" data-bs-title="Remove Item"
+                                                aria-label="Remove from cart"></button>
+                                        </a>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -263,7 +262,7 @@
             </div>
         </section>
         {% endif %}
-
+    </div>
 </main>
 
 

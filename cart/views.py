@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponseRedirect
 from django.views.decorators.http import require_POST
 
@@ -66,7 +66,15 @@ def update_cart(request):
         )
 
 
+def remove_item(request, product_id):
+
+    print(f'Print out from the view: {product_id}')
+
+    cart = Cart(request)
+    cart.delete_item(product_id)
+
+    return redirect('cart_summary')
 
 
-def cart_remove(request):
+def clear_cart(request):
     pass

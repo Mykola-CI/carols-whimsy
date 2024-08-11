@@ -42,6 +42,16 @@ class Cart():
             self.cart[product_id] = quantity
             self.save_cart()
 
+    def delete_item(self, product_id):
+        """ Remove an item from the cart """
+        product_id = str(product_id)
+
+        print(f'Print out from the Cart: {product_id}')
+
+        if product_id in self.cart:
+            self.cart.pop(product_id)
+            self.save_cart()
+
     def save_cart(self):
         """ Save the cart """
         self.session[settings.CART_SESSION_ID] = self.cart
