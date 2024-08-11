@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.views.decorators.http import require_POST
 
 from .cart import Cart
 from products.models import Product
@@ -15,21 +16,37 @@ def cart_summary(request):
     return render(request, 'cart/cart_summary.html')
 
 
+@require_POST
 def add_to_cart(request):
-    if request.method == 'POST':
-        product_id = request.POST.get('product_id')
-        quantity = int(request.POST.get('quantity'))
+    """
+    Add a product to the cart
+    """
 
-        # Just checking if the product exists, if not, return a 404
-        product = get_object_or_404(Product, pk=product_id)
+    product_id = request.POST.get('product_id')
+    quantity = request.POST.get('quantity', 1)
 
-        # Add the product to the cart
-        cart = Cart(request)
-        cart.add(product=product, quantity=quantity)
+    try:
+        quantity = int(quantity)
+        if quantity < 1:
+            quantity = 1  # Ensure minimum quantity is 1
+    except (ValueError, TypeError):
+        quantity = 1  # Default to 1 if invalid
 
-        return JsonResponse(
-            {'message': 'Product added to cart successfully!'}
-        )
+    # Just checking if the product exists, if not, return a 404
+    product = get_object_or_404(Product, pk=product_id)
+
+    # Add the product to the cart
+    cart = Cart(request)
+    cart.add(product=product, quantity=quantity)
+
+    # Check if the request is AJAX
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({'message': 'Product added to cart successfully!'})
+    else:
+        # For regular form submissions, redirect back to the referring page
+        # with filters intact
+        referer = request.META.get('HTTP_REFERER', '/')
+        return HttpResponseRedirect(referer)
 
 
 def update_cart(request):

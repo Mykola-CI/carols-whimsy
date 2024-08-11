@@ -131,7 +131,16 @@
                             </div>
                         </div>
                     </div>
+                    <form method="POST" action="{% url 'cart_add' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn btn-light fs-base rounded-pill px-4 px-sm-5 my-3 mx-4 mx-sm-5">
+                            Add to cart
+                        </button>
+                    </form>
                 </div>
+                
             </div>
             {% endfor %}
         </div>
