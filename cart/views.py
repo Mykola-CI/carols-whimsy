@@ -68,8 +68,6 @@ def update_cart(request):
 
 def remove_item(request, product_id):
 
-    print(f'Print out from the view: {product_id}')
-
     cart = Cart(request)
     cart.delete_item(product_id)
 
@@ -77,4 +75,8 @@ def remove_item(request, product_id):
 
 
 def clear_cart(request):
-    pass
+
+    cart = Cart(request)
+    cart.clear()
+
+    return redirect('cart_summary')

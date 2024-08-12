@@ -57,12 +57,13 @@
                                             class="text-body">Total</span></th>
                                     <th scope="col" class="py-0 px-0">
                                         <div class="nav justify-content-start">
-                                            <button type="button"
+                                            <a href="{% url 'clear_cart' %}"
                                                 class="nav-link d-inline-block text-decoration-underline text-nowrap py-3 px-0 fs-6">
                                                 <span class="d-none d-sm-inline">Clear cart</span>
-                                                <span class="d-sm-none fs-xl"><i
-                                                        class="fa-sharp-duotone fa-solid fa-cart-circle-xmark"></i></span>
-                                            </button>
+                                                <span class="d-sm-none fs-xl">
+                                                    <i class="fa-sharp-duotone fa-solid fa-cart-circle-xmark"></i>
+                                                </span>
+                                            </a>
                                         </div>
                                     </th>
                                 </tr>

@@ -52,6 +52,11 @@ class Cart():
             self.cart.pop(product_id)
             self.save_cart()
 
+    def clear(self):
+        """ Clear the cart """
+        self.cart = {}
+        self.save_cart()
+
     def save_cart(self):
         """ Save the cart """
         self.session[settings.CART_SESSION_ID] = self.cart
