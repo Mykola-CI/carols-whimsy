@@ -1,0 +1,1 @@
+web: gunicorn carols_project.wsgi:application

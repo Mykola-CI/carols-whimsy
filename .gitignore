@@ -304,3 +304,6 @@ FodyWeavers.xsd
 
 # Local History for Visual Studio Code
 .history/
+
+check_sqlite_tables.py
+migration_script.py
