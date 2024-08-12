@@ -3,7 +3,7 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.views.decorators.http import require_POST
 
 from .cart import Cart
-from products.models import Product
+from products.models import Product, Brand, Category, Theme, Season
 
 
 def cart_summary(request):
@@ -13,7 +13,21 @@ def cart_summary(request):
     Return: render the cart summary template
     """
 
-    return render(request, 'cart/cart_summary.html')
+    brands = Brand.objects.all()
+    categories = Category.objects.all()
+    themes = Theme.objects.all()
+    seasons = Season.objects.all()
+    products = Product.objects.all()
+
+    context = {
+        'brands': brands,
+        'categories': categories,
+        'themes': themes,
+        'seasons': seasons,
+        'products': products,
+    }
+
+    return render(request, 'cart/cart_summary.html', context)
 
 
 @require_POST
