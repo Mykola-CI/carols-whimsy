@@ -44,10 +44,12 @@ INSTALLED_APPS = [
     'carols_home',
     'products',
     'cart',
+    'checkout',
 
     # Other apps
     'crispy_forms',
     'crispy_bootstrap5',
+    'django_countries',
     'storages',
 ]
 
@@ -210,10 +212,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Cart
 CART_SESSION_ID = 'cart_content'
 
+# Orders
+FREE_DELIVERY_THRESHOLD = 50
+STANDARD_DELIVERY_PERCENTAGE = 10
+
 
 # Stripe
-# FREE_DELIVERY_THRESHOLD = 50
-# STANDARD_DELIVERY_PERCENTAGE = 10
 # STRIPE_CURRENCY = 'usd'
 # STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')
 # STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
