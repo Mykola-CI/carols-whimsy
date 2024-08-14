@@ -11,6 +11,10 @@
 }
 
 /* Custom utility classes */
+.min-vh-70 {
+    min-height: 70vh !important;
+}
+
 .fs-xs {
     font-size: 0.75rem !important;
 }

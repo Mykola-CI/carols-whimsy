@@ -307,3 +307,4 @@ FodyWeavers.xsd
 
 check_sqlite_tables.py
 migration_script.py
+media/
