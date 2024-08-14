@@ -12,6 +12,7 @@ def cart(request):
     items_quantities = cart.get_cart
     cart_status = cart.is_empty
     cart_totals = cart.get_totals
+    number_of_items = sum(items_quantities.values())
 
     cart_subtotals = {}
     for product in cart_products:
@@ -32,6 +33,7 @@ def cart(request):
         'saving': saving,
         'ship_cost': ship_cost,
         'grand_total': grand_total,
+        'number_of_items': number_of_items,
     }
 
     return context

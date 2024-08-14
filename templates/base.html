@@ -263,12 +263,12 @@
                         <h3 class="pb-1 mb-2 text-white">Stay in touch with us</h3>
                         <p class="fs-sm text-body pb-2 pb-sm-3">Receive the latest updates about our products &amp;
                             promotions</p>
-                        <form class="needs-validation position-relative" novalidate>
-                            <input type="email"
+                        <form class="position-relative">
+                            <input type="email" id="footer-email"
                                 class="form-control form-control-lg rounded-pill text-start fw-light text-white-50"
-                                placeholder="You email" aria-label="Your email address" required>
+                                placeholder="Your email" aria-label="Your email address" required>
                             <button type="submit"
-                                class="btn btn-icon fs-xl btn-dark rounded-circle position-absolute top-0 end-0 mt-1 me-1"
+                                class="btn btn-icon fs-lg btn-dark rounded-circle position-absolute top-0 end-0 mt-1 me-1"
                                 aria-label="Submit your email address" data-bs-theme="light">
                                 <i class="fa-solid fa-arrow-up-right text-white-50"></i>
                             </button>
@@ -305,17 +305,17 @@
                 <!-- Category links -->
                 <div class="col-md-auto col-xl-2 text-center order-md-1 pt-4 pt-md-2">
                     <ul class="nav d-inline-flex flex-md-column justify-content-center align-items-center gap-md-2">
-                        <li class="animate-underline my-1 mx-2 m-md-0">
-                            <a class="nav-link d-inline-flex fw-normal p-0 animate-target" href="#!">Products</a>
+                        <li class="my-1 mx-2 m-md-0">
+                            <a class="nav-link d-inline-flex fw-normal p-0" href="#!">Products</a>
                         </li>
-                        <li class="animate-underline my-1 mx-2 m-md-0">
-                            <a class="nav-link d-inline-flex fw-normal p-0 animate-target" href="#!">Shopping</a>
+                        <li class="my-1 mx-2 m-md-0">
+                            <a class="nav-link d-inline-flex fw-normal p-0" href="#!">Shopping</a>
                         </li>
-                        <li class="animate-underline my-1 mx-2 m-md-0">
-                            <a class="nav-link d-inline-flex fw-normal p-0 animate-target" href="#!">Deals</a>
+                        <li class="my-1 mx-2 m-md-0">
+                            <a class="nav-link d-inline-flex fw-normal p-0" href="#!">Deals</a>
                         </li>
-                        <li class="animate-underline my-1 mx-2 m-md-0">
-                            <a class="nav-link d-inline-flex fw-normal p-0 animate-target" href="#!">Hotline</a>
+                        <li class="my-1 mx-2 m-md-0">
+                            <a class="nav-link d-inline-flex fw-normal p-0" href="#!">Hotline</a>
                         </li>
                     </ul>
                 </div>
@@ -323,23 +323,26 @@
                 <!-- Customer links -->
                 <div class="col-md-auto col-xl-2 text-center order-md-3 pt-3 pt-md-2">
                     <ul class="nav d-inline-flex flex-md-column justify-content-center align-items-center gap-md-2">
-                        <li class="animate-underline my-1 mx-2 m-md-0">
-                            <a class="nav-link d-inline-flex fw-normal p-0 animate-target" href="#!">About Us</a>
+                        <li class="my-1 mx-2 m-md-0">
+                            <a class="nav-link d-inline-flex fw-normal p-0" href="#!">About Us</a>
                         </li>
-                        <li class="animate-underline my-1 mx-2 m-md-0">
-                            <a class="nav-link d-inline-flex fw-normal p-0 animate-target" href="#!">Contact Us</a>
+                        <li class="my-1 mx-2 m-md-0">
+                            <a class="nav-link d-inline-flex fw-normal p-0" href="#!">Contact Us</a>
                         </li>
-                        <li class="animate-underline my-1 mx-2 m-md-0">
-                            <a class="nav-link d-inline-flex fw-normal p-0 animate-target" href="#!">Help center</a>
+                        <li class="my-1 mx-2 m-md-0">
+                            <a class="nav-link d-inline-flex fw-normal p-0" href="#!">Help center</a>
                         </li>
-                        <li class="animate-underline my-1 mx-2 m-md-0">
-                            <a class="nav-link d-inline-flex fw-normal p-0 animate-target" href="#!">Legal</a>
+                        <li class="my-1 mx-2 m-md-0">
+                            <a class="nav-link d-inline-flex fw-normal p-0" href="#!">Legal</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
     </footer>
+    {% endblock %}
+
+    {% block postfooter %}
     {% endblock %}
 
     {% block postloadjs %}

@@ -71,6 +71,10 @@
     color: white !important;
 }
 
+me-n1 {
+    margin-right: -0.25rem !important;
+}
+
 .overlay {
     position: fixed;
     top: 0;

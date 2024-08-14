@@ -194,7 +194,7 @@
                                 <h5 class="border-bottom pb-4 mb-4">Order summary</h5>
                                 <ul class="list-unstyled fs-sm gap-3 mb-0">
                                     <li class="d-flex justify-content-between">
-                                        Subtotal (3 items):
+                                        Subtotal ({{ number_of_items }} items):
                                         <span class="text-dark-emphasis fw-medium">£{{ cart_totals }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between">
@@ -212,7 +212,7 @@
                                         <span class="h5 mb-0">£{{ grand_total }}</span>
                                     </div>
                                     <a class="btn btn-lg btn-primary rounded-pill w-100 mt-4"
-                                        href="checkout-v1-delivery-1.html">
+                                        href="{% url 'checkout_shipping' %}">
                                         Proceed to checkout
                                         <i class="ci-chevron-right fs-lg ms-1 me-n1"></i>
                                     </a>

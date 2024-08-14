@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+
+{% block content %}
+
+{% include 'includes/shopping_cart_offcanvas.html' %}
+
+
+
+<!-- Page content -->
+<main class="content-wrapper">
+    <div class="container py-5">
+        <div class="row pt-1 pt-sm-3 pt-lg-4 pb-2 pb-md-3 pb-lg-4 pb-xl-5">
+            <div class="col-lg-8 col-xl-7 mb-5 mb-lg-0">
+                <div class="accordion d-flex flex-column gap-5 pe-lg-4 pe-xl-0" id="checkout">
+
+
+                    <!-- Shipping address form -->
+                    <div class="d-flex align-items-start">
+                        <div class= "d-flex align-items-center justify-content-center bg-primary text-white rounded-circle fs-sm fw-semibold lh-1 flex-shrink-0"
+                        style="width: 2rem; height: 2rem; margin-top: -.125rem">1</div>
+                        <div class="w-100 ps-3 ps-md-4">
+                            <h1 class="h5 mb-md-4">Shipping address</h1>
+                            <form>
+                                <div class="row row-cols-1 row-cols-sm-2 g-3 g-sm-4 mb-4">
+                                    <div class="col">
+                                        <label for="shipping-fn" class="form-label">First name <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-lg" id="shipping-fn"
+                                            required>
+                                    </div>
+                                    <div class="col">
+                                        <label for="shipping-ln" class="form-label">Last name <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-lg" id="shipping-ln"
+                                            required>
+                                    </div>
+                                    <div class="col">
+                                        <label for="shipping-email" class="form-label">Email address <span
+                                                class="text-danger">*</span></label>
+                                        <input type="email" class="form-control form-control-lg" id="shipping-email"
+                                            required>
+                                    </div>
+                                    <div class="col">
+                                        <label for="shipping-mobile" class="form-label">Mobile number</label>
+                                        <input type="text" class="form-control form-control-lg" id="shipping-mobile">
+                                    </div>
+                                    <div class="col">
+                                        <label for="shipping-city" class="form-label">City</label>
+                                        <input type="text" class="form-control form-control-lg" id="shipping-mobile">
+                                    </div>
+                                    <div class="col">
+                                        <label for="shipping-postcode" class="form-label">Postcode <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-lg" id="shipping-postcode"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="shipping-address" class="form-label">House / apartment number and street
+                                        address <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-lg" id="shipping-address"
+                                        required>
+                                </div>
+                                <div class="col">
+                                    <label class="form-label">City <span class="text-danger">*</span></label>
+                                    <select class="form-select" data-select='{
+                      "searchEnabled": true,
+                      "classNames": {
+                        "containerInner": "form-select form-select-lg"
+                      }
+                    }' required>
+                                        <option value="">Select your city</option>
+                                        <option value="New York City">New York City</option>
+                                        <option value="Los Angeles">Los Angeles</option>
+                                        <option value="Chicago">Chicago</option>
+                                        <option value="Houston">Houston</option>
+                                        <option value="Phoenix">Phoenix</option>
+                                        <option value="Philadelphia">Philadelphia</option>
+                                        <option value="San Antonio">San Antonio</option>
+                                        <option value="San Diego">San Diego</option>
+                                        <option value="Dallas">Dallas</option>
+                                        <option value="San Jose">San Jose</option>
+                                        <option value="Austin">Austin</option>
+                                        <option value="Seattle">Seattle</option>
+                                    </select>
+                                </div>
+                                <div class="nav mb-4">
+                                    <a class="nav-link px-0" href="#!">
+                                        Add address line
+                                        <i class="ci-plus fs-base ms-1"></i>
+                                    </a>
+                                </div>
+                                <h3 class="h6">
+                                    Billing address
+                                    <i class="ci-info text-body-secondary align-middle ms-2" data-bs-toggle="popover"
+                                        data-bs-trigger="hover" data-bs-custom-class="popover-sm"
+                                        data-bs-content="Uncheck the checkbox below if your Billing address should be different from your Shipping address."></i>
+                                </h3>
+                                <div class="form-check mb-lg-4">
+                                    <input type="checkbox" class="form-check-input" id="same-address" checked>
+                                    <label for="same-address" class="form-check-label">Same as delivery address</label>
+                                </div>
+                                <a class="btn btn-lg btn-primary w-100 d-none d-lg-flex justify-content-center align-items-center" href="#">
+                                    Continue
+                                    <i class="fa-solid fa-chevron-right fs-lg ms-3"></i>
+                                </a>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Payment -->
+                    <div class="d-flex align-items-start">
+                        <div class="d-flex align-items-center justify-content-center bg-body-secondary text-body-secondary rounded-circle fs-sm fw-semibold lh-1 flex-shrink-0"
+                            style="width: 2rem; height: 2rem; margin-top: -.125rem">2</div>
+                        <h2 class="h5 text-body-secondary ps-3 ps-md-4 mb-0">Payment</h2>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Order summary (sticky sidebar) -->
+            <aside class="col-lg-4" style="margin-top: -100px">
+                <div class="position-sticky top-0" style="padding-top: 100px">
+                    <div class="bg-body-tertiary rounded-5 p-4 mb-3">
+                        <div class="p-sm-2 p-lg-0 p-xl-2">
+                            <h5 class="border-bottom pb-4 mb-4">Order summary</h5>
+                            <ul class="list-unstyled fs-sm gap-3 mb-0">
+                                <li class="d-flex justify-content-between">
+                                    Subtotal ({{ number_of_items }} items):
+                                    <span class="text-dark-emphasis fw-medium">£{{ cart_totals }}</span>
+                                </li>
+                                <li class="d-flex justify-content-between">
+                                    Saving:
+                                    <span class="text-danger fw-medium">-£{{ saving }}</span>
+                                </li>
+                                <li class="d-flex justify-content-between">
+                                    Shipping:
+                                    <span class="text-dark-emphasis fw-medium">£{{ ship_cost }}</span>
+                                </li>
+                            </ul>
+                            <div class="border-top pt-4 mt-4">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span class="fs-sm">Estimated total:</span>
+                                    <span class="h5 mb-0">£{{ grand_total }}</span>
+                                </div>
+                                <div class="nav justify-content-center fs-sm mt-5">
+                                    <a class="nav-link text-decoration-underline p-0 me-1" href=""
+                                        data-bs-toggle="offcanvas" role="button">Create an account</a>
+                                    and get
+                                    <span class="text-dark-emphasis fw-medium ms-1">your bonuses</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    <div class="nav position-relative z-2 my-4 mb-lg-0 ps-3 ms-3">
+                        <a class="nav-link animate-underline px-0" href="{% url 'catalog' %}">
+                            <i class="fa-duotone fa-solid fa-chevrons-left fs-lg me-1"></i>
+                            <span class="fs-sm">Continue shopping</span>
+                        </a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
+
+{% block postfooter %}
+<!-- Fixed positioned pay button that is visible on screens < 992px wide (lg breakpoint) -->
+<div class="fixed-bottom z-sticky w-100 py-2 px-3 bg-body border-top shadow d-lg-none">
+    <a class="btn btn-lg btn-primary w-100" href="checkout-v1-payment.html">
+        Continue
+        <i class="fa-solid fa-chevron-right fs-lg ms-1 me-n1"></i>
+    </a>
+</div>
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+{% endblock %}
