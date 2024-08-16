@@ -1,22 +1,22 @@
-from django.shortcuts import render
-from products.models import Product, Brand, Category, Theme, Season
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from cart.cart import Cart
+from .forms import OrderForm
 
 
 def checkout_shipping(request):
     """ A view to return the index page """
 
-    brands = Brand.objects.all()
-    categories = Category.objects.all()
-    themes = Theme.objects.all()
-    seasons = Season.objects.all()
-    products = Product.objects.all()
+    cart = Cart(request)
+    if not cart:
+        messages.error(request, "There's nothing in your Cart at the moment")
+        return redirect(reverse('products'))
+
+    order_form = OrderForm()
+    template = 'checkout/checkout-shipping.html'
 
     context = {
-        'brands': brands,
-        'categories': categories,
-        'themes': themes,
-        'seasons': seasons,
-        'products': products,
+        'order_form': order_form,
     }
 
-    return render(request, 'checkout/checkout-shipping.html', context)
+    return render(request, template, context)
