@@ -26,55 +26,39 @@
                             <h1 class="h5 mb-md-4">Shipping address</h1>
                             <form action="{% url 'checkout_shipping' %}" method="POST" id="shipping-details">
                                 {% csrf_token %}
-                                <div class="row row-cols-1 row-cols-sm-2 g-3 g-sm-4 mb-4">
+                                <div class="row row-cols-1 row-cols-sm-2 g-1 g-sm-2 mb-sm-2">
                                     <div class="col">
-                                        <label for="shipping-fn" class="form-label">First name <span
-                                                class="text-danger">*</span></label>
-                                                {{ order_form.first_name|as_crispy_field }}
+                                        {{ order_form.first_name|as_crispy_field }}
                                     </div>
                                     <div class="col">
-                                        <label for="shipping-ln" class="form-label">Last name <span
-                                                class="text-danger">*</span></label>
                                         {{ order_form.last_name|as_crispy_field }}
                                     </div>
                                     <div class="col">
-                                        <label for="shipping-email" class="form-label">Email address <span
-                                                class="text-danger">*</span></label>
                                         {{ order_form.email|as_crispy_field }}
                                     </div>
                                     <div class="col">
-                                        <label for="shipping-mobile" class="form-label">Mobile number <span
-                                            class="text-danger">*</span></label>
                                         {{ order_form.phone_number|as_crispy_field }}
                                     </div>
                                     <div class="col">
-                                        <label for="shipping-city" class="form-label">City or Town <span
-                                                class="text-danger">*</span></label>
-                                            {{ order_form.town_city|as_crispy_field }}
+                                        {{ order_form.town_city|as_crispy_field }}
                                     </div>
                                     <div class="col">
-                                        <label for="shipping-county" class="form-label">County</label>
                                         {{ order_form.county|as_crispy_field }}
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="shipping-address" class="form-label">House / apartment number and street
-                                        address <span class="text-danger">*</span></label>
+                                <div class="mb-sm-2">
                                         {{ order_form.street_address|as_crispy_field }}
                                 </div>
-                                <div class="row row-cols-1 row-cols-sm-2 g-3 g-sm-4 mb-4">
+                                <div class="row row-cols-1 row-cols-sm-2 g-1 g-sm-2 mb-2">
                                     <div class="col">
-                                        <label for="shipping-postcode" class="form-label">Postcode</label>
                                         {{ order_form.postcode|as_crispy_field }}
                                     </div>
                                     <div class="col">
-                                        <label for="shipping-country" class="form-label">Country<span
-                                                class="text-danger">*</span></label>
                                         {{ order_form.country|as_crispy_field }}
                                     </div>
                                 </div>    
 
-                                <h3 class="h6 mt-4 mt-sm-5">
+                                <h3 class="h6 mt-2 mt-sm-3">
                                     Billing address
                                     <i class="ci-info text-body-secondary align-middle ms-2" data-bs-toggle="popover"
                                         data-bs-trigger="hover" data-bs-custom-class="popover-sm"

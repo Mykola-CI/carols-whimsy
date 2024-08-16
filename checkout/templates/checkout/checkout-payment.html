@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+
+<div class="container min-vh-70">
+    <h1 class="mt-5"> This will be a payment page </h1>
+    
+    <p>Shipping Address:</p>
+    <ul>
+        <li>Full Name: {{ shipping_details.first_name }} {{ shipping_details.last_name }}</li>
+        <li>Email: {{ shipping_details.email }}</li>
+        <li>Country Code: {{ shipping_details.country }}</li>
+        <li>Country Name: {{ country_name }}</li>
+    </ul>
+</div>
+{% endblock content %}
+
+
