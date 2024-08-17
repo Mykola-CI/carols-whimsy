@@ -12,78 +12,78 @@
 
 <!-- Page content -->
 <main class="content-wrapper">
-    <div class="container py-5">
+    <div class="container pt-2 pb-4">
         <div class="row pt-1 pt-sm-3 pt-lg-4 pb-2 pb-md-3 pb-lg-4 pb-xl-5">
             <div class="col-lg-8 col-xl-7 mb-5 mb-lg-0">
-                <div class="accordion d-flex flex-column gap-5 pe-lg-4 pe-xl-0" id="checkout">
+                <!-- <div class="accordion d-flex flex-column gap-5 pe-lg-4 pe-xl-0" id="checkout"> -->
 
-
-                    <!-- Shipping address form -->
-                    <div class="d-flex align-items-start">
-                        <div class="d-flex align-items-center justify-content-center bg-primary text-white rounded-circle fs-sm fw-semibold lh-1 flex-shrink-0"
-                            style="width: 2rem; height: 2rem; margin-top: -.125rem">1</div>
-                        <div class="w-100 ps-3 ps-md-4">
-                            <h1 class="h5 mb-md-4">Shipping address</h1>
-                            <form action="{% url 'checkout_shipping' %}" method="POST" id="shipping-details">
-                                {% csrf_token %}
-                                <div class="row row-cols-1 row-cols-sm-2 g-1 g-sm-2 mb-sm-2">
-                                    <div class="col">
-                                        {{ order_form.first_name|as_crispy_field }}
-                                    </div>
-                                    <div class="col">
-                                        {{ order_form.last_name|as_crispy_field }}
-                                    </div>
-                                    <div class="col">
-                                        {{ order_form.email|as_crispy_field }}
-                                    </div>
-                                    <div class="col">
-                                        {{ order_form.phone_number|as_crispy_field }}
-                                    </div>
-                                    <div class="col">
-                                        {{ order_form.town_city|as_crispy_field }}
-                                    </div>
-                                    <div class="col">
-                                        {{ order_form.county|as_crispy_field }}
-                                    </div>
+                <!-- Shipping address form -->
+                <div class="d-flex align-items-start">
+                    <div class="d-flex align-items-center justify-content-center bg-primary text-white rounded-circle fs-sm fw-semibold lh-1 flex-shrink-0"
+                        style="width: 2rem; height: 2rem; margin-top: -.125rem">1</div>
+                    <div class="w-100 ps-3 ps-md-4">
+                        <h1 class="h5 mb-md-4">Shipping address</h1>
+                        <form action="{% url 'checkout_shipping' %}" method="POST" id="shipping-details">
+                            {% csrf_token %}
+                            <div class="row row-cols-1 row-cols-sm-2 g-1 g-sm-2 mb-sm-2">
+                                <div class="col">
+                                    {{ order_form.first_name|as_crispy_field }}
                                 </div>
-                                <div class="mb-sm-2">
-                                        {{ order_form.street_address|as_crispy_field }}
+                                <div class="col">
+                                    {{ order_form.last_name|as_crispy_field }}
                                 </div>
-                                <div class="row row-cols-1 row-cols-sm-2 g-1 g-sm-2 mb-2">
-                                    <div class="col">
-                                        {{ order_form.postcode|as_crispy_field }}
-                                    </div>
-                                    <div class="col">
-                                        {{ order_form.country|as_crispy_field }}
-                                    </div>
-                                </div>    
-
-                                <h3 class="h6 mt-2 mt-sm-3">
-                                    Billing address
-                                    <i class="ci-info text-body-secondary align-middle ms-2" data-bs-toggle="popover"
-                                        data-bs-trigger="hover" data-bs-custom-class="popover-sm"
-                                        data-bs-content="Uncheck the checkbox below if your Billing address should be different from your Shipping address."></i>
-                                </h3>
-                                <div class="form-check mb-lg-4">
-                                    <input type="checkbox" class="form-check-input" id="same-address" checked>
-                                    <label for="same-address" class="form-check-label">Same as delivery address</label>
+                                <div class="col">
+                                    {{ order_form.email|as_crispy_field }}
                                 </div>
-                                
-                                <button type="submit" class="btn btn-lg btn-primary w-100 rounded-pill d-none d-lg-flex justify-content-center align-items-center py-2--5 mt-5">
-                                    Continue
-                                    <i class="fa-solid fa-chevron-right fs-lg ms-3"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
+                                <div class="col">
+                                    {{ order_form.phone_number|as_crispy_field }}
+                                </div>
+                                <div class="col">
+                                    {{ order_form.town_city|as_crispy_field }}
+                                </div>
+                                <div class="col">
+                                    {{ order_form.county|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="mb-sm-2">
+                                {{ order_form.street_address|as_crispy_field }}
+                            </div>
+                            <div class="row row-cols-1 row-cols-sm-2 g-1 g-sm-2 mb-2">
+                                <div class="col">
+                                    {{ order_form.postcode|as_crispy_field }}
+                                </div>
+                                <div class="col">
+                                    {{ order_form.country|as_crispy_field }}
+                                </div>
+                            </div>
 
-                    <!-- Payment -->
-                    <div class="d-flex align-items-start">
-                        <div class="d-flex align-items-center justify-content-center bg-body-secondary text-body-secondary rounded-circle fs-sm fw-semibold lh-1 flex-shrink-0"
-                            style="width: 2rem; height: 2rem; margin-top: -.125rem">2</div>
-                        <h2 class="h5 text-body-secondary ps-3 ps-md-4 mb-0">Payment</h2>
+                            <!-- <h3 class="h6 mt-2 mt-sm-3">
+                                Billing address
+                                <i class="ci-info text-body-secondary align-middle ms-2" data-bs-toggle="popover"
+                                    data-bs-trigger="hover" data-bs-custom-class="popover-sm"
+                                    data-bs-content="Uncheck the checkbox below if your Billing address should be different from your Shipping address."></i>
+                            </h3>
+                            <div class="form-check mb-lg-4">
+                                <input type="checkbox" class="form-check-input" id="same-address" checked>
+                                <label for="same-address" class="form-check-label">Same as delivery address</label>
+                            </div> -->
+
+                            <button type="submit"
+                                class="btn btn-lg btn-primary w-100 rounded-pill d-none d-lg-flex justify-content-center align-items-center py-2--5">
+                                Continue
+                                <i class="fa-solid fa-chevron-right fs-lg ms-3"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
+
+                <!-- Payment -->
+                <div class="d-flex align-items-start mt-4">
+                    <div class="d-flex align-items-center justify-content-center bg-body-secondary text-body-secondary rounded-circle fs-sm fw-semibold lh-1 flex-shrink-0"
+                        style="width: 2rem; height: 2rem; margin-top: -.125rem">2</div>
+                    <h2 class="h5 text-body-secondary ps-3 ps-md-4 mb-0">Payment</h2>
+                </div>
+                <!-- </div> -->
             </div>
 
 

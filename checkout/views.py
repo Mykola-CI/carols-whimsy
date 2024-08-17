@@ -3,6 +3,8 @@ from django.contrib import messages
 from cart.cart import Cart
 from .forms import OrderForm
 from django_countries import countries
+from django.conf import settings
+import stripe
 
 
 def checkout_shipping(request):
@@ -16,7 +18,9 @@ def checkout_shipping(request):
         else:
             messages.error(request, 'There was an error with your form. Please double check your information.')
 
-    order_form = OrderForm()
+    # Populate form with existing session data if available
+    order_form = OrderForm(initial=request.session.get('shipping_details'))
+
     template = 'checkout/checkout-shipping.html'
 
     context = {
@@ -35,7 +39,19 @@ def checkout_payment(request):
     # Get the full country name
     country_name = countries.name(country_code)
 
+    stripe_public_key = settings.STRIPE_PUBLIC_KEY
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+
+    intent = stripe.PaymentIntent.create(
+        amount=1099,
+        currency='gbp',
+    )
+
+    client_secret = intent.client_secret
+
     context = {
+        'stripe_public_key': stripe_public_key,
+        'client_secret': client_secret,
         'shipping_details': shipping_details,
         'country_name': country_name,
     }

@@ -6,18 +6,133 @@
 
 {% block content %}
 
+{% include 'includes/shopping_cart_offcanvas.html' %}
 
-<div class="container min-vh-70">
-    <h1 class="mt-5"> This will be a payment page </h1>
-    
-    <p>Shipping Address:</p>
-    <ul>
-        <li>Full Name: {{ shipping_details.first_name }} {{ shipping_details.last_name }}</li>
-        <li>Email: {{ shipping_details.email }}</li>
-        <li>Country Code: {{ shipping_details.country }}</li>
-        <li>Country Name: {{ country_name }}</li>
-    </ul>
+
+
+<!-- Page content -->
+<main class="content-wrapper">
+    <div class="container pt-2 pb-4">
+        <div class="row pt-1 pt-sm-3 pt-lg-4 pb-2 pb-md-3 pb-lg-4 pb-xl-5">
+            <div class="col-lg-8 col-xl-7 mb-5 mb-lg-0">
+
+                <!-- Stripe payment form -->
+                <div class="d-flex align-items-start">
+                    <div class="d-flex align-items-center justify-content-center bg-primary text-white rounded-circle fs-sm fw-semibold lh-1 flex-shrink-0"
+                        style="width: 2rem; height: 2rem; margin-top: -.125rem">2</div>
+                    <div class="w-100 ps-3 ps-md-4">
+                        <h1 class="h5 mb-md-4">Payment</h1>
+                        <form action="{% url 'checkout_payment' %}" method="POST" id="payment-form">
+                            {% csrf_token %}
+                            <!-- Stripe payment element -->
+                            <div id="payment-element"></div>
+                            <!-- Used to display form errors -->
+                            <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+                            <!-- Pass the client secret to the view to get the payment intent id -->
+                            <input type="hidden" name="client_secret" value="{{ client_secret }}">
+
+                            <button type="submit" id="complete-order"
+                                class="btn btn-lg btn-primary w-100 rounded-pill d-none d-lg-flex justify-content-center align-items-center py-2--5 mt-5">
+                                Complete order
+                                <i class="fa-solid fa-chevron-right fs-lg ms-3"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- Order summary (sticky sidebar) -->
+            <aside class="col-lg-4" style="margin-top: -100px">
+                <div class="position-sticky top-0" style="padding-top: 100px">
+                    <div class="bg-body-tertiary rounded-5 p-4 mb-3">
+                        <div class="p-sm-2 p-lg-0 p-xl-2">
+                            <h5 class="border-bottom pb-4 mb-4">Order summary</h5>
+                            <ul class="list-unstyled fs-sm gap-3 mb-0">
+                                <li class="d-flex justify-content-between">
+                                    Subtotal ({{ number_of_items }} items):
+                                    <span class="text-dark-emphasis fw-medium">£{{ cart_totals }}</span>
+                                </li>
+                                <li class="d-flex justify-content-between">
+                                    Saving:
+                                    <span class="text-danger fw-medium">-£{{ saving }}</span>
+                                </li>
+                                <li class="d-flex justify-content-between">
+                                    Shipping:
+                                    <span class="text-dark-emphasis fw-medium">£{{ ship_cost }}</span>
+                                </li>
+                            </ul>
+                            <div class="border-top pt-4 mt-4">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span class="fs-sm">Estimated total:</span>
+                                    <span class="h5 mb-0">£{{ grand_total }}</span>
+                                </div>
+                                <div class="nav justify-content-center fs-sm mt-5">
+                                    <a class="nav-link text-decoration-underline p-0 me-1" href=""
+                                        data-bs-toggle="offcanvas" role="button">Create an account</a>
+                                    and get
+                                    <span class="text-dark-emphasis fw-medium ms-1">your bonuses</span>
+                                </div>
+                            </div>
+
+                        </div>
+                       <div class="border-bottom py-2 mt-4">
+                            <a href="{% url  'checkout_shipping' %}">
+                                <i class="fa-duotone fa-solid fa-chevrons-left fs-lg me-1"></i>
+                                <span class="h6">Review Your Shipping Address:</span>
+                            </a>
+                       </div>
+                        <ul class="list-unstyled fs-sm gap-3 mt-3 mb-0">
+                            <li class="d-flex justify-content-between">Full Name: 
+                                <span class="text-dark-emphasis fw-medium">{{ shipping_details.first_name }} {{ shipping_details.last_name }}</span>
+                            </li>
+                            <li class="d-flex justify-content-between">Email: 
+                                <span class="text-dark-emphasis fw-medium">{{ shipping_details.email }}</span>
+                            </li>
+                            <li class="d-flex justify-content-between">Phone Number: 
+                                <span class="text-dark-emphasis fw-medium">{{ shipping_details.phone_number }}</span>
+                            </li>
+                            <li class="d-flex justify-content-between">Street Address: 
+                                <span class="text-dark-emphasis fw-medium">{{ shipping_details.street_address }}</span>
+                            </li>
+                            <li class="d-flex justify-content-between">Town or City: 
+                                <span class="text-dark-emphasis fw-medium">{{ shipping_details.town_city }}</span>
+                            </li>
+                            <li class="d-flex justify-content-between">Country Name: 
+                                <span class="text-dark-emphasis fw-medium">{{ country_name }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nav position-relative z-2 my-4 mb-lg-0 ps-3 ms-3">
+                        <a class="nav-link px-0" href="{% url 'catalog' %}">
+                            <i class="fa-duotone fa-solid fa-chevrons-left fs-lg me-1"></i>
+                            <span class="fs-sm">Continue shopping</span>
+                        </a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
+
+{% block postfooter %}
+<!-- Fixed positioned pay button that is visible on screens < 992px wide (lg breakpoint) -->
+<div class="fixed-bottom z-sticky w-100 py-2 px-3 bg-body border-top shadow d-lg-none">
+    <a class="btn btn-lg btn-primary rounded-pill w-100" href="checkout-v1-payment.html">
+        Continue
+        <i class="fa-solid fa-chevron-right fs-lg ms-1 me-n1"></i>
+    </a>
 </div>
-{% endblock content %}
+{% endblock %}
 
 
+{% block postloadjs %}
+{{ block.super }}
+{{ stripe_public_key|json_script:"id_stripe_public_key" }}
+{{ client_secret|json_script:"id_client_secret" }}
+<script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
+
+{% endblock postloadjs %}
