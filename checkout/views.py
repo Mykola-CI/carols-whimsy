@@ -42,10 +42,21 @@ def checkout_payment(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
+    cart = Cart(request)
+    if cart.is_empty:
+        messages.error(
+            request, "There's nothing in your cart at the moment")
+        return redirect(reverse('products'))
+
+    total = cart.get_totals
+    stripe_total = round(total * 100)
+
     intent = stripe.PaymentIntent.create(
-        amount=1099,
-        currency='gbp',
+        amount=stripe_total,
+        currency=settings.STRIPE_CURRENCY,
     )
+
+    print(intent)
 
     client_secret = intent.client_secret
 

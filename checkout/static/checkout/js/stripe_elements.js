@@ -2,10 +2,6 @@ $(document).ready(function () {
     const stripe_public_key = $('#id_stripe_public_key').text().slice(1, -1);
     const clientSecret = $('#id_client_secret').text().slice(1, -1);
 
-    console.log('Client Secret: ' + clientSecret);
-    console.log('Stripe Public Key: ' + stripe_public_key);
-    console.log('Shipping Details: ', shippingDetails);
-
     const stripe = Stripe(stripe_public_key);
 
     const appearance = {
@@ -28,7 +24,7 @@ $(document).ready(function () {
         if (event.error) {
             var html = `
             <span class="icon" role="alert">
-                <i class="fas fa-times"></i>
+                <i class="fa-regular fa-triangle-exclamation"></i>
             </span>
             <span>${event.error.message}</span>
         `;
@@ -67,7 +63,7 @@ $(document).ready(function () {
                     var errorDiv = document.getElementById('card-errors');
                     var html = `
                 <span class="icon" role="alert">
-                <i class="fas fa-times"></i>
+                <i class="fa-regular fa-triangle-exclamation"></i>
                 </span>
                 <span>${result.error.message}</span>`;
                     $(errorDiv).html(html);
