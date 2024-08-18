@@ -308,9 +308,6 @@ swiper-slide img {
 /* Media queries */
 @media (min-width: 576px) {
 
-    /* .content-wrapper {
-        margin-top: -150px;
-    } */
     #navbarLogo {
         font-size: 2rem;
     }

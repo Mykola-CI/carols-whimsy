@@ -84,20 +84,26 @@
                             </a>
                        </div>
                         <ul class="list-unstyled fs-sm gap-3 mt-3 mb-0">
-                            <li class="d-flex justify-content-between">Full Name: 
+                            <li class="d-flex justify-content-between pb-1">Full Name: 
                                 <span class="text-dark-emphasis fw-medium">{{ shipping_details.first_name }} {{ shipping_details.last_name }}</span>
                             </li>
-                            <li class="d-flex justify-content-between">Email: 
+                            <li class="d-flex justify-content-between pb-1">Email: 
                                 <span class="text-dark-emphasis fw-medium">{{ shipping_details.email }}</span>
                             </li>
-                            <li class="d-flex justify-content-between">Phone Number: 
+                            <li class="d-flex justify-content-between pb-1">Phone Number: 
                                 <span class="text-dark-emphasis fw-medium">{{ shipping_details.phone_number }}</span>
                             </li>
-                            <li class="d-flex justify-content-between">Street Address: 
+                            <li class="d-flex justify-content-between pb-1">Street Address: 
                                 <span class="text-dark-emphasis fw-medium">{{ shipping_details.street_address }}</span>
                             </li>
-                            <li class="d-flex justify-content-between">Town or City: 
+                            <li class="d-flex justify-content-between pb-1">Town or City: 
                                 <span class="text-dark-emphasis fw-medium">{{ shipping_details.town_city }}</span>
+                            </li>
+                            <li class="d-flex justify-content-between pb-1">County: 
+                                <span class="text-dark-emphasis fw-medium">{{ shipping_details.county }}</span>
+                            </li>
+                            <li class="d-flex justify-content-between pb-1">Postal Code: 
+                                <span class="text-dark-emphasis fw-medium">{{ shipping_details.postcode }}</span>
                             </li>
                             <li class="d-flex justify-content-between">Country Name: 
                                 <span class="text-dark-emphasis fw-medium">{{ country_name }}</span>
@@ -133,6 +139,22 @@
 {{ block.super }}
 {{ stripe_public_key|json_script:"id_stripe_public_key" }}
 {{ client_secret|json_script:"id_client_secret" }}
+<script>
+    // Pass shipping details to JavaScript
+    const shippingDetails = {
+            first_name: "{{ shipping_details.first_name }}",
+            last_name: "{{ shipping_details.last_name }}",
+            email: "{{ shipping_details.email }}",
+            phone: "{{ shipping_details.phone_number }}",
+            address: {
+                street_address: "{{ shipping_details.street_address }}",
+                city: "{{ shipping_details.town_city }}",
+                county: "{{ shipping_details.county }}",
+                postal_code: "{{ shipping_details.postcode }}",
+                country: "{{ shipping_details.country }}"
+            },
+        };
+</script>
 <script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
 
 {% endblock postloadjs %}
