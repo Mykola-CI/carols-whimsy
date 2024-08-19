@@ -139,22 +139,7 @@
 {{ block.super }}
 {{ stripe_public_key|json_script:"id_stripe_public_key" }}
 {{ client_secret|json_script:"id_client_secret" }}
-<script>
-    // Pass shipping details to JavaScript
-    const shippingDetails = {
-            first_name: "{{ shipping_details.first_name }}",
-            last_name: "{{ shipping_details.last_name }}",
-            email: "{{ shipping_details.email }}",
-            phone: "{{ shipping_details.phone_number }}",
-            address: {
-                street_address: "{{ shipping_details.street_address }}",
-                city: "{{ shipping_details.town_city }}",
-                county: "{{ shipping_details.county }}",
-                postal_code: "{{ shipping_details.postcode }}",
-                country: "{{ shipping_details.country }}"
-            },
-        };
-</script>
+
 <script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
 
 {% endblock postloadjs %}

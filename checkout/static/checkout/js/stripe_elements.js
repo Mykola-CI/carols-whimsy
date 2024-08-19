@@ -53,28 +53,27 @@ $(document).ready(function () {
             stripe.confirmPayment({
                 elements,
                 confirmParams: {
-                    return_url: `${window.location.origin}/checkout/checkout_success/`,
-                    shipping: shippingDetails
+                    return_url: `${window.location.origin}/checkout/confirmation/`
                 },
                 redirect: 'if_required'
                 // Return a promise that resolves when the payment is successful
             }).then(function (result) {
-                if (result.error) {
-                    var errorDiv = document.getElementById('card-errors');
-                    var html = `
+                    if (result.error) {
+                        var errorDiv = document.getElementById('card-errors');
+                        var html = `
                 <span class="icon" role="alert">
                 <i class="fa-regular fa-triangle-exclamation"></i>
                 </span>
                 <span>${result.error.message}</span>`;
-                    $(errorDiv).html(html);
-                    card.update({ 'disabled': false });
-                    $('#submit-button').attr('disabled', false);
-                } else {
-                    if (result.paymentIntent.status === 'succeeded') {
-                        form.submit();
+                        $(errorDiv).html(html);
+                        paymentElement.update({ 'disabled': false });
+                        $('#complete-order').attr('disabled', false);
+                    } else {
+                        if (result.paymentIntent.status === 'succeeded') {
+                            form.submit();
+                        }
                     }
-                }
-            });
-        });
+                });
     });
+});
 });
