@@ -26,11 +26,11 @@
                             {% csrf_token %}
                             <!-- Stripe payment element -->
                             <div id="payment-element"></div>
-                            <!-- Used to display form errors -->
+                            <!-- Display form errors -->
                             <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
                             <!-- Pass the client secret to the view to get the payment intent id -->
                             <input type="hidden" name="client_secret" value="{{ client_secret }}">
-
+                            
                             <button type="submit" id="complete-order"
                                 class="btn btn-lg btn-primary w-100 rounded-pill d-none d-lg-flex justify-content-center align-items-center py-2--5 mt-5">
                                 Complete order
@@ -77,35 +77,36 @@
                             </div>
 
                         </div>
-                       <div class="border-bottom py-2 mt-4">
+                        <div class="border-bottom py-2 mt-4">
                             <a href="{% url  'checkout_shipping' %}">
                                 <i class="fa-duotone fa-solid fa-chevrons-left fs-lg me-1"></i>
                                 <span class="h6">Review Your Shipping Address:</span>
                             </a>
-                       </div>
+                        </div>
                         <ul class="list-unstyled fs-sm gap-3 mt-3 mb-0">
-                            <li class="d-flex justify-content-between pb-1">Full Name: 
-                                <span class="text-dark-emphasis fw-medium">{{ shipping_details.first_name }} {{ shipping_details.last_name }}</span>
+                            <li class="d-flex justify-content-between pb-1">Full Name:
+                                <span class="text-dark-emphasis fw-medium">{{ shipping_details.first_name }}
+                                    {{ shipping_details.last_name }}</span>
                             </li>
-                            <li class="d-flex justify-content-between pb-1">Email: 
+                            <li class="d-flex justify-content-between pb-1">Email:
                                 <span class="text-dark-emphasis fw-medium">{{ shipping_details.email }}</span>
                             </li>
-                            <li class="d-flex justify-content-between pb-1">Phone Number: 
+                            <li class="d-flex justify-content-between pb-1">Phone Number:
                                 <span class="text-dark-emphasis fw-medium">{{ shipping_details.phone_number }}</span>
                             </li>
-                            <li class="d-flex justify-content-between pb-1">Street Address: 
+                            <li class="d-flex justify-content-between pb-1">Street Address:
                                 <span class="text-dark-emphasis fw-medium">{{ shipping_details.street_address }}</span>
                             </li>
-                            <li class="d-flex justify-content-between pb-1">Town or City: 
+                            <li class="d-flex justify-content-between pb-1">Town or City:
                                 <span class="text-dark-emphasis fw-medium">{{ shipping_details.town_city }}</span>
                             </li>
-                            <li class="d-flex justify-content-between pb-1">County: 
+                            <li class="d-flex justify-content-between pb-1">County:
                                 <span class="text-dark-emphasis fw-medium">{{ shipping_details.county }}</span>
                             </li>
-                            <li class="d-flex justify-content-between pb-1">Postal Code: 
+                            <li class="d-flex justify-content-between pb-1">Postal Code:
                                 <span class="text-dark-emphasis fw-medium">{{ shipping_details.postcode }}</span>
                             </li>
-                            <li class="d-flex justify-content-between">Country Name: 
+                            <li class="d-flex justify-content-between">Country Name:
                                 <span class="text-dark-emphasis fw-medium">{{ country_name }}</span>
                             </li>
                         </ul>

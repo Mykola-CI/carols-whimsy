@@ -8,6 +8,9 @@ from django.conf import settings
 import stripe
 import json
 
+from .models import Order, OrderLineItem
+from products.models import Product
+
 
 @require_POST
 def cache_checkout_data(request):
@@ -74,6 +77,51 @@ def checkout_payment(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
     if request.method == 'POST':
+        cart = Cart(request)
+        if cart.is_empty:
+            messages.error(
+                request, "There's nothing in your cart at the moment")
+            return redirect('products')
+
+        order = Order(
+            first_name=shipping_details.get('first_name'),
+            last_name=shipping_details.get('last_name'),
+            email=shipping_details.get('email'),
+            phone_number=shipping_details.get('phone_number'),
+            town_city=shipping_details.get('town_city'),
+            county=shipping_details.get('county'),
+            street_address=shipping_details.get('street_address'),
+            postcode=shipping_details.get('postcode'),
+            country=shipping_details.get('country'),
+        )
+        # Get PaymentIntentID from hidden input in the checkout-payment.html
+        pid = request.POST.get('client_secret').split('_secret')[0]
+        order.stripe_pid = pid
+        # Serialize the cart content to store in the order
+        order.original_cart = json.dumps(cart.cart)
+
+        order.save()
+
+        for item_id, quantity in cart.cart.items():
+            try:
+                product = Product.objects.get(id=item_id)
+                order_line_item = OrderLineItem(
+                    order=order,
+                    product=product,
+                    quantity=quantity,
+                )
+                order_line_item.save()
+            except Product.DoesNotExist:
+                messages.error(request, (
+                    "One of the products in your cart wasn't found in "
+                    "our database. "
+                    "Please contact customer service for assistance!")
+                )
+                order.delete()
+                return redirect('cart_summary')
+
+        order.update_total()
+
         return redirect('order_confirmation')
 
     else:
