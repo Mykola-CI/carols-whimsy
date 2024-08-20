@@ -17,12 +17,14 @@ def webhook_view(request):
     wh_secret = settings.STRIPE_WH_SECRET
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
+    # Get the webhook data and verify its signature
     payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
     event = None
 
     try:
-        event = stripe.Event.construct_from(
-            json.loads(payload), stripe.api_key
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, wh_secret,
         )
     except ValueError as e:
         # Invalid payload
@@ -38,12 +40,12 @@ def webhook_view(request):
 
     # Handle the event
     if event.type == 'payment_intent.succeeded':
-        payment_intent = event.data.object
-        handler.handle_payment_intent_succeeded(payment_intent)
+
+        handler.handle_payment_intent_succeeded(event)
 
     elif event.type == 'payment_intent.payment_failed':
-        payment_intent = event.data.object
-        handler.handle_payment_intent_failed(payment_intent)
+
+        handler.handle_payment_intent_payment_failed(event)
 
     else:
         print('Unhandled event type {}'.format(event.type))
