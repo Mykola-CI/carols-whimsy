@@ -141,6 +141,18 @@
 {{ stripe_public_key|json_script:"id_stripe_public_key" }}
 {{ client_secret|json_script:"id_client_secret" }}
 
+<script>
+    streetAddress = "{{ shipping_details.street_address }}";
+    townCity = "{{ shipping_details.town_city }}";
+    county = "{{ shipping_details.county }}";
+    postcode = "{{ shipping_details.postcode }}";
+    country = "{{ shipping_details.country }}";
+    phoneNumber = "{{ shipping_details.phone_number }}";
+    email = "{{ shipping_details.email }}";
+    fullName = "{{ shipping_details.first_name }} {{ shipping_details.last_name }}";
+</script>
+
+
 <script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
 
 {% endblock postloadjs %}

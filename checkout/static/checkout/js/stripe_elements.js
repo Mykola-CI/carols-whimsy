@@ -36,6 +36,7 @@ $(document).ready(function () {
 
     // Handle form submit
     var form = document.getElementById('payment-form');
+    console.log(fullName);
 
     form.addEventListener('submit', function (ev) {
         ev.preventDefault();
@@ -53,18 +54,35 @@ $(document).ready(function () {
             stripe.confirmPayment({
                 elements,
                 confirmParams: {
-                    return_url: `${window.location.origin}/checkout/confirmation/`
+                    return_url: `${window.location.origin}/checkout/confirmation/`,
+                    payment_method_data: {
+                        billing_details: {
+                            name: fullName,
+                            phone: phoneNumber,
+                            email: email,
+                        },
+                    },
+                    shipping: {
+                        name: fullName,
+                        phone: phoneNumber,
+                        address: {
+                            line1: streetAddress,
+                            city: townCity,
+                            state: county,
+                            postal_code: postcode,
+                            country: country
+                        },
+                    },
                 },
-                redirect: 'if_required'
-                // Return a promise that resolves when the payment is successful
+                redirect: 'if_required',
             }).then(function (result) {
                 if (result.error) {
                     var errorDiv = document.getElementById('card-errors');
                     var html = `
-                <span class="icon" role="alert">
-                <i class="fa-regular fa-triangle-exclamation"></i>
-                </span>
-                <span>${result.error.message}</span>`;
+            <span class="icon" role="alert">
+            <i class="fa-regular fa-triangle-exclamation"></i>
+            </span>
+            <span>${result.error.message}</span>`;
                     $(errorDiv).html(html);
                     paymentElement.update({ 'disabled': false });
                     $('#complete-order').attr('disabled', false);

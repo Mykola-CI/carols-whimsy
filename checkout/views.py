@@ -17,22 +17,16 @@ def cache_checkout_data(request):
     try:
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
-        # Retrieve shipping details from session
-        shipping_details = request.session.get('shipping_details', {})
+
+        # Get the shipping details from the session
+        # shipping_details = request.session.get('shipping_details', {})
+
+        # Get the cart content from the session
         current_cart = request.session.get(settings.CART_SESSION_ID, {})
 
         # Update the payment intent with the shipping details and cart_content
         stripe.PaymentIntent.modify(pid, metadata={
             'cart': json.dumps(current_cart),
-            'first_name': shipping_details.get('first_name', ''),
-            'last_name': shipping_details.get('last_name', ''),
-            'email': shipping_details.get('email', ''),
-            'phone': shipping_details.get('phone', ''),
-            'street_address': shipping_details.get('street_address', ''),
-            'city': shipping_details.get('city', ''),
-            'county': shipping_details.get('county', ''),
-            'postal_code': shipping_details.get('postal_code', ''),
-            'country': shipping_details.get('country', ''),
         })
         return HttpResponse(status=200)
     except Exception as e:
@@ -119,8 +113,6 @@ def checkout_payment(request):
                 )
                 order.delete()
                 return redirect('cart_summary')
-
-        order.update_total()
 
         return redirect('order_confirmation')
 
