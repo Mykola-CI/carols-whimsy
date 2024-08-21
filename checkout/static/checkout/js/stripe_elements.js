@@ -36,7 +36,6 @@ $(document).ready(function () {
 
     // Handle form submit
     var form = document.getElementById('payment-form');
-    console.log(fullName);
 
     form.addEventListener('submit', function (ev) {
         ev.preventDefault();
@@ -54,7 +53,7 @@ $(document).ready(function () {
             stripe.confirmPayment({
                 elements,
                 confirmParams: {
-                    return_url: `${window.location.origin}/checkout/confirmation/`,
+                    // return_url: `${window.location.origin}/checkout/confirmation/`,
                     payment_method_data: {
                         billing_details: {
                             name: fullName,
@@ -92,6 +91,8 @@ $(document).ready(function () {
                     }
                 }
             });
-        });
+        }).fail(function () {
+            location.reload();
+        })
     });
 });

@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import (render, redirect, reverse,
+                              HttpResponse, get_object_or_404)
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from cart.cart import Cart
@@ -10,6 +11,7 @@ import json
 
 from .models import Order, OrderLineItem
 from products.models import Product
+from cart.cart import Cart
 
 
 @require_POST
@@ -17,9 +19,6 @@ def cache_checkout_data(request):
     try:
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
-
-        # Get the shipping details from the session
-        # shipping_details = request.session.get('shipping_details', {})
 
         # Get the cart content from the session
         current_cart = request.session.get(settings.CART_SESSION_ID, {})
@@ -44,7 +43,11 @@ def checkout_shipping(request):
             request.session['shipping_details'] = order_form.cleaned_data
             return redirect('checkout_payment')
         else:
-            messages.error(request, 'There was an error with your form. Please double check your information.')
+            messages.error(
+                request,
+                'There was an error with your form. '
+                'Please double check your information.'
+            )
 
     # Populate form with existing session data if available
     order_form = OrderForm(initial=request.session.get('shipping_details'))
@@ -69,6 +72,10 @@ def checkout_payment(request):
 
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe.api_key = settings.STRIPE_SECRET_KEY
+
+    # Initialize client_secret to an empty string in order to prevent from
+    # server errors if order creation fails for some reason
+    # client_secret = ''
 
     if request.method == 'POST':
         cart = Cart(request)
@@ -114,7 +121,20 @@ def checkout_payment(request):
                 order.delete()
                 return redirect('cart_summary')
 
-        return redirect('order_confirmation')
+        if order and order.order_number:
+            return redirect(
+                reverse('order_confirmation', args=[order.order_number]))
+        else:
+            # Set client_secret to an empty string in order to prevent
+            # from server errors if order creation here fails for some reason
+            client_secret = ""
+            messages.error(
+                request,
+                "Unfortunately, there was an unexpected interruption "
+                "with your order.\n However, if payment has been through, "
+                "the order must be duly saved and will be processed.\n"
+                "Check your order history please!")
+            return redirect('order_interruption')
 
     else:
         cart = Cart(request)
@@ -145,18 +165,29 @@ def checkout_payment(request):
     return render(request, template, context)
 
 
-def order_confirmation(request):
+def order_confirmation(request, order_number):
     """ A view to return the index page """
 
-    shipping_details = request.session.get('shipping_details', {})
-
-    if not shipping_details:
-        return redirect('checkout_shipping')
+    order = get_object_or_404(Order, order_number=order_number)
+    order_line_items = OrderLineItem.objects.filter(order=order)
 
     template = 'checkout/order-confirmation.html'
 
     context = {
-        'shipping_details': shipping_details,
+        'order': order,
+        'order_line_items': order_line_items,
     }
+    cart = Cart(request)
+    cart.clear()
+
+    return render(request, template, context)
+
+
+def order_interruption(request):
+    """ A view to return the index page """
+
+    template = 'checkout/order-interruption.html'
+
+    context = {}
 
     return render(request, template, context)

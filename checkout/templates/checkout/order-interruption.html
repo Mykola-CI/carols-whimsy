@@ -12,12 +12,7 @@
 
 <!-- Page content -->
 <main class="content-wrapper">
-
-    <div class="m-5 p-2">{{ order.order_number }}</div>
-    {% for item in order_line_items %}
-    <div class="ms-5 mb-2 p-2">{{ item.product.name }}</div>
-    {% endfor %}
-
+    
 </main>
 
 {% endblock %}

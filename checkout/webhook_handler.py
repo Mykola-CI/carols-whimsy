@@ -1,9 +1,5 @@
 import stripe
 from django.http import HttpResponse
-from django.contrib.auth.models import User
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from django.conf import settings
 
 from .models import Order, OrderLineItem
 from products.models import Product
@@ -28,12 +24,11 @@ class WH_Handler:
         """
         Handle the payment_intent.succeeded webhook from Stripe
         """
-        print('Payment intent succeeded passed for handling')
+
         intent = event.data.object
         pid = intent.id
         # Get the cart from the event's metadata
         cart = intent.metadata.cart
-        print('Cart from metadata', cart)
 
         # Get the Charge object for capturing of phone and email
         stripe_charge = stripe.Charge.retrieve(
@@ -76,13 +71,12 @@ class WH_Handler:
                     stripe_pid=pid,
                 )
                 order_exists = True
-                print('Order exists: checked after payment succeeded')
-                print(order.first_name)
-                print(order.grand_total)
                 break
+
             except Order.DoesNotExist:
                 attempt += 1
                 time.sleep(1)
+
         if order_exists:
             # self._send_confirmation_email(order)
             return HttpResponse(
@@ -116,15 +110,10 @@ class WH_Handler:
                     )
                     order_line_item.save()
 
-                    print('Order did not exist: Order created')
-                    print(order.first_name)
-                    print(order.grand_total)
-
             except Exception as e:
                 if 'order' in locals() and order:
                     order.delete()
-                # Log the error details
-                # logger.error(f'Error while creating order: {str(e)}')
+
                 return HttpResponse(
                     content=f'Webhook received: {event["type"]} | ERROR: {e}',
                     status=500
