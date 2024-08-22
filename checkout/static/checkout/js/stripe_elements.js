@@ -40,7 +40,7 @@ $(document).ready(function () {
     form.addEventListener('submit', function (ev) {
         ev.preventDefault();
         paymentElement.update({ 'disabled': true });
-        $('#complete-order').attr('disabled', true);
+        $('.complete-order').attr('disabled', true);
 
         var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
         var postData = {
@@ -84,7 +84,7 @@ $(document).ready(function () {
             <span>${result.error.message}</span>`;
                     $(errorDiv).html(html);
                     paymentElement.update({ 'disabled': false });
-                    $('#complete-order').attr('disabled', false);
+                    $('.complete-order').attr('disabled', false);
                 } else {
                     if (result.paymentIntent.status === 'succeeded') {
                         form.submit();

@@ -30,12 +30,20 @@
                             <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
                             <!-- Pass the client secret to the view to get the payment intent id -->
                             <input type="hidden" name="client_secret" value="{{ client_secret }}">
-                            
+
                             <button type="submit" id="complete-order"
-                                class="btn btn-lg btn-primary w-100 rounded-pill d-none d-lg-flex justify-content-center align-items-center py-2--5 mt-5">
+                                class="complete-order btn btn-lg btn-primary w-100 rounded-pill d-none d-lg-flex justify-content-center align-items-center py-2--5 mt-5">
                                 Complete order
                                 <i class="fa-solid fa-chevron-right fs-lg ms-3"></i>
                             </button>
+                            <!-- Fixed positioned pay button that is visible on screens < 992px wide (lg breakpoint) -->
+                            <div class="fixed-bottom z-sticky w-100 py-2 px-3 bg-body border-top shadow d-lg-none">
+                                <button type="submit" id="complete-order-small"
+                                    class="complete-order btn btn-lg btn-primary rounded-pill w-100">
+                                    Complete order
+                                    <i class="fa-solid fa-chevron-right fs-lg ms-1 me-n1"></i>
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -122,17 +130,24 @@
         </div>
     </div>
 </main>
+<div id="loading-overlay">
+    <h1 class="text-light logo-font loading-spinner">
+        <span class="icon">
+            <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+        </span>
+    </h1>
+</div>
 
 {% endblock %}
 
 {% block postfooter %}
 <!-- Fixed positioned pay button that is visible on screens < 992px wide (lg breakpoint) -->
-<div class="fixed-bottom z-sticky w-100 py-2 px-3 bg-body border-top shadow d-lg-none">
-    <a class="btn btn-lg btn-primary rounded-pill w-100" href="checkout-v1-payment.html">
-        Continue
+<!-- <div class="fixed-bottom z-sticky w-100 py-2 px-3 bg-body border-top shadow d-lg-none">
+    <a class="btn btn-lg btn-primary rounded-pill w-100" href="#">
+        Complete order
         <i class="fa-solid fa-chevron-right fs-lg ms-1 me-n1"></i>
     </a>
-</div>
+</div> -->
 {% endblock %}
 
 

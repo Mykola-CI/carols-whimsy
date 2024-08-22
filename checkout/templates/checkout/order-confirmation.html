@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 {% load custom_filters %}
-{% load crispy_forms_tags %}
 
 
 {% block content %}
@@ -9,19 +8,223 @@
 {% include 'includes/shopping_cart_offcanvas.html' %}
 
 
-
 <!-- Page content -->
-<main class="content-wrapper">
+<div class="overlay"></div>
+<main class="content-wrapper-shop">
+    <div class="container-xxl pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5">
 
-    <div class="m-5 p-2">{{ order.order_number }}</div>
-    {% for item in order_line_items %}
-    <div class="ms-5 mb-2 p-2">{{ item.product.name }}</div>
-    {% endfor %}
+        <section class="container-xxl pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5">
 
+            <div class="row">
+
+                <!-- Items list -->
+                <div class="col-lg-7">
+                    <div class="d-flex align-items-sm-center py-2 py-md-3 mb-2 mb-md-4 pe-lg-2 pe-xl-3 me-xl-3">
+                        <div class="d-flex align-items-center justify-content-center bg-success text-white rounded-circle flex-shrink-0"
+                            style="width: 3rem; height: 3rem; margin-top: -.125rem">
+                            <i class="fa-solid fa-check fs-4"></i>
+                        </div>
+                        <div class="w-100 ps-3">
+                            <div class="fs-sm mb-1">Order #{{ order.order_number }}</div>
+                            <div class="d-sm-flex align-items-center">
+                                <h1 class="h4 mb-0 me-3">Thank you for your order!</h1>
+                                <div class="nav mt-2 mt-sm-0 ms-auto">
+                                    <a class="nav-link text-decoration-underline text-muted fs-sm p-0" href="#!">More
+                                        Shopping?</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="px-lg-2 px-xl-3">
+
+                        <!-- Table of items -->
+                        <table class="table position-relative z-2 mb-4">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="fs-sm fw-normal py-3 ps-0"><span
+                                            class="text-body">Product</span></th>
+                                    <th scope="col" class="text-body fs-sm fw-normal py-3 d-none d-md-table-cell"><span
+                                            class="text-body">Price</span></th>
+                                    <th scope="col" class="text-body fs-sm fw-normal py-3 d-none d-md-table-cell"><span
+                                            class="text-body">Quantity</span></th>
+                                    <th scope="col" class="text-body fs-sm fw-normal py-3 d-none d-md-table-cell"><span
+                                            class="text-body">Total</span></th>
+                                </tr>
+                            </thead>
+                            <tbody class="align-middle">
+
+                                <!-- Item -->
+                                {% for item in order_line_items %}
+                                <tr>
+                                    <td class="py-3 ps-0">
+                                        <div class="d-flex align-items-center">
+                                            {% if item.product.image %}
+                                            <a href="{% url 'product_detail' item.product.id %}" class="flex-shrink-0"
+                                                style="width: 100px">
+                                                <img class="card-img-top img-fluid "
+                                                    style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top"
+                                                    src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                            </a>
+                                            {% else %}
+                                            <a href="{% url 'product_detail' item.product.id %}" class="flex-shrink-0"
+                                                style="width: 100px">
+                                                <img class="card-img-top img-fluid"
+                                                    style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top;"
+                                                    src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
+                                            </a>
+                                            {% endif %}
+                                            <div
+                                                class="w-100 min-w-0 ps-2 ps-xl-3 truncate count-input-cart cart-product-detail">
+                                                <h5 class="mb-2">
+                                                    <a class="d-block fs-sm fw-medium"
+                                                        href="{% url 'product_detail' item.product.id %}">{{ item.product.name }}</a>
+                                                </h5>
+                                                <ul class="list-unstyled gap-1 fs-xs mb-0">
+                                                    <li><span class="text-body-secondary">Brand:</span> <span
+                                                            class="text-dark-emphasis fw-medium">{{ item.product.brand.friendly_name }}</span>
+                                                    </li>
+                                                    <li class="d-md-none"><span
+                                                            class="text-body-secondary">Price:</span> <span
+                                                            class="text-dark-emphasis fw-medium text-nowrap">£{{ item.product.price }}</span>
+                                                    </li>
+                                                </ul>
+                                                <div class="d-md-none mt-3">
+                                                    {{ item.quantity }} items for £{{ item.item_total }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="h6 py-3 d-none d-md-table-cell">£{{ item.product.price }}</td>
+                                    <td class="py-3 d-none d-md-table-cell count-input-cart text-center">
+                                        {{ item.quantity }}
+                                    </td>
+                                    <td class="h6 py-3 d-none d-md-table-cell text-nowrap">
+                                        £{{ item.item_total }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+
+                        <div class="nav position-relative z-2 mb-4 mb-lg-0">
+                            <a class="nav-link animate-underline px-0" href="{% url 'catalog' %}">
+                                <i class="fa-duotone fa-solid fa-chevrons-left fs-lg me-1"></i>
+                                <span class="fs-sm">Continue shopping</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order summary (sticky sidebar) -->
+                <aside class="col-lg-5" style="margin-top: -70px">
+                    <div class="position-sticky top-0" style="padding-top: 100px">
+                        <div class="bg-body-tertiary rounded-5 p-4 mb-3">
+                            <div class="p-sm-2 p-lg-0 p-xl-2">
+                                <div class="border-bottom pb-2 mb-4">
+                                    <h5>Order summary</h5>
+                                    <p class="fs-sm text-muted mb-0">Your order &mdash;
+                                        <span class="text-muted fs-sm">{{ order.order_number }}</span>
+                                    </p>
+                                    <p class="fs-sm text-muted">Date & Time: &#8287;
+                                        <span class="text-muted fs-sm">{{ order.date }}</span>
+                                    </p>
+                                </div>
+                                <ul class="list-unstyled fs-sm gap-3 mb-0">
+
+                                    <li class="d-flex justify-content-between">
+                                        Subtotal:
+                                        <span class="text-dark-emphasis fw-medium">£{{ order.order_total }}</span>
+                                    </li>
+                                    <li class="d-flex justify-content-between">
+                                        Saving:
+                                        <span class="text-danger fw-medium">-£0</span>
+                                    </li>
+                                    <li class="d-flex justify-content-between">
+                                        Shipping:
+                                        <span class="text-dark-emphasis fw-medium">£{{ order.delivery_cost }}</span>
+                                    </li>
+                                </ul>
+                                <div class="border-top pt-4 mt-4">
+                                    <div class="d-flex justify-content-between border-bottom pb-3 mb-4">
+                                        <span class="fs-sm">Grand total:</span>
+                                        <span class="h5 mb-0">£{{ order.grand_total }}</span>
+                                    </div>
+                                    <h6>Deliver to:</h6>
+                                    <div class="row fs-sm gy-2">
+                                        <div class="col-12 col-sm-6 text-decoration-underline">
+                                            Name:
+                                        </div>
+                                        <div class="col-6 col-sm-6">
+                                            {{ order.first_name }} {{ order.last_name }}
+                                        </div>
+                                        <div class="col-12 col-sm-6 text-decoration-underline">
+                                            Phone:
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            {{ order.phone_number }}
+                                        </div>
+                                        <div class="col-12 col-sm-6 text-decoration-underline">
+                                            Street Address:
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            {{ order.street_address }}
+                                        </div>
+                                        <div class="col-12 col-sm-6 text-decoration-underline">
+                                            Town or City:
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            {{ order.town_city }}
+                                        </div>
+                                        <div class="col-12 col-sm-6 text-decoration-underline">
+                                            County:
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            {{ order.county }}
+                                        </div>
+                                        <div class="col-12 col-sm-6 text-decoration-underline">
+                                            Postal Code:
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            {{ order.postcode }}
+                                        </div>
+                                        <div class="col-12 col-sm-6 text-decoration-underline">
+                                            Country:
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            {{ country_name }}
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="nav justify-content-center fs-sm mt-3">
+                                        <a class="nav-link text-decoration-underline p-0 me-1" href=""
+                                            data-bs-toggle="offcanvas" role="button">Create an account</a>
+                                        and get
+                                        <span class="text-dark-emphasis fw-medium ms-1">your bonuses</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="nav position-relative z-2 my-4 mb-lg-0 ps-3">
+                            <a class="nav-link animate-underline px-0" href="{% url 'catalog' %}">
+                                <i class="fa-duotone fa-solid fa-chevrons-left fs-lg me-1"></i>
+                                <span class="fs-sm">Continue shopping</span>
+                            </a>
+                        </div>
+                </aside>
+            </div>
+        </section>
+
+    </div>
 </main>
-
 {% endblock %}
 
 {% block postloadjs %}
 {{ block.super }}
+<!-- Page specific scripts -->
 {% endblock %}

@@ -11,7 +11,6 @@ import json
 
 from .models import Order, OrderLineItem
 from products.models import Product
-from cart.cart import Cart
 
 
 @require_POST
@@ -82,7 +81,7 @@ def checkout_payment(request):
         if cart.is_empty:
             messages.error(
                 request, "There's nothing in your cart at the moment")
-            return redirect('products')
+            return redirect('catalog')
 
         order = Order(
             first_name=shipping_details.get('first_name'),
@@ -141,7 +140,7 @@ def checkout_payment(request):
         if cart.is_empty:
             messages.error(
                 request, "There's nothing in your cart at the moment")
-            return redirect('products')
+            return redirect('catalog')
 
         total = cart.get_totals
         stripe_total = round(total * 100)
@@ -170,12 +169,16 @@ def order_confirmation(request, order_number):
 
     order = get_object_or_404(Order, order_number=order_number)
     order_line_items = OrderLineItem.objects.filter(order=order)
+    country_code = order.country
+    # Get the full country name
+    country_name = countries.name(country_code)
 
     template = 'checkout/order-confirmation.html'
 
     context = {
         'order': order,
         'order_line_items': order_line_items,
+        'country_name': country_name,
     }
     cart = Cart(request)
     cart.clear()
