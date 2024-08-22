@@ -2,6 +2,10 @@
 {% load static %}
 {% load custom_filters %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'products/css/catalog.css' %}">
+{% endblock %}
+
 {% block extra_title %} Catalog{% endblock %}
 
 
@@ -25,11 +29,12 @@
         <!-- Filters -->
 
         <div class="position-relative dropup mt-3">
-            <select class="form-select fw-medium py-3 position-absolute top-50"
-                aria-label="Sorting">
-                <option value="" selected>Sort by</option>
-                <option value="price_asc">Price ascending</option>
-                <option value="price_desc">Price descending</option>
+            <select class="sorting-select form-select fw-medium py-3 position-absolute top-50" aria-label="Sorting">
+                <option value="reset" {% if sortkey == None %}selected{% endif %}>Sort by...</option>
+                <option value="price_asc" {% if sortkey == 'price_asc' %}selected{% endif %}>Price (low to high)
+                </option>
+                <option value="price_desc" {% if sortkey == 'price_desc' %}selected{% endif %}>Price (high to low)
+                </option>
             </select>
         </div>
     </div>
@@ -49,25 +54,27 @@
         </nav>
 
         <!-- Page title -->
-        <div class="d-flex justify-content-end justify-content-sm-between align-items-center position-relative pb-sm-2 pb-md-3">
+        <div
+            class="d-flex justify-content-end justify-content-sm-between align-items-center position-relative pb-sm-2 pb-md-3">
             <h1 class="h3 d-none d-sm-block">Carol's catalog</h1>
-            <div class="px-2"><span class="h6">{{ products_count }}</span> <span class="text-muted">Product items found</span></div>
+            <div class="px-2"><span class="h6">{{ products_count }}</span> <span class="text-muted">Product items
+                    found</span></div>
         </div>
-
-        <!-- All filters offcanvas toggle -->
         <nav class="d-flex justify-content-between py-3 align-items-baseline mb-3">
-            <select id="sorting-select" class="btn btn-large ms-2 p-3 border rounded-pill" aria-label="Sort products select">
+            <select id="sorting-select" class="sorting-select btn btn-large ms-2 p-3 border rounded-pill"
+                aria-label="Sort products select">
                 <option value="reset" {% if sortkey == None %}selected{% endif %}>Sort by...</option>
-                <option value="price_asc" {% if sortkey == 'price_asc' %}selected{% endif %}>Price (low to high)</option>
-                <option value="price_desc" {% if sortkey == 'price_desc' %}selected{% endif %}>Price (high to low)</option>
+                <option value="price_asc" {% if sortkey == 'price_asc' %}selected{% endif %}>Price (low to high)
+                </option>
+                <option value="price_desc" {% if sortkey == 'price_desc' %}selected{% endif %}>Price (high to low)
+                </option>
             </select>
-            <a class="px-2 link-secondary" href="#shopFilters" data-bs-toggle="offcanvas"
-                aria-controls="shopFilters">
+            <!-- All filters offcanvas toggle -->
+            <a class="px-2 link-secondary" href="#shopFilters" data-bs-toggle="offcanvas" aria-controls="shopFilters">
                 <i class="fa-sharp fa-regular fa-filters d-none d-sm-inline"></i>
                 <span class="text-nowrap">All filters</span>
             </a>
-            <a class="px-2 link-secondary" href="{% url 'catalog' %}"
-                aria-label="Clear all filters">
+            <a class="px-2 link-secondary" href="{% url 'catalog' %}" aria-label="Clear all filters">
                 <i class="fa-regular fa-filter-circle-xmark d-none d-sm-inline"></i>
                 <span class="text-nowrap">Clear All</span>
             </a>
@@ -80,12 +87,15 @@
                 <div class="card">
                     {% if product.image %}
                     <a href="{% url 'product_detail' product.id %}">
-                        <img class="card-img-top img-fluid" style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top; " src="{{ product.image.url }}" alt="{{ product.name }}">
+                        <img class="card-img-top img-fluid"
+                            style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top; "
+                            src="{{ product.image.url }}" alt="{{ product.name }}">
                     </a>
                     {% else %}
                     <a href="{% url 'product_detail' product.id %}">
-                        <img class="card-img-top img-fluid" style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top;" src="{{ MEDIA_URL }}noimage.png"
-                            alt="{{ product.name }}">
+                        <img class="card-img-top img-fluid"
+                            style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top;"
+                            src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
                     </a>
                     {% endif %}
                     <div class="card-body pb-0 d-flex align-items-end">
@@ -115,7 +125,8 @@
                                 <p class="small mt-1 mb-0 text-truncate">
                                     <a class="text-muted"
                                         href="{% url 'catalog' %}?theme_query={{ product.theme.name }}">
-                                        <i class="fa-sharp fa-solid fa-tree-christmas"></i>&nbsp;{{ product.theme.friendly_name }}
+                                        <i
+                                            class="fa-sharp fa-solid fa-tree-christmas"></i>&nbsp;{{ product.theme.friendly_name }}
                                     </a>
                                 </p>
                                 {% endif %}
@@ -131,13 +142,14 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
-                <form method="POST" action="{% url 'cart_add' %}">
+                <form method="POST" action="{% url 'cart_add' %}" class="text-center">
                     {% csrf_token %}
                     <input type="hidden" name="product_id" value="{{ product.id }}">
                     <input type="hidden" name="quantity" value="1">
-                    <button type="submit" class="btn btn-outline-secondary fs-base rounded-pill px-4 px-sm-5 my-3 mx-4 mx-sm-5">
+                    <button type="submit"
+                        class="btn btn-outline-secondary fs-base rounded-pill px-3 px-sm-4 my-3 mx-4 mx-sm-5">
                         Add to cart
                     </button>
                 </form>
@@ -146,30 +158,37 @@
         </div>
 
     </div>
+
+
+
 </main>
 
+{% endblock %}
 
+{% block postfooter %}
+<!-- Back to top button -->
+<div class="block-btn-scroll d-flex gap-3 position-fixed bottom-0 end-0 me-3 me-xl-4 pb-2">
+    <div class="floating-buttons">
+        <a class="btn-scroll btn btn-sm rounded-pill border shadow-lg d-flex gap-2 align-items-center justify-content-center"
+            href="#bottom">
+            <p><i class="fa-duotone fa-solid fa-arrow-left fs-base ms-1 me-n1"></i></p>
+            <p class="pe-2">Down</p>
+        </a>
+    </div>
+    <div class="floating-buttons">
+        <a class="btn-scroll btn btn-sm rounded-pill border shadow-lg d-flex gap-2 align-items-center justify-content-center"
+            href="#top">
+            <p class="ps-2">Top</p>
+            <p><i class="fa-duotone fa-solid fa-arrow-right fs-base ms-1 me-n1"></i></p>
+        </a>
+    </div>
+</div>
+<div id="bottom"></div>
 {% endblock %}
 
 {% block postloadjs %}
 {{ block.super }}
 <!-- Page specific scripts -->
-<script>
-    $(document).ready(function() {
-        $('#sorting-select').change(function() {
-            var selector = $(this);
-            var currentUrl = new URL(window.location);
-
-            var selectedVal = selector.val();
-            if (selectedVal != "reset") {
-                currentUrl.searchParams.set("sort", selectedVal);
-            } else {
-                currentUrl.searchParams.delete("sort");
-            }
-            window.location.replace(currentUrl);
-        });
-    });
-    
-</script>
-
+<script src="{% static 'products/js/sorting_select.js' %}"></script>
+<script src="{% static 'products/js/top_down.js' %}"></script>
 {% endblock %}

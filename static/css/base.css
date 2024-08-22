@@ -138,6 +138,9 @@ select:hover {
 
 
 /* Body */
+html {
+    scroll-behavior: smooth;
+}
 html,
 body {
     position: relative;
@@ -230,6 +233,7 @@ swiper-slide img {
 
 
 /* Catalog page */
+
 
 /* Shopping cart summary page */
 .cart-product-detail {

@@ -3,6 +3,9 @@
 {% load custom_filters %}
 {% load crispy_forms_tags %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
+{% endblock %}
 
 {% block content %}
 
@@ -47,7 +50,6 @@
                         </form>
                     </div>
                 </div>
-
             </div>
 
 
@@ -130,24 +132,16 @@
         </div>
     </div>
 </main>
+
+<!-- Spinner to engage user while Stripe is processing payment -->
 <div id="loading-overlay">
-    <h1 class="text-light logo-font loading-spinner">
-        <span class="icon">
-            <i class="fas fa-3x fa-sync-alt fa-spin"></i>
-        </span>
-    </h1>
+    <div class="d-flex justify-content-center align-items-center h-100">
+        <div id="loading-spinner" class="spinner-border text-info" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
 </div>
 
-{% endblock %}
-
-{% block postfooter %}
-<!-- Fixed positioned pay button that is visible on screens < 992px wide (lg breakpoint) -->
-<!-- <div class="fixed-bottom z-sticky w-100 py-2 px-3 bg-body border-top shadow d-lg-none">
-    <a class="btn btn-lg btn-primary rounded-pill w-100" href="#">
-        Complete order
-        <i class="fa-solid fa-chevron-right fs-lg ms-1 me-n1"></i>
-    </a>
-</div> -->
 {% endblock %}
 
 

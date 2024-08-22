@@ -41,6 +41,8 @@ $(document).ready(function () {
         ev.preventDefault();
         paymentElement.update({ 'disabled': true });
         $('.complete-order').attr('disabled', true);
+        $('#payment-form').fadeToggle(100);
+        $('#loading-overlay').fadeToggle(100);
 
         var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
         var postData = {
@@ -83,11 +85,13 @@ $(document).ready(function () {
             </span>
             <span>${result.error.message}</span>`;
                     $(errorDiv).html(html);
+                    $('#payment-form').fadeToggle(100);
+                    $('#loading-overlay').fadeToggle(100);
                     paymentElement.update({ 'disabled': false });
                     $('.complete-order').attr('disabled', false);
                 } else {
                     if (result.paymentIntent.status === 'succeeded') {
-                        form.submit();
+                        // form.submit();
                     }
                 }
             });

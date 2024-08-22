@@ -1,0 +1,23 @@
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color:rgba(245, 245, 220, 0.766);
+    z-index: 1000;
+    display: none;
+}
+
+#loading-spinner {
+    width: 6rem;
+    height: 6rem;
+}
+
+#payment-element {
+    height: auto;
+}
+
+aside {
+    z-index: -10;
+}
