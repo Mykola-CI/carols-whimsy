@@ -57,6 +57,7 @@
     <title>
         Carol's Whimsy
         {% block extra_title %}{% endblock %}
+        {% block head_title %}{% endblock %}
     </title>
 </head>
 <body>
@@ -75,15 +76,24 @@
             A World of Enchanting Decorations
         </a>
         <ul class="nav gap-2 gap-sm-4 me-4">
+            {% if user.is_authenticated %}
+            <li>
+                <a class="nav-link p-0 text-reset ls-wider fs-xs" href="#!">Hello!</a>
+            </li>
             <li>
                 <a class="nav-link p-0 text-reset ls-wider fs-xs" href="#!">Wishlist</a>
             </li>
             <li>
-                <a class="nav-link p-0 text-reset ls-wider fs-xs" href="#!">Log In</a>
+                <a class="nav-link p-0 text-reset ls-wider fs-xs" href="{% url 'account_logout' %}">Sign Out</a>
+            </li>
+            {% else %}
+            <li>
+                <a class="nav-link p-0 text-reset ls-wider fs-xs" href="{% url 'account_signup' %}">Register!</a>
             </li>
             <li>
-                <a class="nav-link p-0 text-reset ls-wider fs-xs" href="#!">Log Out</a>
+                <a class="nav-link p-0 text-reset ls-wider fs-xs" href="{% url 'account_login' %}">Log in</a>
             </li>
+            {% endif %}
         </ul>
     </div>
 
@@ -253,13 +263,15 @@
     <ul class="messages">
         {% for message in messages %}
         <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message|linebreaksbr }}</li>
-        {% endfor %}
+            {% endfor %}
     </ul>
     {% endif %}
 
     {% block page_header %}{% endblock %}
 
-    {% block content %}{% endblock %}
+    {% block project_content %}
+    {% block body %}{% endblock body %}
+    {% endblock project_content %}
 
     {% block footer %}
     <!-- Page footer -->

@@ -1,0 +1,7 @@
+.top-bar, header, footer {
+    flex-shrink: 0;
+}
+
+.wrapper-allauth {
+    flex-grow: 1;
+}
