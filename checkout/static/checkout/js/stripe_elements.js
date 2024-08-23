@@ -91,7 +91,7 @@ $(document).ready(function () {
                     $('.complete-order').attr('disabled', false);
                 } else {
                     if (result.paymentIntent.status === 'succeeded') {
-                        // form.submit();
+                        form.submit();
                     }
                 }
             });

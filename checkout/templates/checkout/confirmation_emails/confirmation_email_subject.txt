@@ -1,0 +1,1 @@
+Carol's Whimsy Order Confirmation. Order Number {{ order.order_number }}
