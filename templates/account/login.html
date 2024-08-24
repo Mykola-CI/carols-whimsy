@@ -3,11 +3,11 @@
 {% load allauth account %}
 {% load crispy_forms_tags %}
 {% block head_title %}
-    {% trans "Sign In" %}
+    {% trans "Log In" %}
 {% endblock head_title %}
 {% block content %}
     {% element h1 %}
-        {% trans "Sign In" %}
+        {% trans "Log In" %}
     {% endelement %}
     {% if not SOCIALACCOUNT_ONLY %}
         {% setvar link %}
@@ -17,7 +17,7 @@
             </a>
         {% endsetvar %}
         {% element p %}
-            {% blocktranslate %}If you have not created an account yet, then please {{ link }}sign up{{ end_link }} first.{% endblocktranslate %}
+            {% blocktranslate %}Don't have an account yet? Please {{ link }}sign up{{ end_link }} first.{% endblocktranslate %}
         {% endelement %}
         {% url 'account_login' as login_url %}
         {% element form form=form method="post" action=login_url tags="entrance,login" %}

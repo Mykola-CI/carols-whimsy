@@ -11,71 +11,199 @@
 {% block project_content %}
 {% include 'includes/shopping_cart_offcanvas.html' %}
 
-<div class="wrapper-allauth container-xxl">
-    {% block body %}
-    {% if messages %}
-    <div>
-        <strong>{% trans "Messages:" %}</strong>
-        <ul>
-            {% for message in messages %}<li>{{ message }}</li>{% endfor %}
-        </ul>
+<div class="wrapper-allauth container">
+    <div class="d-lg-flex py-1 px-lg-4 my-3 my-xl-4 gap-4">
+        <div class="d-flex flex-column w-100 p-4 mx-auto justify-content-center" style="max-width: 416px">
+            <div class="nav fs-sm mb-4 ms-3 d-lg-none">
+                <span class="me-2">Uncertain about creating an account?</span>
+                <a class="nav-link text-decoration-underline p-0" href="#benefits" data-bs-toggle="offcanvas"
+                    aria-controls="benefits">Explore the Benefits</a>
+            </div>
+            {% block body %}
+            <!-- {% if messages %}
+            <div>
+                <strong>{% trans "Messages:" %}</strong>
+                <ul>
+                    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+                </ul>
+            </div>
+            {% endif %} -->
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="h6 accordion-header pb-1 bg-tertiary" id="flush-headingOne">
+                        <button class="accordion-button collapsed w-auto gap-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            <strong class="text-warning">{% trans "Menu:" %}</strong>
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="custom-allauth-menu accordion-collapse collapse text-secondary"
+                        aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <div class="list-group pb-4">
+                            {% if user.is_authenticated %}
+                            {% url 'account_email' as email_url %}
+                            {% if email_url %}
+                            <a href="{{ email_url }}"
+                                class="list-group-item list-group-item-action text-secondary text-decoration-none">{% trans "Change Email" %}</a>
+                            {% endif %}
+                            {% url 'account_change_password' as change_password_url %}
+                            {% if change_password_url %}
+                            <a href="{{ change_password_url }}"
+                                class="list-group-item list-group-item-action text-secondary text-decoration-none">{% trans "Change Password" %}</a>
+                            {% endif %}
+                            {% url 'mfa_index' as mfa_url %}
+                            {% if mfa_url %}
+                            <a href="{{ mfa_url }}"
+                                class="list-group-item list-group-item-action text-secondary text-decoration-none">{% trans "Two-Factor Authentication" %}</a>
+                            {% endif %}
+                            {% url 'usersessions_list' as usersessions_list_url %}
+                            {% if usersessions_list_url %}
+                            <a href="{{ usersessions_list_url }}"
+                                class="list-group-item list-group-item-action text-secondary text-decoration-none">{% trans "Sessions" %}</a>
+                            {% endif %}
+                            {% url 'account_logout' as logout_url %}
+                            {% if logout_url %}
+                            <a href="{{ logout_url }}"
+                                class="list-group-item list-group-item-action text-secondary text-decoration-none">{% trans "Log Out" %}</a>
+                            {% endif %}
+                            {% else %}
+                            {% url 'account_login' as login_url %}
+                            {% if login_url %}
+                            <a href="{{ login_url }}"
+                                class="list-group-item list-group-item-action text-secondary text-decoration-none">{% trans "Log In" %}</a>
+                            {% endif %}
+                            {% url 'account_signup' as signup_url %}
+                            {% if signup_url %}
+                            <a href="{{ signup_url }}"
+                                class="list-group-item list-group-item-action text-secondary text-decoration-none">{% trans "Sign Up" %}</a>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% block content %}
+            {% endblock content %}
+            {% endblock body %}
+
+            {% block extra_body %}
+            {% endblock extra_body %}
+        </div>
+
+        <!-- Benefits section that turns into offcanvas on screens < 992px wide (lg breakpoint) -->
+        <div class="offcanvas-lg offcanvas-end w-100 py-lg-4 ms-auto" id="benefits" style="max-width: 1034px">
+            <div class="offcanvas-header justify-content-end position-relative z-2 p-3">
+                <button type="button"
+                    class="btn btn-icon btn-outline-dark text-dark border-dark bg-transparent rounded-circle"
+                    data-bs-dismiss="offcanvas" data-bs-target="#benefits" aria-label="Close">
+                    <i class="fa-regular fa-xmark fs-lg"></i>
+                </button>
+            </div>
+            <div class="position-absolute top-0 start-0 w-100 h-100 d-lg-none">
+                <span class="benefit-wallpaper position-absolute top-0 start-0 w-100 h-100"
+                style="background-image: url('{{ MEDIA_URL }}benefits_background_allauth.jpg');"></span>
+            </div>
+            <div
+                class="offcanvas-body position-relative z-2 d-lg-flex flex-column align-items-center justify-content-center h-100 pt-2 px-3 p-lg-0">
+                <div class="position-absolute top-0 start-0 w-100 h-100 d-none d-lg-block">
+                    <span class="benefit-wallpaper position-absolute top-0 start-0 w-100 h-100 rounded-5"
+                        style="background-image: url('{{ MEDIA_URL }}benefits_background_allauth.jpg');"></span>
+                </div>
+                <div class="position-relative z-2 w-100 text-center px-md-2 pb-lg-5 pt-lg-4 px-lg-5">
+                    <p class="m-0">Carol's Whimsy</p>
+                    <h2 class="h5 pb-3">Account benefits</h2>
+                    <div class="mx-auto" style="max-width: 790px">
+                        <div class="row row-cols-1 row-cols-sm-2 g-3 g-md-4 g-lg-3 g-xl-4">
+                            <div class="col">
+                                <div class="card bg-transparent h-100 border-0">
+                                    <span
+                                        class="position-absolute top-0 start-0 w-100 h-100 bg-white bg-opacity-75 border border-white border-opacity-50 rounded-4"></span>
+                                    <div class="card-body position-relative z-2">
+                                        <div class="bg-card-body-allauth d-inline-flex position-relative p-3">
+                                            <span
+                                                class="position-absolute top-0 start-0 w-100 h-100 bg-white rounded-pill"></span>
+                                                <i class="fa-duotone fa-solid fa-envelope position-relative z-2 fs-4 m-1"></i>
+                                        </div>
+                                        <h3 class="h6 fw-light pt-2 my-2">Subscribe to your favorite Themes</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card bg-transparent h-100 border-0">
+                                    <span
+                                        class="position-absolute top-0 start-0 w-100 h-100 bg-white bg-opacity-75 border border-white border-opacity-50 rounded-4"></span>
+                                    <div class="card-body position-relative z-2">
+                                        <div class="bg-card-body-allauth d-inline-flex position-relative p-3">
+                                            <span
+                                                class="position-absolute top-0 start-0 w-100 h-100 bg-white rounded-pill"></span>
+                                                <i class="fa-duotone fa-solid fa-user-magnifying-glass position-relative z-2 fs-4 m-1"></i>
+                                        </div>
+                                        <h3 class="h6 fw-light pt-2 my-2">Manage Your Orders Easily</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card bg-transparent h-100 border-0">
+                                    <span
+                                        class="position-absolute top-0 start-0 w-100 h-100 bg-white bg-opacity-75 border border-white border-opacity-50 rounded-4"></span>
+                                    <div class="card-body position-relative z-2">
+                                        <div class="bg-card-body-allauth d-inline-flex position-relative p-3">
+                                            <span
+                                                class="position-absolute top-0 start-0 w-100 h-100 bg-white rounded-pill"></span>
+                                                <i class="fa-duotone fa-solid fa-treasure-chest position-relative z-2 fs-4 m-1"></i>
+                                        </div>
+                                        <h3 class="h6 fw-light pt-2 my-2">Earn rewards for future purchases</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card bg-transparent h-100 border-0">
+                                    <span
+                                        class="position-absolute top-0 start-0 w-100 h-100 bg-white bg-opacity-75 border border-white border-opacity-50 rounded-4"></span>
+                                    <div class="card-body position-relative z-2">
+                                        <div class="bg-card-body-allauth d-inline-flex position-relative p-3">
+                                            <span
+                                                class="position-absolute top-0 start-0 w-100 h-100 bg-white rounded-pill"></span>
+                                                <i class="fa-duotone fa-solid fa-percent position-relative z-2 fs-4 m-1"></i>
+                                        </div>
+                                        <h3 class="h6 fw-light pt-2 my-2">Receive exclusive offers and discounts</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card bg-transparent h-100 border-0">
+                                    <span
+                                        class="position-absolute top-0 start-0 w-100 h-100 bg-white bg-opacity-75 border border-white border-opacity-50 rounded-4"></span>
+                                    <div class="card-body position-relative z-2">
+                                        <div class="bg-card-body-allauth d-inline-flex position-relative p-3">
+                                            <span
+                                                class="position-absolute top-0 start-0 w-100 h-100 bg-white rounded-pill"></span>
+                                                <i class="fa-duotone fa-solid fa-folder-heart position-relative z-2 fs-4 m-1"></i>
+                                        </div>
+                                        <h3 class="h6 fw-light pt-2 my-2">Create a Wishlist of Favorites</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card bg-transparent h-100 border-0">
+                                    <span
+                                        class="position-absolute top-0 start-0 w-100 h-100 bg-white bg-opacity-75 border border-white border-opacity-50 rounded-4"></span>
+                                    <div class="card-body position-relative z-2">
+                                        <div class="bg-card-body-allauth d-inline-flex position-relative p-3">
+                                            <span
+                                                class="position-absolute top-0 start-0 w-100 h-100 bg-white rounded-pill"></span>
+                                                <i class="fa-duotone fa-solid fa-credit-card position-relative z-2 fs-4 m-1"></i>
+                                        </div>
+                                        <h3 class="h6 fw-light pt-2 my-2">Enjoy Fast Track Checkout</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    {% endif %}
-    <div>
-        <strong>{% trans "Menu:" %}</strong>
-        <ul>
-            {% if user.is_authenticated %}
-            {% url 'account_email' as email_url %}
-            {% if email_url %}
-            <li>
-                <a href="{{ email_url }}">{% trans "Change Email" %}</a>
-            </li>
-            {% endif %}
-            {% url 'account_change_password' as change_password_url %}
-            {% if change_password_url %}
-            <li>
-                <a href="{{ change_password_url }}">{% trans "Change Password" %}</a>
-            </li>
-            {% endif %}
-            {% url 'mfa_index' as mfa_url %}
-            {% if mfa_url %}
-            <li>
-                <a href="{{ mfa_url }}">{% trans "Two-Factor Authentication" %}</a>
-            </li>
-            {% endif %}
-            {% url 'usersessions_list' as usersessions_list_url %}
-            {% if usersessions_list_url %}
-            <li>
-                <a href="{{ usersessions_list_url }}">{% trans "Sessions" %}</a>
-            </li>
-            {% endif %}
-            {% url 'account_logout' as logout_url %}
-            {% if logout_url %}
-            <li>
-                <a href="{{ logout_url }}">{% trans "Sign Out" %}</a>
-            </li>
-            {% endif %}
-            {% else %}
-            {% url 'account_login' as login_url %}
-            {% if login_url %}
-            <li>
-                <a href="{{ login_url }}">{% trans "Sign In" %}</a>
-            </li>
-            {% endif %}
-            {% url 'account_signup' as signup_url %}
-            {% if signup_url %}
-            <li>
-                <a href="{{ signup_url }}">{% trans "Sign Up" %}</a>
-            </li>
-            {% endif %}
-            {% endif %}
-        </ul>
-    </div>
-    {% block content %}
-    {% endblock content %}
-    {% endblock body %}
-    
-{% block extra_body %}
-{% endblock extra_body %}
 </div>
+
 {% endblock project_content %}

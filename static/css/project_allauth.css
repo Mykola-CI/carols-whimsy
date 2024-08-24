@@ -1,7 +1,104 @@
-.top-bar, header, footer {
+.top-bar,
+header,
+footer {
     flex-shrink: 0;
 }
 
 .wrapper-allauth {
     flex-grow: 1;
+}
+
+#id_password1_helptext {
+    display: none;
+}
+
+
+.wrapper-allauth {
+    h1,
+    h1 + p {
+        padding-left: 12px;
+    }
+
+    a:not(.custom-allauth-menu a) {
+        /* font-weight: bold; */
+        text-decoration: underline !important;
+    }
+
+    p {
+        font-size: 0.875rem;
+        font-weight: 400;
+    }
+
+    .form-label {
+        font-weight: 400;
+        font-size: 14.88px;
+        padding-left: 6px;
+        margin-bottom: 0;
+    }
+
+    input {
+        font-weight: 300;
+        border: none;
+        border-radius: 12px;
+        background-color: #f1f1f1;
+        font-size: 16px;
+        padding: 16px;
+    }
+
+    input::placeholder {
+        color: #cad0d9;
+        font-size: 1rem;
+        font-weight: 300;
+    }
+
+    .form-check {
+        display: flex;
+    }
+
+    .form-check-label {
+        display: block;
+        font-size: 14.88px;
+        font-weight: 400;
+        padding-left: 12px;
+        align-self: center;
+    }
+
+    input[type="checkbox"]:checked {
+        background-color: rgb(46, 93, 158) !important;
+    }
+}
+
+.accordion-header button:hover {
+    box-shadow: var(--bs-accordion-btn-focus-box-shadow);
+}
+
+.benefit-wallpaper {
+    -webkit-background-size: cover !important;
+    -moz-background-size: cover !important;
+    -o-background-size: cover !important;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bg-card-body-allauth {
+    color: rgb(46, 93, 158);
+    width: 65px;
+    height: 65px;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+@media (min-width: 1200px) {
+
+    .benefit-wallpaper {
+        -webkit-background-size: 150% !important;
+        -moz-background-size: 150% !important;
+        -o-background-size: 150% !important;
+        background-size: 150%;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
 }

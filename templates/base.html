@@ -66,29 +66,29 @@
     <div
         class="top-bar container-xxl position-relative d-flex align-items-center justify-content-between z-1 pt-2 pb-1 fw-light">
         <div class="nav principal-logo ms-4">
-            <a class="nav-link p-0 text-reset" href="#">
+            <a class="nav-link p-0 text-reset" href="https://goodwill.be/en/home-eng/">
                 <img src="{{ MEDIA_URL }}goodwillangel_xl_glow_poster.png" class="img-fluid"
                     alt="Goodwill commercial sign">
             </a>
         </div>
-        <a class="text-decoration-none shadow-sm d-none d-lg-inline text-reset fw-lighter ls-wider fs-xs" href="#!">
-            Carol's Whimsy Holy-Jolly store is an authorised on-line reseller of Goodwill.
+        <a class="text-decoration-none shadow-sm d-none d-lg-inline text-reset fw-lighter ls-wider fs-xs" href="https://goodwill.be/en/home-eng/">
+            Carol's Whimsy Holy-Jolly Store is an on-line reseller of Goodwill.
             A World of Enchanting Decorations
         </a>
         <ul class="nav gap-2 gap-sm-4 me-4">
             {% if user.is_authenticated %}
             <li>
-                <a class="nav-link p-0 text-reset ls-wider fs-xs" href="#!">Hello!</a>
+                <div class="nav-link p-0 text-reset ls-wider fs-xs text-decoration-none" href="#!">Hello, {{ user.username }}!</div>
             </li>
             <li>
                 <a class="nav-link p-0 text-reset ls-wider fs-xs" href="#!">Wishlist</a>
             </li>
             <li>
-                <a class="nav-link p-0 text-reset ls-wider fs-xs" href="{% url 'account_logout' %}">Sign Out</a>
+                <a class="nav-link p-0 text-reset ls-wider fs-xs" href="{% url 'account_logout' %}">Log Out</a>
             </li>
             {% else %}
             <li>
-                <a class="nav-link p-0 text-reset ls-wider fs-xs" href="{% url 'account_signup' %}">Register!</a>
+                <a class="nav-link p-0 text-reset ls-wider fs-xs" href="{% url 'account_signup' %}">Sign Up!</a>
             </li>
             <li>
                 <a class="nav-link p-0 text-reset ls-wider fs-xs" href="{% url 'account_login' %}">Log in</a>
