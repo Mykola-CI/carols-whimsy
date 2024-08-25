@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'products',
     'cart',
     'checkout',
+    'user_profile',
 
     # Other apps
     'crispy_forms',
@@ -86,6 +87,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
                 'cart.cart_context_processor.cart',
+                'products.products_context_processor.product_categories',
             ],
             'builtins': [
                 'crispy_forms.templatetags.crispy_forms_tags',
@@ -111,6 +113,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_CHANGE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_USERNAME_MIN_LENGTH = 4
