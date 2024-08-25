@@ -10,6 +10,9 @@ class BasicUserInfoForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['profile_title', 'profile_date_of_birth']
+        widgets = {
+            'profile_date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+        }
 
     def __init__(self, *args, **kwargs):
         # Retrieve the User instance and remove it from kwargs

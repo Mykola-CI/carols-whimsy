@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% load crispy_forms_tags %}
+
+
+{% block project_content %}
+
+{% include 'includes/shopping_cart_offcanvas.html' %}
+
+
+
+<!-- Page content -->
+<main class="content-wrapper">
+    <div class="container pt-2 pb-4">
+        <div class="row pt-1 pt-sm-3 pt-lg-4 pb-2 pb-md-3 pb-lg-4 pb-xl-5">
+            <div class="col-lg-8 col-xl-7 mb-5 mb-lg-0">
+                <div class="w-100 ps-3 ps-md-4">
+                    <h1 class="h5 mb-md-4">Basic Info</h1>
+                    <form id="basic_info_form" method="post" action="{% url 'update_basic_info' %}">
+                        {% csrf_token %}
+                        <div>{{ form.profile_title|as_crispy_field }}</div>
+                        <div>{{ form.first_name|as_crispy_field }}</div>
+                        <div>{{ form.last_name|as_crispy_field }}</div>
+                        <div>{{ form.profile_date_of_birth|as_crispy_field }}</div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4 col-xl-5">
+                <div class="w-100 ps-3 ps-md-4">
+                    <h1 class="h5 mb-md-4">Basic Info</h1>
+                    <div class="d-flex flex-column align-items-center">
+                        <div>
+                            <p id="title_name">{% if not "None" %} {{ title_readable }} {% endif %} {{ user.first_name }} {{ user.last_name }}</p>
+                            <p id="date_of_birth">{{ user_profile.profile_date_of_birth }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
+
+
+
+{% block postloadjs %}
+{{ block.super }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('#basic_info_form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            const formData = new FormData(form);
+    
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value}
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update the DOM with the new data
+                    const titleNameElement = document.querySelector('#title_name');
+                    const dateOfBirthElement = document.querySelector('#date_of_birth');
+
+                    // Check if the title is "Prefer not to use" and set it to an empty string if so
+                    const title = data.updated_data.title === 'Prefer not to use' ? '' : data.updated_data.title;
+    
+                    // Construct the new title name
+                    const newTitleName = `${title} ${data.updated_data.first_name} ${data.updated_data.last_name}`;
+                    titleNameElement.textContent = newTitleName;
+    
+                    // Update the date of birth
+                    dateOfBirthElement.textContent = data.updated_data.date_of_birth;
+                } else {
+                    console.log('Form submission failed:', data.errors || data.message);
+                }
+            })
+            .catch(error => console.log('Error:', error));
+        });
+    });
+</script>
+{% endblock %}

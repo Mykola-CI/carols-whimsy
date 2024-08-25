@@ -42,7 +42,7 @@ class UserProfile(models.Model):
     def get_title_readable(self):
         """Returns the human-readable name for the title."""
         title_display_map = dict(self.TITLE_CHOICES)
-        return title_display_map.get(self.title, '')
+        return title_display_map.get(self.profile_title, '')
 
 
 @receiver(post_save, sender=User)
