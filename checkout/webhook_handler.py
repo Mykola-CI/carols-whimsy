@@ -28,16 +28,31 @@ class WH_Handler:
         """Send the user a confirmation email"""
 
         customer_email = order.email
+
+        # Access the UserProfile through the User model
+        user_profile = order.user.userprofile
+
+        # Retrieve the title from the UserProfile, or use an empty string
+        # if it's 'None' or doesn't exist
+        title = (
+            user_profile.title if user_profile and
+            user_profile.title != 'None' else ''
+        )
+        # Prepare the context for rendering the email subject and body
+        context = {
+            'order': order,
+            'contact_email': settings.DEFAULT_FROM_EMAIL,
+            'title': title
+        }
+
         subject = render_to_string(
             'checkout/confirmation_emails/confirmation_email_subject.txt',
-            {'order': order}
+            context
         )
         body = render_to_string(
             'checkout/confirmation_emails/confirmation_email_body.txt',
-            {'order': order, 'contact_email': settings.DEFAULT_FROM_EMAIL})
-
-        print(repr(subject))
-        print(repr(body))
+            context
+        )
 
         send_mail(
             subject,
