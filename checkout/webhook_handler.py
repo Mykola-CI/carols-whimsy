@@ -35,7 +35,7 @@ class WH_Handler:
         # Retrieve the title from the UserProfile, or use an empty string
         # if it's 'None' or doesn't exist
         title = (
-            user_profile.title if user_profile and
+            user_profile.get_title_friendly_name() if user_profile and
             user_profile.title != 'None' else ''
         )
         # Prepare the context for rendering the email subject and body
