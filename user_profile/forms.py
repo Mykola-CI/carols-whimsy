@@ -59,3 +59,54 @@ class BasicUserInfoForm(forms.ModelForm):
             user_profile.save()
 
         return user_profile
+
+
+class UserContactForm(forms.ModelForm):
+    # Include email from the User model
+    email = forms.CharField(max_length=30, required=True)
+
+    class Meta:
+        model = UserProfile
+        fields = ['profile_phone_number']
+
+    def __init__(self, *args, **kwargs):
+        # Retrieve the User instance and remove it from kwargs
+        # because ModelForm doesn't expect it and may raise an error
+        user = kwargs.pop('user', None)
+        super(UserContactForm, self).__init__(*args, **kwargs)
+
+        # Set initial values for first name and last name if user is provided
+        if user:
+            self.fields['email'].initial = user.email
+
+        # Set placeholders and classes for the form fields
+        placeholders = {
+            'profile_phone_number': (
+                self.instance.profile_phone_number or '+44 123 456 7890'
+            ),
+            'email': user.email or 'example@domain.com',
+        }
+
+        for field in self.fields:
+            self.fields[field].widget.attrs['placeholder'] = (
+                placeholders[field]
+            )
+            self.fields[field].widget.attrs['class'] = (
+                'form-control form-control-lg'
+            )
+
+    # Override the save method to update the User and the UserProfile instances
+    # because I deal with two models here, whereas the form is bound for one
+    def save(self, commit=True):
+        # Save the UserProfile instance
+        user_profile = super(UserContactForm, self).save(commit=False)
+
+        # Update the User instance
+        user = user_profile.user
+        user.email = self.cleaned_data['email']
+
+        if commit:
+            user.save()
+            user_profile.save()
+
+        return user_profile

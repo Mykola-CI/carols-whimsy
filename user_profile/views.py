@@ -4,7 +4,7 @@ from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 
 from .models import UserProfile
-from .forms import BasicUserInfoForm
+from .forms import BasicUserInfoForm, UserContactForm
 
 
 @login_required
@@ -16,13 +16,15 @@ def view_user_profile(request):
     user_profile = get_object_or_404(UserProfile, user=user)
     title_readable = user_profile.get_title_readable()
 
-    form = BasicUserInfoForm(instance=user_profile, user=user)
+    form_basic = BasicUserInfoForm(instance=user_profile, user=user)
+    form_contact = UserContactForm(instance=user_profile, user=user)
 
     template = 'user_profile/view-profile.html'
     context = {
         'user_profile': user_profile,
         'title_readable': title_readable,
-        'form': form,
+        'form_basic': form_basic,
+        'form_contact': form_contact,
     }
 
     return render(request, template, context)
@@ -34,16 +36,38 @@ def update_user_basic_info(request):
     user = request.user
     user_profile = get_object_or_404(UserProfile, user=user)
 
-    form = BasicUserInfoForm(request.POST, instance=user_profile, user=user)
-    if form.is_valid():
-        form.save()  # Save the updated form data
+    form_basic = BasicUserInfoForm(request.POST, instance=user_profile, user=user)
+    if form_basic.is_valid():
+        form_basic.save()  # Save the updated form data
         # Prepare the updated data to send back
-        updated_data = {
+        updated_data_basic = {
             'first_name': user.first_name,
             'last_name': user.last_name,
             'date_of_birth': user_profile.profile_date_of_birth,
             'title': user_profile.get_title_readable(),
         }
-        return JsonResponse({'success': True, 'updated_data': updated_data})
+        return JsonResponse({'success': True, 'updatedBasic': updated_data_basic})
     else:
-        return JsonResponse({'success': False, 'errors': form.errors})
+        return JsonResponse({'success': False, 'errors': form_basic.errors})
+
+
+@login_required
+@require_POST
+def update_user_contact(request):
+    user = request.user
+    user_profile = get_object_or_404(UserProfile, user=user)
+
+    form_contact = UserContactForm(request.POST, instance=user_profile, user=user)
+    if form_contact.is_valid():
+        form_contact.save()  # Save the updated form data
+
+        # Re-fetch the user object to get the updated email
+        user.refresh_from_db()
+        # Prepare the updated data to send back
+        updated_data_contact = {
+            'email': user.email,
+            'phone_number': user_profile.profile_phone_number,
+        }
+        return JsonResponse({'success': True, 'updatedContact': updated_data_contact})
+    else:
+        return JsonResponse({'success': False, 'errors': form_contact.errors})
