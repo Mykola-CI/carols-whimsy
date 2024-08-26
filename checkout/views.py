@@ -51,7 +51,7 @@ def checkout_shipping(request):
 
     # Prefill the form with any info the user maintains in their profile
     if request.user.is_authenticated:
-        # Check if the profile data has been used
+        # Check if the profile data has been used and set the flag
         if not request.session.get('profile_data_used', False):
             try:
                 profile = UserProfile.objects.get(user=request.user)
@@ -66,17 +66,20 @@ def checkout_shipping(request):
                     'street_address': profile.profile_street_address,
                     'county': profile.profile_county,
                 })
-                # Set the session flag to true
+                # Set the session flag to true as a signal that the db data has
+                # been used to prefill the form
                 request.session['profile_data_used'] = True
             except UserProfile.DoesNotExist:
                 order_form = OrderForm()
 
         else:
-            # Use session data if profile data has already been used
-            order_form = OrderForm(initial=request.session.get('shipping_details', {}))
+            # Use new data from session if profile data has already been used
+            order_form = OrderForm(
+                initial=request.session.get('shipping_details', {}))
     else:
         # For anonymous users, use session data
-        order_form = OrderForm(initial=request.session.get('shipping_details', {}))
+        order_form = OrderForm(
+            initial=request.session.get('shipping_details', {}))
 
     template = 'checkout/checkout-shipping.html'
 

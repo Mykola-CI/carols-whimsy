@@ -38,7 +38,7 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
-    
+
     def get_title_readable(self):
         """Returns the human-readable name for the title."""
         title_display_map = dict(self.TITLE_CHOICES)
