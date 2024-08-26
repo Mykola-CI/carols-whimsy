@@ -10,7 +10,7 @@
 
 {% block project_content %}
 {% include 'includes/shopping_cart_offcanvas.html' %}
-
+<div class="overlay"></div>
 <div class="wrapper-allauth container">
     <div class="d-lg-flex py-1 px-lg-4 my-3 my-xl-4 gap-4">
         <div class="d-flex flex-column w-100 p-4 mx-auto justify-content-center" style="max-width: 416px">
@@ -101,13 +101,13 @@
             </div>
             <div class="position-absolute top-0 start-0 w-100 h-100 d-lg-none">
                 <span class="benefit-wallpaper position-absolute top-0 start-0 w-100 h-100"
-                style="background-image: url('{{ MEDIA_URL }}benefits_background_allauth.jpg');"></span>
+                style="background-image: url('{{ MEDIA_URL }}benefits_background_allauth.jpg'); opacity: 0.7;"></span>
             </div>
             <div
                 class="offcanvas-body position-relative z-2 d-lg-flex flex-column align-items-center justify-content-center h-100 pt-2 px-3 p-lg-0">
                 <div class="position-absolute top-0 start-0 w-100 h-100 d-none d-lg-block">
                     <span class="benefit-wallpaper position-absolute top-0 start-0 w-100 h-100 rounded-5"
-                        style="background-image: url('{{ MEDIA_URL }}benefits_background_allauth.jpg');"></span>
+                        style="background-image: url('{{ MEDIA_URL }}benefits_background_allauth.jpg'); opacity: 0.7;"></span>
                 </div>
                 <div class="position-relative z-2 w-100 text-center px-md-2 pb-lg-5 pt-lg-4 px-lg-5">
                     <p class="m-0">Carol's Whimsy</p>

@@ -1,4 +1,4 @@
-Hello {{ title }} {{ order.first_name }} {{ order.last_name }}!
+Hello {{ order.first_name }} {{ order.last_name }}!
 
 Thanks for your order. We’ll let you know once your item(s) have dispatched. 
 

@@ -1,4 +1,8 @@
 from django import forms
+from django.contrib.auth.forms import PasswordChangeForm
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit
+from django.contrib.auth.models import User
 from .models import UserProfile
 
 
@@ -61,52 +65,68 @@ class BasicUserInfoForm(forms.ModelForm):
         return user_profile
 
 
-class UserContactForm(forms.ModelForm):
-    # Include email from the User model
-    email = forms.CharField(max_length=30, required=True)
-
+class PhoneNumberForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['profile_phone_number']
-
-    def __init__(self, *args, **kwargs):
-        # Retrieve the User instance and remove it from kwargs
-        # because ModelForm doesn't expect it and may raise an error
-        user = kwargs.pop('user', None)
-        super(UserContactForm, self).__init__(*args, **kwargs)
-
-        # Set initial values for first name and last name if user is provided
-        if user:
-            self.fields['email'].initial = user.email
-
-        # Set placeholders and classes for the form fields
-        placeholders = {
-            'profile_phone_number': (
-                self.instance.profile_phone_number or '+44 123 456 7890'
-            ),
-            'email': user.email or 'example@domain.com',
+        widgets = {
+            'profile_phone_number': forms.TextInput(attrs={
+                'class': 'form-control form-control-lg',
+            })
         }
 
-        for field in self.fields:
-            self.fields[field].widget.attrs['placeholder'] = (
-                placeholders[field]
+    def __init__(self, *args, **kwargs):
+        super(PhoneNumberForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.profile_phone_number:
+            self.fields['profile_phone_number'].widget.attrs['placeholder'] = (
+                self.instance.profile_phone_number
             )
-            self.fields[field].widget.attrs['class'] = (
-                'form-control form-control-lg'
+        else:
+            self.fields['profile_phone_number'].widget.attrs['placeholder'] = (
+                'Enter phone number'
             )
 
-    # Override the save method to update the User and the UserProfile instances
-    # because I deal with two models here, whereas the form is bound for one
-    def save(self, commit=True):
-        # Save the UserProfile instance
-        user_profile = super(UserContactForm, self).save(commit=False)
 
-        # Update the User instance
-        user = user_profile.user
-        user.email = self.cleaned_data['email']
+class EmailForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['email']
+        widgets = {
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control form-control-lg',
+            })
+        }
 
-        if commit:
-            user.save()
-            user_profile.save()
+    def __init__(self, *args, **kwargs):
+        super(EmailForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.email:
+            self.fields['email'].widget.attrs['placeholder'] = (
+                self.instance.email
+            )
+        else:
+            self.fields['email'].widget.attrs['placeholder'] = (
+                'Enter email address'
+            )
 
-        return user_profile
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Initialize the FormHelper
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+
+        self.helper.form_action = '/profile/update/password'
+
+        # Define the layout of the form
+        self.helper.layout = Layout(
+            'old_password',
+            'new_password1',
+            'new_password2',
+            # Add a submit button with styling
+            Submit('submit', 'Change Password', css_class='btn btn-primary')
+        )
+
+        # Apply Bootstrap styling to each field
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control form-control-lg'

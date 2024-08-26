@@ -1,10 +1,15 @@
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth import update_session_auth_hash
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
+from django.contrib import messages
+
+from allauth.account.models import EmailAddress
 
 from .models import UserProfile
-from .forms import BasicUserInfoForm, UserContactForm
+from .forms import (
+    BasicUserInfoForm, PhoneNumberForm, EmailForm, CustomPasswordChangeForm)
 
 
 @login_required
@@ -17,14 +22,18 @@ def view_user_profile(request):
     title_readable = user_profile.get_title_readable()
 
     form_basic = BasicUserInfoForm(instance=user_profile, user=user)
-    form_contact = UserContactForm(instance=user_profile, user=user)
+    form_phone = PhoneNumberForm(instance=user_profile)
+    form_email = EmailForm(instance=user)
+    form_password = CustomPasswordChangeForm(user=user)
 
     template = 'user_profile/view-profile.html'
     context = {
         'user_profile': user_profile,
         'title_readable': title_readable,
         'form_basic': form_basic,
-        'form_contact': form_contact,
+        'form_phone': form_phone,
+        'form_email': form_email,
+        'form_password': form_password,
     }
 
     return render(request, template, context)
@@ -46,28 +55,85 @@ def update_user_basic_info(request):
             'date_of_birth': user_profile.profile_date_of_birth,
             'title': user_profile.get_title_readable(),
         }
-        return JsonResponse({'success': True, 'updatedBasic': updated_data_basic})
+        return JsonResponse(
+            {'success': True, 'updated_basic': updated_data_basic})
     else:
         return JsonResponse({'success': False, 'errors': form_basic.errors})
 
 
 @login_required
 @require_POST
-def update_user_contact(request):
+def update_user_phone(request):
     user = request.user
     user_profile = get_object_or_404(UserProfile, user=user)
 
-    form_contact = UserContactForm(request.POST, instance=user_profile, user=user)
-    if form_contact.is_valid():
-        form_contact.save()  # Save the updated form data
+    form_phone = PhoneNumberForm(
+        request.POST, instance=user_profile)
+    if form_phone.is_valid():
+        form_phone.save()  # Save the updated form data
 
         # Re-fetch the user object to get the updated email
-        user.refresh_from_db()
-        # Prepare the updated data to send back
-        updated_data_contact = {
-            'email': user.email,
-            'phone_number': user_profile.profile_phone_number,
-        }
-        return JsonResponse({'success': True, 'updatedContact': updated_data_contact})
+        user_profile.refresh_from_db()
+
+        return JsonResponse(
+            {'success': True,
+             'updated_phone': user_profile.profile_phone_number})
     else:
-        return JsonResponse({'success': False, 'errors': form_contact.errors})
+        return JsonResponse({'success': False, 'errors': form_phone.errors})
+
+
+@login_required
+def change_email(request):
+    if request.method == 'POST':
+        new_email = request.POST.get('email')
+        user = request.user
+
+        # Check if the email is already in use
+        if EmailAddress.objects.filter(email=new_email).exists():
+            return JsonResponse(
+                {'error': 'This email is already in use.'}, status=400)
+
+        # Ensure no other email is marked as primary
+        EmailAddress.objects.filter(
+            user=user, primary=True).update(primary=False)
+
+        # Add the new email and send confirmation
+        email_address, created = EmailAddress.objects.get_or_create(
+            user=user,
+            email=new_email,
+            defaults={'verified': False, 'primary': True}
+        )
+
+        # Send confirmation email calling the method of the django-allauth's
+        #  EmailAddress object. Upon confirmation the new email is set
+        #  as 'verified' in Email addresses and saved to User model.
+        if created or not email_address.verified:
+            email_address.send_confirmation(request)
+            return JsonResponse({'success': 'Email change request sent. ' +
+                                 'Please check your email for confirmation.'})
+        else:
+            return JsonResponse(
+                {'error': 'This email is already associated '
+                 + 'with your account.'},
+                status=400
+            )
+
+    return JsonResponse({'error': 'Invalid request method.'}, status=400)
+
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = CustomPasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            # Important to keep the user logged in after password change
+            update_session_auth_hash(request, form.user)
+            messages.success(
+                request, 'Your password was successfully updated!')
+            return redirect('view_profile')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = CustomPasswordChangeForm(user=request.user)
+    return render(request, 'change_password.html', {'form': form})

@@ -11,6 +11,7 @@ import json
 
 from .models import Order, OrderLineItem
 from products.models import Product
+from user_profile.models import UserProfile
 
 
 @require_POST
@@ -48,8 +49,34 @@ def checkout_shipping(request):
                 'Please double check your information.'
             )
 
-    # Populate form with existing session data if available
-    order_form = OrderForm(initial=request.session.get('shipping_details'))
+    # Prefill the form with any info the user maintains in their profile
+    if request.user.is_authenticated:
+        # Check if the profile data has been used
+        if not request.session.get('profile_data_used', False):
+            try:
+                profile = UserProfile.objects.get(user=request.user)
+                order_form = OrderForm(initial={
+                    'first_name': profile.user.first_name,
+                    'last_name': profile.user.last_name,
+                    'email': profile.user.email,
+                    'phone_number': profile.profile_phone_number,
+                    'country': profile.profile_country,
+                    'postcode': profile.profile_postcode,
+                    'town_city': profile.profile_town_city,
+                    'street_address': profile.profile_street_address,
+                    'county': profile.profile_county,
+                })
+                # Set the session flag to true
+                request.session['profile_data_used'] = True
+            except UserProfile.DoesNotExist:
+                order_form = OrderForm()
+
+        else:
+            # Use session data if profile data has already been used
+            order_form = OrderForm(initial=request.session.get('shipping_details', {}))
+    else:
+        # For anonymous users, use session data
+        order_form = OrderForm(initial=request.session.get('shipping_details', {}))
 
     template = 'checkout/checkout-shipping.html'
 

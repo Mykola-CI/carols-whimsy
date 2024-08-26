@@ -30,19 +30,18 @@ class WH_Handler:
         customer_email = order.email
 
         # Access the UserProfile through the User model
-        user_profile = order.user.userprofile
+        # user_profile = order.user.userprofile
 
         # Retrieve the title from the UserProfile, or use an empty string
         # if it's 'None' or doesn't exist
-        title = (
-            user_profile.get_title_readable() if user_profile and
-            user_profile.title != 'None' else ''
-        )
+        # title = (
+        #     user_profile.get_title_readable() if user_profile and
+        #     user_profile.title != 'None' else ''
+        # )
         # Prepare the context for rendering the email subject and body
         context = {
             'order': order,
             'contact_email': settings.DEFAULT_FROM_EMAIL,
-            'title': title
         }
 
         subject = render_to_string(
