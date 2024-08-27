@@ -48,6 +48,12 @@ def update_user_basic_info(request):
     form_basic = BasicUserInfoForm(request.POST, instance=user_profile, user=user)
     if form_basic.is_valid():
         form_basic.save()  # Save the updated form data
+
+        # Refresh the User instance from the database to get the latest data
+        # before sending it back to the client, otherwise the first_name
+        # and the last_name are not updated by front end JavaScript
+        user.refresh_from_db()
+
         # Prepare the updated data to send back
         updated_data_basic = {
             'first_name': user.first_name,

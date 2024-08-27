@@ -8,14 +8,18 @@ from .models import UserProfile
 
 class BasicUserInfoForm(forms.ModelForm):
     # Include first name and last name from the User model
-    first_name = forms.CharField(max_length=30, required=True)
-    last_name = forms.CharField(max_length=30, required=True)
+    first_name = forms.CharField(max_length=30, required=False)
+    last_name = forms.CharField(max_length=30, required=False)
 
     class Meta:
         model = UserProfile
         fields = ['profile_title', 'profile_date_of_birth']
         widgets = {
             'profile_date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+        }
+        labels = {
+            'profile_title': 'Title',
+            'profile_date_of_birth': 'Date of birth',
         }
 
     def __init__(self, *args, **kwargs):

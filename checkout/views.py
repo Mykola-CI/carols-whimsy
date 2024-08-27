@@ -60,12 +60,17 @@ def checkout_shipping(request):
                     'last_name': profile.user.last_name,
                     'email': profile.user.email,
                     'phone_number': profile.profile_phone_number,
-                    'country': profile.profile_country,
+                    # Convert to the string before storing to the session
+                    'country': str(profile.profile_country),
                     'postcode': profile.profile_postcode,
                     'town_city': profile.profile_town_city,
                     'street_address': profile.profile_street_address,
                     'county': profile.profile_county,
                 })
+
+                # Store the initial profile data in the session
+                request.session['shipping_details'] = order_form.initial
+
                 # Set the session flag to true as a signal that the db data has
                 # been used to prefill the form
                 request.session['profile_data_used'] = True
