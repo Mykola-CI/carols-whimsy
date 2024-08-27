@@ -91,7 +91,7 @@ me-n1 {
     right: 0;
     bottom: 0;
     z-index: -1;
-    background: rgba(255, 255, 255, 0.764);
+    background: rgba(255, 255, 255, 0.843);
 }
 
 select:hover {
@@ -165,7 +165,7 @@ a {
 a:not(.btn):hover,
 a:not(.btn):focus {
     color: #f55266 !important;
-    text-decoration: underline !important;
+    text-decoration: underline;
 }
 
 #header-search-dropdown {

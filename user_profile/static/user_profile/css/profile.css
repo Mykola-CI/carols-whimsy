@@ -1,0 +1,28 @@
+aside * {
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+.list-group-item:hover {
+    text-decoration: none !important;
+}
+
+.list-group-item.active {
+    background-color: rgba(128, 128, 128, 0.638);
+    font-weight: 400 !important;
+}
+
+#id_new_password1_helptext {
+    display: none;
+}
+
+#password_form {
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 0 1rem;
+    }
+}

@@ -1,64 +1,243 @@
 {% extends "base.html" %}
 {% load static %}
 {% load custom_filters %}
-{% load crispy_forms_tags %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'user_profile/css/profile.css' %}">
+{% endblock %}
 
 {% block project_content %}
 
 {% include 'includes/shopping_cart_offcanvas.html' %}
 
 
-
 <!-- Page content -->
 <div class="overlay"></div>
 <main class="content-wrapper">
-    <div class="container pt-2 pb-4">
-        <div class="row pt-1 pt-sm-3 pt-lg-4 pb-2 pb-md-3 pb-lg-4 pb-xl-5">
-            <div class="col-lg-8 col-xl-7 mb-5 mb-lg-0">
-                <div class="w-100 ps-3 ps-md-4">
-                    <h1 class="h5 mb-md-4">Basic Info</h1>
-                    <form id="basic_info_form" method="post" action="{% url 'update_basic_info' %}">
-                        {% csrf_token %}
-                        <div>{{ form_basic.profile_title|as_crispy_field }}</div>
-                        <div>{{ form_basic.first_name|as_crispy_field }}</div>
-                        <div>{{ form_basic.last_name|as_crispy_field }}</div>
-                        <div>{{ form_basic.profile_date_of_birth|as_crispy_field }}</div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
-                <div class="w-100 ps-3 ps-md-4">
-                    <h1 class="h5 mb-md-4">Phone</h1>
-                    <form id="user_phone_form" method="post" action="{% url 'update_phone' %}">
-                        {% csrf_token %}
-                        <div>{{ form_phone.profile_phone_number|as_crispy_field }}</div>
-                        <button type="submit" class="btn btn-primary">Change Phone</button>
-                    </form>
-                </div>
-                <div class="w-100 ps-3 ps-md-4">
-                    <h1 class="h5 mb-md-4">Email</h1>
-                    <form id="user_email_form" method="post" action="{% url 'update_email' %}">
-                        {% csrf_token %}
-                        <div>{{ form_email.email|as_crispy_field }}</div>
-                        <button type="submit" name="action_add" class="btn btn-primary">Change Email</button>
-                    </form>
-                    <div id="email-change-message"></div>
-                </div>
-                <div class="w-100 ps-3 ps-md-4">
-                    <h1 class="h5 mb-md-4">Password</h1>
-                        {% crispy form_password %}
-                </div>
-            </div>
-            <div class="col-lg-4 col-xl-5">
-                <div class="w-100 ps-3 ps-md-4">
-                    <h1 class="h5 mb-md-4">Basic Info</h1>
-                    <div class="d-flex flex-column align-items-center">
-                        <div>
-                            <p id="title_name">{{ title_readable }} {{ user.first_name }} {{ user.last_name }}</p>
-                            <p id="date_of_birth">{{ user_profile.profile_date_of_birth }}</p>
-                            <p id="email_profile">{{ user.email }}</p>
-                            <p id="phone_profile">{{ user_profile.profile_phone_number }}</p>
+    <div class="container py-5 mt-sm-0">
+        <div class="row pt-md-2 pt-lg-3 pb-sm-2 pb-md-3 pb-lg-4 pb-xl-5">
+
+
+            <!-- Sidebar navigation that turns into offcanvas on screens < 992px wide (lg breakpoint) -->
+            <aside class="col-lg-3">
+                <div class="offcanvas-lg offcanvas-start pe-lg-0 pe-xl-4" id="accountSidebar">
+
+                    <!-- Header -->
+                    <div class="offcanvas-header d-lg-block py-3 p-lg-0">
+                        <div class="d-flex align-items-center">
+                            <div class="h5 d-flex justify-content-center align-items-center flex-shrink-0 text-primary bg-primary-subtle lh-1 rounded-circle mb-0"
+                                style="width: 3rem; height: 3rem"><i class="fa-duotone fa-solid fa-file-user"></i></div>
+                            <div class="min-w-0 ps-3">
+                                <h5 class="h6 mb-1">{{ user.username }}</h5>
+                            </div>
                         </div>
+                        <button type="button" class="btn-close d-lg-none" data-bs-dismiss="offcanvas"
+                            data-bs-target="#accountSidebar" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Body (Navigation) -->
+                    <div class="offcanvas-body d-block pt-2 pt-lg-4 pb-lg-0">
+                        <nav class="list-group">
+                            <a class="list-group-item list-group-item-action list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+                                <i class="fa-duotone fa-solid fa-bags-shopping fs-lg me-2"></i>
+                                Orders
+                                <span class="badge bg-primary bg-gradient rounded-pill ms-auto">1</span>
+                            </a>
+                            <a class="list-group-item list-group-item-action list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+
+                                Wishlist
+                            </a>
+                            <a class="list-group-item list-group-item-action list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+
+                                Payment methods
+                            </a>
+                            <a class="list-group-item list-group-item-action list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+
+                                My reviews
+                            </a>
+                        </nav>
+                        <h6 class="pt-4 ps-2 ms-1">Manage account</h6>
+                        <nav class="list-group">
+                            <a class="list-group-item list-group-item-action d-flex align-items-center pe-none list-group-item-light d-flex align-items-center fw-light active"
+                                href="#">
+                                <i class="fa-sharp-duotone fa-solid fa-laptop fs-lg me-2"></i>
+                                Personal info
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+                                <i class="ci-map-pin fs-base opacity-75 me-2"></i>
+                                Addresses
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+
+                                Notifications
+                            </a>
+                        </nav>
+                        <h6 class="pt-4 ps-2 ms-1">Customer service</h6>
+                        <nav class="list-group list-group-borderless">
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+                                <i class="ci-help-circle fs-base opacity-75 me-2"></i>
+                                Help center
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+
+                                Terms and conditions
+                            </a>
+                        </nav>
+                        <nav class="list-group list-group-borderless pt-3">
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+                                <i class="ci-log-out fs-base opacity-75 me-2"></i>
+                                Log out
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </aside>
+
+
+            <!-- Personal info content -->
+            <div class="col-lg-9">
+                <div class="ps-lg-3 ps-xl-0">
+
+                    <!-- Page title -->
+                    <h1 class="h2 mb-1 mb-sm-2">Personal info</h1>
+
+                    <!-- Basic info -->
+                    <div class="border-bottom py-4">
+                        <div class="nav flex-nowrap align-items-center justify-content-between pb-1 mb-3">
+                            <h2 class="h6 mb-0">Basic info</h2>
+                            <a class="nav-link hiding-collapse-toggle text-decoration-underline p-0 collapsed"
+                                href=".basic-info" data-bs-toggle="collapse" aria-expanded="false"
+                                aria-controls="basicInfoPreview basicInfoEdit">Edit</a>
+                        </div>
+                        <div class="collapse basic-info show" id="basicInfoPreview">
+                            <ul class="list-unstyled fs-sm m-0">
+                                <li id="title_name">{{ title_readable }} {{ user.first_name }} {{ user.last_name }}</li>
+                                <li id="date_of_birth">{{ user_profile.profile_date_of_birth }}</li>
+                            </ul>
+                        </div>
+                        <div class="collapse basic-info" id="basicInfoEdit">
+                            <form id="basic_info_form" method="post" action="{% url 'update_basic_info' %}"
+                                class="row g-3 g-sm-4">
+                                {% csrf_token %}
+                                <div class="col-sm-6">
+                                    <div class="position-relative">
+                                        <div>{{ form_basic.profile_title|as_crispy_field }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="position-relative">
+                                        <div>{{ form_basic.first_name|as_crispy_field }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="position-relative">
+                                        <div>{{ form_basic.last_name|as_crispy_field }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="position-relative">
+                                        <div>{{ form_basic.profile_date_of_birth|as_crispy_field }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex gap-3 pt-2 pt-sm-0 justify-content-between">
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-toggle="collapse"
+                                            data-bs-target=".basic-info" aria-expanded="true"
+                                            aria-controls="basicInfoPreview basicInfoEdit">Close</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Contact -->
+                    <div class="border-bottom py-4">
+                        <div class="nav flex-nowrap align-items-center justify-content-between pb-1 mb-3">
+                            <div class="d-flex align-items-center gap-3 me-4">
+                                <h2 class="h6 mb-0">Contact</h2>
+                            </div>
+                            <a class="nav-link hiding-collapse-toggle text-decoration-underline p-0 collapsed"
+                                href=".contact-info" data-bs-toggle="collapse" aria-expanded="false"
+                                aria-controls="contactInfoPreview contactInfoEdit">Edit</a>
+                        </div>
+                        <div class="collapse contact-info show" id="contactInfoPreview">
+                            <ul class="list-unstyled fs-sm m-0">
+                                <li id="email_profile" class="mb-1">{{ user.email }}</li>
+                                <li id="phone_profile">{{ user_profile.profile_phone_number }}<span
+                                        class="text-success ms-1">Verified</span></li>
+                            </ul>
+                        </div>
+                        <div class="collapse contact-info" id="contactInfoEdit">
+                            <div class="row g-3 g-sm-4 needs-validation" novalidate>
+                                <form id="user_email_form" method="post" action="{% url 'update_email' %}"
+                                    class="col-sm-6">
+                                    {% csrf_token %}
+                                    <div class="position-relative">
+                                        {{ form_email.email|as_crispy_field }}
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                    <div id="email-change-message"></div>
+                                </form>
+                                <form id="user_phone_form" method="post" action="{% url 'update_phone' %}"
+                                    class="col-sm-6">
+                                    {% csrf_token %}
+                                    <div class="position-relative">
+                                        {{ form_phone.profile_phone_number|as_crispy_field }}
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-toggle="collapse"
+                                            data-bs-target=".contact-info" aria-expanded="true"
+                                            aria-controls="contactInfoPreview contactInfoEdit">Close</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="border-bottom py-4">
+                        <div class="nav flex-nowrap align-items-center justify-content-between pb-1 mb-3">
+                            <div class="d-flex align-items-center gap-3 me-4">
+                                <h2 class="h6 mb-0">Password</h2>
+                            </div>
+                            <a class="nav-link hiding-collapse-toggle text-decoration-underline p-0 collapsed"
+                                href=".password-change" data-bs-toggle="collapse" aria-expanded="false"
+                                aria-controls="passChangePreview passChangeEdit">Edit</a>
+                        </div>
+                        <div class="collapse password-change show" id="passChangePreview">
+                            <ul class="list-unstyled fs-sm m-0">
+                                <li>**************</li>
+                            </ul>
+                        </div>
+                        <div class="collapse password-change" id="passChangeEdit">
+                            <div id="password_form" class="password-form">{% crispy form_password %}</div>
+                            <div class="text-end">
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="collapse"
+                                    data-bs-target=".password-change" aria-expanded="true"
+                                    aria-controls="passChangePreview passChangeEdit">Close</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Delete account -->
+                    <div class="pt-3 mt-2 mt-sm-3">
+                        <h2 class="h6">Delete account</h2>
+                        <p class="fs-sm">When you delete your account, your public profile will be deactivated
+                            immediately. If you change your mind before the 14 days are up, sign in with your email and
+                            password, and we'll send you a link to reactivate your account.</p>
+                        <a class="text-danger fs-sm fw-medium" href="#!">Delete account</a>
                     </div>
                 </div>
             </div>
@@ -68,7 +247,15 @@
 
 {% endblock %}
 
-
+{% block postfooter %}
+<!-- Sidebar navigation offcanvas toggle that is visible on screens < 992px wide (lg breakpoint) -->
+<button type="button"
+    class="fixed-bottom z-sticky w-100 btn btn-lg btn-dark border-0 border-top border-light border-opacity-10 rounded-0 pb-4 d-lg-none"
+    data-bs-toggle="offcanvas" data-bs-target="#accountSidebar" aria-controls="accountSidebar" data-bs-theme="light">
+    <i class="fa-duotone fa-solid fa-sidebar fs-base me-2"></i>
+    Account menu
+</button>
+{% endblock %}
 
 {% block postloadjs %}
 {{ block.super }}
@@ -148,19 +335,19 @@
     });
 </script>
 <script>
-    $(document).ready(function() {
-        $('#user_email_form').on('submit', function(event) {
+    $(document).ready(function () {
+        $('#user_email_form').on('submit', function (event) {
             event.preventDefault(); // Prevent the default form submission
-    
+
             $.ajax({
                 type: 'POST',
                 url: $(this).attr('action'), // Use the form's action URL
                 data: $(this).serialize(), // Serialize the form data
-                success: function(response) {
+                success: function (response) {
                     // Handle success - display a message or update the page
                     $('#email-change-message').html('<p>' + response.success + '</p>');
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     // Handle error - display an error message
                     var response = JSON.parse(xhr.responseText);
                     $('#email-change-message').html('<p>' + response.error + '</p>');
@@ -168,5 +355,5 @@
             });
         });
     });
-    </script>
+</script>
 {% endblock %}
