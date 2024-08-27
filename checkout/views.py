@@ -208,6 +208,12 @@ def order_confirmation(request, order_number):
     # Get the full country name
     country_name = countries.name(country_code)
 
+    if request.user.is_authenticated:
+        profile = UserProfile.objects.get(user=request.user)
+        # Attaching the user's profile to the order
+        order.user_profile = profile
+        order.save()
+
     template = 'checkout/order-confirmation.html'
 
     context = {

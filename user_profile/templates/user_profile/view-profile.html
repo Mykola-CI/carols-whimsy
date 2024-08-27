@@ -15,7 +15,7 @@
 <div class="overlay"></div>
 <main class="content-wrapper">
     <div class="container py-5 mt-sm-0">
-        <div class="row pt-md-2 pt-lg-3 pb-sm-2 pb-md-3 pb-lg-4 pb-xl-5">
+        <div class="row pt-md-2 pt-lg-3 pb-sm-2 pb-md-3 pb-lg-4 pb-xl-5 gx-5">
 
 
             <!-- Sidebar navigation that turns into offcanvas on screens < 992px wide (lg breakpoint) -->
@@ -36,10 +36,10 @@
                     </div>
 
                     <!-- Body (Navigation) -->
-                    <div class="offcanvas-body d-block pt-2 pt-lg-4 pb-lg-0">
+                    <div class="offcanvas-body d-block pt-2 pt-lg-4 pb-lg-0 aside-offcanvas-body">
                         <nav class="list-group">
                             <a class="list-group-item list-group-item-action list-group-item-light d-flex align-items-center fw-light"
-                                href="#">
+                                href="{% url 'order_history' %}">
                                 <i class="fa-duotone fa-solid fa-bags-shopping fs-lg me-2"></i>
                                 Orders
                                 <span class="badge bg-primary bg-gradient rounded-pill ms-auto">1</span>
@@ -104,7 +104,7 @@
 
 
             <!-- Personal info content -->
-            <div class="col-lg-9">
+            <div class="col-lg-9 personal-info-column">
                 <div class="ps-lg-3 ps-xl-0">
 
                     <!-- Page title -->
@@ -130,28 +130,28 @@
                                 {% csrf_token %}
                                 <div class="col-sm-6">
                                     <div class="position-relative">
-                                        <div>{{ form_basic.profile_title|as_crispy_field }}</div>
+                                        {{ form_basic.profile_title|as_crispy_field }}
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="position-relative">
-                                        <div>{{ form_basic.first_name|as_crispy_field }}</div>
+                                        {{ form_basic.first_name|as_crispy_field }}
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="position-relative">
-                                        <div>{{ form_basic.last_name|as_crispy_field }}</div>
+                                        {{ form_basic.last_name|as_crispy_field }}
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="position-relative">
-                                        <div>{{ form_basic.profile_date_of_birth|as_crispy_field }}</div>
+                                        {{ form_basic.profile_date_of_birth|as_crispy_field }}
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="d-flex gap-3 pt-2 pt-sm-0 justify-content-between">
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                        <button type="button" class="btn btn-secondary" data-bs-toggle="collapse"
+                                        <button type="submit" class="btn btn-primary rounded-pill">Save changes</button>
+                                        <button type="button" class="btn btn-secondary rounded-pill" data-bs-toggle="collapse"
                                             data-bs-target=".basic-info" aria-expanded="true"
                                             aria-controls="basicInfoPreview basicInfoEdit">Close</button>
                                     </div>
@@ -185,7 +185,7 @@
                                     <div class="position-relative">
                                         {{ form_email.email|as_crispy_field }}
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                    <button type="submit" class="btn btn-primary rounded-pill">Save changes</button>
                                     <div id="email-change-message"></div>
                                 </form>
                                 <form id="user_phone_form" method="post" action="{% url 'update_phone' %}"
@@ -195,8 +195,8 @@
                                         {{ form_phone.profile_phone_number|as_crispy_field }}
                                     </div>
                                     <div class="d-flex justify-content-between">
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                        <button type="button" class="btn btn-secondary" data-bs-toggle="collapse"
+                                        <button type="submit" class="btn btn-primary rounded-pill">Save changes</button>
+                                        <button type="button" class="btn btn-secondary rounded-pill" data-bs-toggle="collapse"
                                             data-bs-target=".contact-info" aria-expanded="true"
                                             aria-controls="contactInfoPreview contactInfoEdit">Close</button>
                                     </div>
@@ -223,7 +223,7 @@
                         <div class="collapse password-change" id="passChangeEdit">
                             <div id="password_form" class="password-form">{% crispy form_password %}</div>
                             <div class="text-end">
-                                <button type="button" class="btn btn-secondary" data-bs-toggle="collapse"
+                                <button type="button" class="btn btn-secondary rounded-pill" data-bs-toggle="collapse"
                                     data-bs-target=".password-change" aria-expanded="true"
                                     aria-controls="passChangePreview passChangeEdit">Close</button>
                             </div>

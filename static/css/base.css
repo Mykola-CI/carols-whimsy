@@ -115,6 +115,16 @@ select:hover {
     background-color: rgb(245, 247, 250) !important;
 }
 
+.btn-secondary {
+    background-color: #6c757da9 !important;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268 !important;
+    border-color: #545b62 !important;
+}
+
 .truncate {
     white-space: nowrap; /* Prevent text from wrapping */
     overflow: hidden; /* Hide the overflowed text */

@@ -128,7 +128,7 @@ class CustomPasswordChangeForm(PasswordChangeForm):
             'new_password1',
             'new_password2',
             # Add a submit button with styling
-            Submit('submit', 'Change Password', css_class='btn btn-primary')
+            Submit('submit', 'Change Password', css_class='btn btn-primary rounded-pill mt-4')
         )
 
         # Apply Bootstrap styling to each field

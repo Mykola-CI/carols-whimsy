@@ -129,6 +129,8 @@ def change_email(request):
 
 @login_required
 def change_password(request):
+    """ A view to handle POST requests for the password change form """
+
     if request.method == 'POST':
         form = CustomPasswordChangeForm(user=request.user, data=request.POST)
         if form.is_valid():
@@ -143,3 +145,12 @@ def change_password(request):
     else:
         form = CustomPasswordChangeForm(user=request.user)
     return render(request, 'change_password.html', {'form': form})
+
+
+@login_required
+def view_order_history(request):
+    ''' A view to display the order history of the user '''
+
+    user = request.user
+    orders = user.orders.all()
+    return render(request, 'user_profile/order-history.html')
