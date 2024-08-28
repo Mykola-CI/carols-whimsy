@@ -151,6 +151,9 @@ def change_password(request):
 def view_order_history(request):
     ''' A view to display the order history of the user '''
 
-    user = request.user
-    orders = user.orders.all()
-    return render(request, 'user_profile/order-history.html')
+    profile = get_object_or_404(UserProfile, user=request.user)
+    orders = profile.orders.all()
+
+    template = 'user_profile/order-history.html'
+
+    return render(request, template, {'orders': orders})

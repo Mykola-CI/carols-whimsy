@@ -60,7 +60,7 @@ def checkout_shipping(request):
                     'last_name': profile.user.last_name,
                     'email': profile.user.email,
                     'phone_number': profile.profile_phone_number,
-                    # Convert to the string before storing to the session
+                    # Convert country field to the string as not serializable
                     'country': str(profile.profile_country),
                     'postcode': profile.profile_postcode,
                     'town_city': profile.profile_town_city,
@@ -106,10 +106,6 @@ def checkout_payment(request):
 
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe.api_key = settings.STRIPE_SECRET_KEY
-
-    # Initialize client_secret to an empty string in order to prevent from
-    # server errors if order creation fails for some reason
-    # client_secret = ''
 
     if request.method == 'POST':
         cart = Cart(request)
