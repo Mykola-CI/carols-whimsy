@@ -10,7 +10,9 @@
 {% block project_content %}
 
 {% include 'includes/shopping_cart_offcanvas.html' %}
-
+<!-- This is the intermediary page before the user is redirected to -->
+<!-- the order confirmation page. It is a page pointed in the return_url  -->
+<!-- parameter of the Stripe payment intent before order can be created -->
 
 <!-- Spinner to engage user while Stripe is processing payment -->
 <div id="loading-overlay">
@@ -20,20 +22,30 @@
         </div>
     </div>
 </div>
-<div id="loading-message"></div>
+<main class="content-wrapper d-flex flex-column justify-content-center align-items-center">
+    <div class="container pt-2 pb-4">
+        <h1 id="loading-message" class="text-center text-danger"></h1>
+    </div>
+</main>
+
 
 {% endblock %}
 
 {% block postloadjs %}
 {{ block.super }}
 <script>
-    // $('#loading-overlay').fadeToggle(100);
+
+    // This script checks the status of the order every 5 seconds
+    // until the order is found or the maximum number of attempts is reached.
+    // The order is being tracked using the PID passed from Django.
+    // When it is found, the user is redirected to the order confirmation page.
+    $('#loading-overlay').fadeToggle(100);
     // Maximum number of attempts to check order status
-    const maxAttempts = 4;
+    const maxAttempts = 10;
     let attemptCount = 0;
 
     function checkOrderStatus() {
-        const pid = '{{ pid }}'; // Use the PID passed from Django
+        const pid = '{{ pid }}'; // the PID passed from Django
 
         fetch(`/checkout/order_pending/${pid}/status/`)
             .then(response => response.json())
@@ -48,9 +60,9 @@
                     } else {
                         // If order is not found after max attempts, show an error message
                         document.getElementById('loading-message').innerText =
-                            "We're having trouble confirming your order. Please contact support.";
+                            "We're having trouble confirming your order. Please contact support or your payment provider.";
 
-                        // $('#loading-overlay').fadeToggle(100);
+                        $('#loading-overlay').fadeToggle(100);
                     }
                 }
             })

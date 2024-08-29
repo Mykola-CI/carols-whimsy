@@ -11,7 +11,6 @@ from products.models import Product
 from cart.cart import Cart
 
 import json
-import time
 # import logging
 
 
@@ -120,7 +119,7 @@ class WH_Handler:
                     order_line_item.save()
 
                 # Send confirmation email
-                # self._send_confirmation_email(order)
+                self._send_confirmation_email(order)
 
                 return HttpResponse(
                     content=f'Webhook received: {event["type"]} | SUCCESS: Created order in webhook',

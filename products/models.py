@@ -62,7 +62,7 @@ class Product(models.Model):
     color = models.CharField(max_length=255, blank=True, null=True)
     other_details = models.TextField(blank=True, null=True)
     discount = models.DecimalField(max_digits=5, decimal_places=2, default=0, blank=True, null=True)
-    image = models.ImageField(upload_to='products/', blank=True, null=True)
+    image = models.ImageField(upload_to='', blank=True, null=True)
     image_url = models.URLField(max_length=1024, blank=True, null=True)
 
     def __str__(self):
