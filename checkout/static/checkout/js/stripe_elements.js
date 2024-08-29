@@ -37,6 +37,8 @@ $(document).ready(function () {
     // Handle form submit
     var form = document.getElementById('payment-form');
 
+    var paymentID = clientSecret.split('_secret')[0];
+
     form.addEventListener('submit', function (ev) {
         ev.preventDefault();
         paymentElement.update({ 'disabled': true });
@@ -55,7 +57,7 @@ $(document).ready(function () {
             stripe.confirmPayment({
                 elements,
                 confirmParams: {
-                    // return_url: `${window.location.origin}/checkout/confirmation/`,
+                    return_url: `${window.location.origin}/checkout/order_pending/${paymentID}/`,
                     payment_method_data: {
                         billing_details: {
                             name: fullName,

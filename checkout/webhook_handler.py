@@ -1,4 +1,5 @@
 import stripe
+from django.db import IntegrityError
 from django.http import HttpResponse
 
 from django.core.mail import send_mail
@@ -7,6 +8,7 @@ from django.conf import settings
 
 from .models import Order, OrderLineItem
 from products.models import Product
+from cart.cart import Cart
 
 import json
 import time
@@ -29,15 +31,6 @@ class WH_Handler:
 
         customer_email = order.email
 
-        # Access the UserProfile through the User model
-        # user_profile = order.user.userprofile
-
-        # Retrieve the title from the UserProfile, or use an empty string
-        # if it's 'None' or doesn't exist
-        # title = (
-        #     user_profile.get_title_readable() if user_profile and
-        #     user_profile.title != 'None' else ''
-        # )
         # Prepare the context for rendering the email subject and body
         context = {
             'order': order,
@@ -67,67 +60,41 @@ class WH_Handler:
 
         intent = event.data.object
         pid = intent.id
-        # Get the cart from the event's metadata
-        cart = intent.metadata.cart
 
-        # Get the Charge object for capturing of phone and email
-        stripe_charge = stripe.Charge.retrieve(
-            intent.latest_charge
-        )
-
-        # Get email from the charge object as it does not come in the intent
-        email = stripe_charge.billing_details.email
-
-        # Split full name onto first and last name
-        full_name = intent.shipping.name
-        first_name = full_name.split()[0]
-        last_name = full_name.split()[-1] if len(full_name.split()) > 1 else ""
-
-        phone = intent.shipping.phone
-        street_address = intent.shipping.address.line1
-        city = intent.shipping.address.city
-        county = intent.shipping.address.state
-        postal_code = intent.shipping.address.postal_code
-        country = intent.shipping.address.country
-
-        grand_total = round(stripe_charge.amount / 100, 2)  # updated
-
-        order_exists = False
-        attempt = 1
-        while attempt <= 5:
-            try:
-                order = Order.objects.get(
-                    first_name__iexact=first_name,
-                    last_name__iexact=last_name,
-                    email__iexact=email,
-                    phone_number__iexact=phone,
-                    country__iexact=country,
-                    postcode__iexact=postal_code,
-                    town_city__iexact=city,
-                    street_address__iexact=street_address,
-                    county__iexact=county,
-                    grand_total=grand_total,
-                    original_cart=cart,
-                    stripe_pid=pid,
-                )
-                order_exists = True
-                break
-
-            except Order.DoesNotExist:
-                attempt += 1
-                time.sleep(1)
-
-        if order_exists:
-            self._send_confirmation_email(order)
+        if Order.objects.filter(stripe_pid=pid).exists():
+            # Order already exists, do not create a new one
             return HttpResponse(
-                content=(
-                    f'Webhook received: {event["type"]} | '
-                    f'SUCCESS: Verified order already in database'),
-                status=200)
+                content=f'Webhook received: {event["type"]} | Order already exists',
+                status=200
+            )
         else:
-            order = None
+            # Get the cart from the event's metadata
+            cart = intent.metadata.cart
+
+            # Get the Charge object for capturing of phone and email
+            stripe_charge = stripe.Charge.retrieve(
+                intent.latest_charge
+            )
+
+            # Get email from the charge object as it does not come in the intent
+            email = stripe_charge.billing_details.email
+
+            # Split full name onto first and last name
+            full_name = intent.shipping.name
+            first_name = full_name.split()[0]
+            last_name = full_name.split()[-1] if len(full_name.split()) > 1 else ""
+
+            phone = intent.shipping.phone
+            street_address = intent.shipping.address.line1
+            city = intent.shipping.address.city
+            county = intent.shipping.address.state
+            postal_code = intent.shipping.address.postal_code
+            country = intent.shipping.address.country
+
+            grand_total = round(stripe_charge.amount / 100, 2)  # updated
+
             try:
-                order = Order.objects.create(
+                order = Order(
                     first_name=first_name,
                     last_name=last_name,
                     email=email,
@@ -141,6 +108,8 @@ class WH_Handler:
                     original_cart=cart,
                     stripe_pid=pid,
                 )
+                order.save()
+                # Create order line items
                 for item_id, quantity in json.loads(cart).items():
                     product = Product.objects.get(id=item_id)
                     order_line_item = OrderLineItem(
@@ -150,20 +119,20 @@ class WH_Handler:
                     )
                     order_line_item.save()
 
-            except Exception as e:
-                if 'order' in locals() and order:
-                    order.delete()
+                # Send confirmation email
+                # self._send_confirmation_email(order)
 
                 return HttpResponse(
-                    content=f'Webhook received: {event["type"]} | ERROR: {e}',
-                    status=500
+                    content=f'Webhook received: {event["type"]} | SUCCESS: Created order in webhook',
+                    status=200
                 )
 
-        self._send_confirmation_email(order)
-
-        return HttpResponse(
-            content=f'Webhook received: {event["type"]} | '
-                    f'SUCCESS: Created order in webhook', status=200)
+            except IntegrityError:
+                # Handle the case where the order already exists due to a race condition
+                return HttpResponse(
+                    content=f'Webhook received: {event["type"]} | ERROR: Order already exists',
+                    status=200
+                )
 
     def handle_payment_intent_payment_failed(self, event):
         """
@@ -172,5 +141,5 @@ class WH_Handler:
         intent = event.data.object
 
         return HttpResponse(
-            content=f'Webhook received: {event["type"]}',
+            # content=f'Webhook received: {event["type"]}',
             status=200)

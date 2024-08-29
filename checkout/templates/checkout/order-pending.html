@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% load crispy_forms_tags %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
+{% endblock %}
+
+{% block project_content %}
+
+{% include 'includes/shopping_cart_offcanvas.html' %}
+
+
+<!-- Spinner to engage user while Stripe is processing payment -->
+<div id="loading-overlay">
+    <div class="d-flex justify-content-center align-items-center h-100">
+        <div id="loading-spinner" class="spinner-border text-info" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</div>
+<div id="loading-message"></div>
+
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+<script>
+    // $('#loading-overlay').fadeToggle(100);
+    // Maximum number of attempts to check order status
+    const maxAttempts = 4;
+    let attemptCount = 0;
+
+    function checkOrderStatus() {
+        const pid = '{{ pid }}'; // Use the PID passed from Django
+
+        fetch(`/checkout/order_pending/${pid}/status/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.order_exists) {
+                    // Redirect to the order confirmation page
+                    window.location.href = `/checkout/confirmation/${data.order_number}/`;
+                } else {
+                    attemptCount++;
+                    if (attemptCount < maxAttempts) {
+                        setTimeout(checkOrderStatus, 5000); // Retry after 5 seconds
+                    } else {
+                        // If order is not found after max attempts, show an error message
+                        document.getElementById('loading-message').innerText =
+                            "We're having trouble confirming your order. Please contact support.";
+
+                        // $('#loading-overlay').fadeToggle(100);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching order status:', error);
+                // Handle fetch error, possibly show an error message to the user
+                document.getElementById('loading-message').innerText =
+                    "An error occurred while checking your order status. Please try again later.";
+            });
+    }
+
+    // Start checking the order status after an initial delay
+    setTimeout(checkOrderStatus, 2000); // Start after 2 seconds
+</script>
+
+
+{% endblock postloadjs %}

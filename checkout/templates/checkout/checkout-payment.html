@@ -25,7 +25,7 @@
                         style="width: 2rem; height: 2rem; margin-top: -.125rem">2</div>
                     <div class="w-100 ps-3 ps-md-4">
                         <h1 class="h5 mb-md-4">Payment</h1>
-                        <form action="{% url 'checkout_payment' %}" method="POST" id="payment-form">
+                        <form id="payment-form" action="{% url 'checkout_payment' %}" method="POST">
                             {% csrf_token %}
                             <!-- Stripe payment element -->
                             <div id="payment-element"></div>

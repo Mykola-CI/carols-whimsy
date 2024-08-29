@@ -38,16 +38,19 @@ def webhook_view(request):
 
     handler = WH_Handler(request)
 
+    print(f'Received event: {event.type}')
+
     # Handle the event
-    if event.type == 'payment_intent.succeeded':
+    if event and hasattr(event, 'type') and \
+            event.type == 'payment_intent.succeeded':
 
         handler.handle_payment_intent_succeeded(event)
 
-    elif event.type == 'payment_intent.payment_failed':
+    # elif event.type == 'payment_intent.payment_failed':
 
-        handler.handle_payment_intent_payment_failed(event)
+    #     handler.handle_payment_intent_payment_failed(event)
 
-    else:
-        print('Unhandled event type {}'.format(event.type))
+    # else:
+    #     print('Unhandled event type {}'.format(event.type))
 
     return HttpResponse(status=200)

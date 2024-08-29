@@ -1,5 +1,6 @@
 from django.shortcuts import (render, redirect, reverse,
                               HttpResponse, get_object_or_404)
+from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from cart.cart import Cart
@@ -108,63 +109,9 @@ def checkout_payment(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
     if request.method == 'POST':
-        cart = Cart(request)
-        if cart.is_empty:
-            messages.error(
-                request, "There's nothing in your cart at the moment")
-            return redirect('catalog')
-
-        order = Order(
-            first_name=shipping_details.get('first_name'),
-            last_name=shipping_details.get('last_name'),
-            email=shipping_details.get('email'),
-            phone_number=shipping_details.get('phone_number'),
-            town_city=shipping_details.get('town_city'),
-            county=shipping_details.get('county'),
-            street_address=shipping_details.get('street_address'),
-            postcode=shipping_details.get('postcode'),
-            country=shipping_details.get('country'),
-        )
-        # Get PaymentIntentID from hidden input in the checkout-payment.html
         pid = request.POST.get('client_secret').split('_secret')[0]
-        order.stripe_pid = pid
-        # Serialize the cart content to store in the order
-        order.original_cart = json.dumps(cart.cart)
-
-        order.save()
-
-        for item_id, quantity in cart.cart.items():
-            try:
-                product = Product.objects.get(id=item_id)
-                order_line_item = OrderLineItem(
-                    order=order,
-                    product=product,
-                    quantity=quantity,
-                )
-                order_line_item.save()
-            except Product.DoesNotExist:
-                messages.error(request, (
-                    "One of the products in your cart wasn't found in "
-                    "our database. "
-                    "Please contact customer service for assistance!")
-                )
-                order.delete()
-                return redirect('cart_summary')
-
-        if order and order.order_number:
-            return redirect(
-                reverse('order_confirmation', args=[order.order_number]))
-        else:
-            # Set client_secret to an empty string in order to prevent
-            # from server errors if order creation here fails for some reason
-            client_secret = ""
-            messages.error(
-                request,
-                "Unfortunately, there was an unexpected interruption "
-                "with your order.\n However, if payment has been through, "
-                "the order must be duly saved and will be processed.\n"
-                "Check your order history please!")
-            return redirect('order_interruption')
+        print(pid)
+        return redirect(reverse('order_pending', args=[pid]))
 
     else:
         cart = Cart(request)
@@ -195,8 +142,25 @@ def checkout_payment(request):
     return render(request, template, context)
 
 
+def order_pending(request, pid):
+    # Render the order_pending template with the PID as context
+    return render(request, 'checkout/order-pending.html', {'pid': pid})
+
+
+def check_order_status(request, pid):
+    order_exists = Order.objects.filter(stripe_pid=pid).exists()
+    if order_exists:
+        order = Order.objects.get(stripe_pid=pid)
+        return JsonResponse(
+            {'order_exists': True, 'order_number': order.order_number})
+    return JsonResponse({'order_exists': False})
+
+
 def order_confirmation(request, order_number):
-    """ A view to return the index page """
+    """
+    A view to return the order confirmation page
+    for the payment method type: card
+    """
 
     order = get_object_or_404(Order, order_number=order_number)
     order_line_items = OrderLineItem.objects.filter(order=order)
@@ -223,11 +187,39 @@ def order_confirmation(request, order_number):
     return render(request, template, context)
 
 
-def order_interruption(request):
-    """ A view to return the index page """
+# def checkout_success(request, pid):
+#     """ A view to return the order confirmation page """
 
-    template = 'checkout/order-interruption.html'
+#     order = get_object_or_404(Order, stripe_pid=pid)
+#     order_line_items = OrderLineItem.objects.filter(order=order)
+#     country_code = order.country
+#     # Get the full country name
+#     country_name = countries.name(country_code)
 
-    context = {}
+#     if request.user.is_authenticated:
+#         profile = UserProfile.objects.get(user=request.user)
+#         # Attaching the user's profile to the order
+#         order.user_profile = profile
+#         order.save()
 
-    return render(request, template, context)
+#     template = 'checkout/order-confirmation.html'
+
+#     context = {
+#         'order': order,
+#         'order_line_items': order_line_items,
+#         'country_name': country_name,
+#     }
+#     cart = Cart(request)
+#     cart.clear()
+
+#     return render(request, template, context)
+
+
+# def order_interruption(request):
+#     """ A view to return the index page """
+
+#     template = 'checkout/order-interruption.html'
+
+#     context = {}
+
+#     return render(request, template, context)
