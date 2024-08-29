@@ -10,6 +10,27 @@
 
 {% include 'includes/shopping_cart_offcanvas.html' %}
 
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger" id="staticBackdropLabel">Delete Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                When you delete your account, your public profile will be deactivated
+                            immediately. If you change your mind before the 14 days are up, sign in with your email and
+                            password, and we'll send you a link to reactivate your account.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="{% url 'delete_account' %}"  role="button" class="btn btn-primary">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Page content -->
 <div class="overlay"></div>
@@ -151,8 +172,8 @@
                                 <div class="col-12">
                                     <div class="d-flex gap-3 pt-2 pt-sm-0 justify-content-between">
                                         <button type="submit" class="btn btn-primary rounded-pill">Save changes</button>
-                                        <button type="button" class="btn btn-secondary rounded-pill" data-bs-toggle="collapse"
-                                            data-bs-target=".basic-info" aria-expanded="true"
+                                        <button type="button" class="btn btn-secondary rounded-pill"
+                                            data-bs-toggle="collapse" data-bs-target=".basic-info" aria-expanded="true"
                                             aria-controls="basicInfoPreview basicInfoEdit">Close</button>
                                     </div>
                                 </div>
@@ -196,8 +217,9 @@
                                     </div>
                                     <div class="d-flex justify-content-between">
                                         <button type="submit" class="btn btn-primary rounded-pill">Save changes</button>
-                                        <button type="button" class="btn btn-secondary rounded-pill" data-bs-toggle="collapse"
-                                            data-bs-target=".contact-info" aria-expanded="true"
+                                        <button type="button" class="btn btn-secondary rounded-pill"
+                                            data-bs-toggle="collapse" data-bs-target=".contact-info"
+                                            aria-expanded="true"
                                             aria-controls="contactInfoPreview contactInfoEdit">Close</button>
                                     </div>
                                 </form>
@@ -237,7 +259,8 @@
                         <p class="fs-sm">When you delete your account, your public profile will be deactivated
                             immediately. If you change your mind before the 14 days are up, sign in with your email and
                             password, and we'll send you a link to reactivate your account.</p>
-                        <a class="text-danger fs-sm fw-medium" href="#!">Delete account</a>
+                        <button type="button" class="btn btn-light text-danger fs-sm fw-medium rounded-pill" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">Delete account</button>
                     </div>
                 </div>
             </div>

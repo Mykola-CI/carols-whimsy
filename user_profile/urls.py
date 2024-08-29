@@ -12,4 +12,6 @@ urlpatterns = [
     path('update/email', views.change_email, name='update_email'),
     path('update/password', views.change_password, name='change_password'),
     path('order_history', views.view_order_history, name='order_history'),
+    path('user_account/delete/',
+         views.delete_user_account, name='delete_account'),
 ]

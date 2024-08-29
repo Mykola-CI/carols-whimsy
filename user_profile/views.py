@@ -170,5 +170,10 @@ def view_order_history(request):
 
 
 @login_required
-def delete_user_account(request)
-    
+def delete_user_account(request):
+    """ A view to delete the user account """
+
+    user = request.user
+    user.delete()
+    messages.success(request, 'Your account has been deleted.')
+    return redirect('home')
