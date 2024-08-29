@@ -109,7 +109,7 @@
                     <!-- Page title -->
                     <h1 class="h2 mb-1 mb-sm-2">Orders</h1>
                     <!-- Sortable orders table -->
-                    <div>
+                    <div class="w-100 overflow-scroll">
                         <table class="table align-middle fs-sm text-nowrap">
                             <thead>
                                 <tr>
@@ -130,27 +130,29 @@
                                 </tr>
                             </thead>
                             <tbody class="text-body-emphasis orders-list">
-
                                 <!-- Items -->
-                                {% for order in orders %}
+                                {% for order_with_items in orders_with_items %}
                                 <tr>
                                     <td class="fw-medium pt-2 pb-3 py-md-2 ps-0">
                                         <a class="d-inline-block text-body-emphasis text-decoration-none py-2"
-                                            href="#orderDetails" aria-controls="orderDetails"
-                                            aria-label="Show order details">
-                                            <span class="animate-target">{{ order.order_number|truncatechars:6 }}</span>
+                                            href="{% url 'order_confirmation' order_with_items.order.order_number %}?from_profile=true"
+                                            aria-label="Show order details placed {{ order_with_items.order.date }} ">
+                                            <span
+                                                class="animate-target">{{ order_with_items.order.order_number|truncatechars:6 }}</span>
                                         </a>
                                         <ul class="list-unstyled fw-normal text-body m-0 d-md-none">
-                                            <li>{{ order.date }}</li>
+                                            <li>{{ order_with_items.order.date|date:"M d, Y" }}</li>
                                             <li class="d-flex align-items-center">
                                                 <span class="bg-info rounded-circle p-1 me-2"></span>
                                                 In progress
                                             </li>
-                                            <li class="fw-medium text-body-emphasis">{{ order.grand_total }}</li>
+                                            <li class="fw-medium text-body-emphasis">
+                                                {{ order_with_items.order.grand_total }}
+                                            </li>
                                         </ul>
                                     </td>
                                     <td class="fw-medium py-3 d-none d-md-table-cell">
-                                        {{ order.date }}
+                                        {{ order_with_items.order.date|date:"M d, Y"  }}
                                     </td>
                                     <td class="fw-medium py-3 d-none d-md-table-cell">
                                         <span class="d-flex align-items-center">
@@ -159,18 +161,45 @@
                                         </span>
                                     </td>
                                     <td class="fw-medium py-3 d-none d-md-table-cell">
-                                        {{ order.grand_total }}
+                                        £{{ order_with_items.order.grand_total }}
                                     </td>
                                     <td class="py-3 pe-0">
-                                        <span
-                                            class="d-flex align-items-center justify-content-end position-relative gap-1 gap-sm-2 ms-n2 ms-sm-0">
-                                            <span><img src="" width="64" alt="Thumbnail"></span>
-                                            <span><img src="" width="64" alt="Thumbnail"></span>
-                                            <span><img src="" width="64" alt="Thumbnail"></span>
-                                            <a class="btn btn-icon btn-ghost btn-secondary stretched-link border-0"
-                                                href="#" aria-controls="orderDetails" aria-label="Show order details">
-                                            </a>
-                                        </span>
+                                        <div class="w-100 overflow-scroll">
+                                            <span
+                                                class="d-flex align-items-center justify-content-end position-relative gap-1 gap-sm-2 ms-sm-0">
+                                                {% for item in order_with_items.line_items %}
+                                                <img src="{{ item.product.image.url }}" style="width: 50px"
+                                                    alt="Thumbnail">
+                                                {% endfor %}
+                                                <a class="btn btn-icon btn-ghost btn-light stretched-link border-1 d-flex flex-column justify-content-center"
+                                                    href="#collapse-{{ order_with_items.order.id }}"
+                                                    data-bs-toggle="collapse" aria-expanded="false"
+                                                    aria-controls="collapse-{{ order_with_items.order.id }}"
+                                                    aria-label="Show order details">
+                                                    <i class="fa-duotone fa-solid fa-chevrons-down fs-lg toggle-icon"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="collapse" id="collapse-{{ order_with_items.order.id }}">
+                                    <td colspan="5">
+                                        <div class="card card-body">
+                                            <!-- Order line items -->
+                                            <table class="table">
+                                                {% for item in order_with_items.line_items %} 
+                                                <tr class="align-middle">
+                                                    <td class="text-wrap">{{ item.product.name }}</td>
+                                                    <td>£{{ item.product.price }}</td>
+                                                    <td>{{ item.quantity }}</td>
+                                                    <td>£{{ item.item_total }}</td>
+                                                    <td class="text-end d-none d-sm-block">
+                                                        <img class="img-fluid" style="max-width: 120px;" src="{{ item.product.image.url }}" aria-label="{{ item.product.name }}"></img>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </table>
+                                        </div>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -197,4 +226,12 @@
 
 {% block postloadjs %}
 {{ block.super }}
+<script>
+    $(document).ready(function() {
+    $('.btn-icon').on('click', function() {
+        var icon = $(this).find('.toggle-icon');
+        icon.toggleClass('fa-chevrons-down fa-chevrons-up');
+    });
+});
+</script>
 {% endblock %}

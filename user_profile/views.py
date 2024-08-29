@@ -8,6 +8,7 @@ from django.contrib import messages
 from allauth.account.models import EmailAddress
 
 from .models import UserProfile
+from checkout.models import OrderLineItem
 from .forms import (
     BasicUserInfoForm, PhoneNumberForm, EmailForm, CustomPasswordChangeForm)
 
@@ -154,6 +155,20 @@ def view_order_history(request):
     profile = get_object_or_404(UserProfile, user=request.user)
     orders = profile.orders.all()
 
+    # Create a dictionary to hold orders and their line items
+    orders_with_items = []
+    for order in orders:
+        line_items = OrderLineItem.objects.filter(order=order)
+        orders_with_items.append({
+            'order': order,
+            'line_items': line_items
+        })
+
     template = 'user_profile/order-history.html'
 
-    return render(request, template, {'orders': orders})
+    return render(request, template, {'orders_with_items': orders_with_items})
+
+
+@login_required
+def delete_user_account(request)
+    

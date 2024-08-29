@@ -27,16 +27,24 @@
                         <div class="w-100 ps-3">
                             <div class="fs-sm mb-1">Order #{{ order.order_number }}</div>
                             <div class="d-sm-flex align-items-center">
+                                {% if from_profile %}
+                                <h1 class="h4 mb-0 me-3">This is a historical order information.</h1>
+                                {% else %}
                                 <h1 class="h4 mb-0 me-3">Thank you for your order!</h1>
+                                {% endif %}
                                 <div class="nav mt-2 mt-sm-0 ms-auto">
-                                    <a class="nav-link text-decoration-underline text-muted fs-sm p-0" href="#!">More
+                                    <a class="nav-link text-decoration-underline text-muted fs-sm p-0" href="{% url 'catalog' %}">More
                                         Shopping?</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <hr>
-                    <p class="text-center fs-sm text-success">Confirmation email will be sent to <span class="text-decoration-underline">{{ order.email }}</span> shortly.</p>
+                    {% if from_profile %}
+                    <p class="text-center fs-sm text-success">The confirmation email was sent to <span class="text-decoration-underline">{{ order.email }}</span> on {{ order.date }}.</p>
+                    {% else %}
+                    <p class="text-center fs-sm text-success">The confirmation email will be sent to <span class="text-decoration-underline">{{ order.email }}</span> shortly.</p>
+                    {% endif %}
                     <div class="px-lg-2 px-xl-3">
 
                         <!-- Table of items -->
@@ -109,11 +117,18 @@
                             </tbody>
                         </table>
 
-                        <div class="nav position-relative z-2 mb-4 mb-lg-0">
-                            <a class="nav-link animate-underline px-0" href="{% url 'catalog' %}">
+                        <div class="nav position-relative z-2 mb-4 mb-lg-0"> 
+                            {% if from_profile and user.is_authenticated %}                          
+                            <a class="nav-link animate-underline px-0" href="{% url 'order_history' %}">
+                                <i class="fa-duotone fa-solid fa-chevrons-left fs-lg me-1"></i>
+                                <span class="fs-sm">Return to Order History</span>
+                            </a>
+                            {% else %}
+                            <a class="nav-link animate-underline px-0" href="{% url 'catalog' %}"></a>
                                 <i class="fa-duotone fa-solid fa-chevrons-left fs-lg me-1"></i>
                                 <span class="fs-sm">Continue shopping</span>
                             </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

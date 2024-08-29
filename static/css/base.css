@@ -125,6 +125,13 @@ select:hover {
     border-color: #545b62 !important;
 }
 
+.btn-icon {
+    flex-shrink: 0;
+    height: 2.0rem;
+    padding: 0;
+    width: 2.0rem;
+}
+
 .truncate {
     white-space: nowrap; /* Prevent text from wrapping */
     overflow: hidden; /* Hide the overflowed text */
@@ -305,6 +312,13 @@ swiper-slide img {
 
     swiper-container {
         width: 85%;
+    }
+
+    .btn-icon {
+        flex-shrink: 0;
+        height: 2.5rem;
+        padding: 0;
+        width: 2.5rem;
     }
 }
 

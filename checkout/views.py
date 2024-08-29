@@ -162,6 +162,8 @@ def order_confirmation(request, order_number):
     for the payment method type: card
     """
 
+    from_profile = request.GET.get('from_profile', 'false') == 'true'
+
     order = get_object_or_404(Order, order_number=order_number)
     order_line_items = OrderLineItem.objects.filter(order=order)
     country_code = order.country
@@ -180,46 +182,9 @@ def order_confirmation(request, order_number):
         'order': order,
         'order_line_items': order_line_items,
         'country_name': country_name,
+        'from_profile': from_profile,
     }
     cart = Cart(request)
     cart.clear()
 
     return render(request, template, context)
-
-
-# def checkout_success(request, pid):
-#     """ A view to return the order confirmation page """
-
-#     order = get_object_or_404(Order, stripe_pid=pid)
-#     order_line_items = OrderLineItem.objects.filter(order=order)
-#     country_code = order.country
-#     # Get the full country name
-#     country_name = countries.name(country_code)
-
-#     if request.user.is_authenticated:
-#         profile = UserProfile.objects.get(user=request.user)
-#         # Attaching the user's profile to the order
-#         order.user_profile = profile
-#         order.save()
-
-#     template = 'checkout/order-confirmation.html'
-
-#     context = {
-#         'order': order,
-#         'order_line_items': order_line_items,
-#         'country_name': country_name,
-#     }
-#     cart = Cart(request)
-#     cart.clear()
-
-#     return render(request, template, context)
-
-
-# def order_interruption(request):
-#     """ A view to return the index page """
-
-#     template = 'checkout/order-interruption.html'
-
-#     context = {}
-
-#     return render(request, template, context)
