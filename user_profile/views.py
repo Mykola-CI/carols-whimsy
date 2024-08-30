@@ -21,6 +21,10 @@ def view_user_profile(request):
     # Retrieve the associated UserProfile instance
     user_profile = get_object_or_404(UserProfile, user=user)
     title_readable = user_profile.get_title_readable()
+    orders = user_profile.orders.all()
+
+    # Count the number of orders
+    order_count = orders.count()
 
     form_basic = BasicUserInfoForm(instance=user_profile, user=user)
     form_phone = PhoneNumberForm(instance=user_profile)
@@ -35,6 +39,7 @@ def view_user_profile(request):
         'form_phone': form_phone,
         'form_email': form_email,
         'form_password': form_password,
+        'order_count': order_count,
     }
 
     return render(request, template, context)
@@ -155,6 +160,9 @@ def view_order_history(request):
     profile = get_object_or_404(UserProfile, user=request.user)
     orders = profile.orders.all()
 
+    # Count the number of orders
+    order_count = orders.count()
+
     # Create a dictionary to hold orders and their line items
     orders_with_items = []
     for order in orders:
@@ -166,7 +174,12 @@ def view_order_history(request):
 
     template = 'user_profile/order-history.html'
 
-    return render(request, template, {'orders_with_items': orders_with_items})
+    context = {
+        'orders_with_items': orders_with_items,
+        'order_count': order_count
+    }
+
+    return render(request, template, context)
 
 
 @login_required
