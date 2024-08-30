@@ -14,4 +14,6 @@ urlpatterns = [
     path('order_history', views.view_order_history, name='order_history'),
     path('user_account/delete/',
          views.delete_user_account, name='delete_account'),
+    path('shipping_addresses/', views.set_shipping_details_profile,
+         name='manage_shipping_addresses'),
 ]

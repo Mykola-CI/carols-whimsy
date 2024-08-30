@@ -3,7 +3,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
 from django.contrib.auth.models import User
-from .models import UserProfile
+from .models import UserProfile, ShippingAddress
 
 
 class BasicUserInfoForm(forms.ModelForm):
@@ -134,3 +134,45 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         # Apply Bootstrap styling to each field
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control form-control-lg'
+
+
+class ShippingAddressForm(forms.ModelForm):
+    class Meta:
+        model = ShippingAddress
+        fields = ('delivery_first_name', 'delivery_last_name', 'delivery_email', 'delivery_phone_number',
+                  'shipping_town_city', 'shipping_county', 'shipping_street_address', 'shipping_postcode',
+                  'shipping_country',)
+        labels = {
+            'delivery_first_name': 'First Name',
+            'delivery_last_name': 'Last Name',
+            'delivery_email': 'Email Address',
+            'delivery_phone_number': 'Phone Number',
+            'shipping_town_city': 'Town or City',
+            'shipping_county': 'County/State',
+            'shipping_street_address': 'Street Address',
+            'shipping_postcode': 'Postal Code',
+            'shipping_country': 'Country',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        placeholders = {
+            'delivery_first_name': 'e.g. John',
+            'delivery_last_name': 'e.g. Doe',
+            'delivery_email': 'example@domain.com',
+            'delivery_phone_number': '+44 1234 567890',
+            'shipping_town_city': 'Town or City',
+            'shipping_street_address': 'Apt or house num. and street',
+            'shipping_postcode': 'e.g. SW1A 1AA',
+            'shipping_county': 'County, State or Locality',
+        }
+
+        for field in self.fields:
+            if field != 'shipping_country':
+                placeholder = placeholders[field]
+
+            self.fields[field].widget.attrs['placeholder'] = placeholder
+            self.fields[field].widget.attrs['class'] = (
+                'form-control form-control-lg'
+            )

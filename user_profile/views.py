@@ -7,10 +7,11 @@ from django.contrib import messages
 
 from allauth.account.models import EmailAddress
 
-from .models import UserProfile
+from .models import UserProfile, ShippingAddress
 from checkout.models import OrderLineItem
 from .forms import (
-    BasicUserInfoForm, PhoneNumberForm, EmailForm, CustomPasswordChangeForm)
+    BasicUserInfoForm, PhoneNumberForm, EmailForm,
+    CustomPasswordChangeForm, ShippingAddressForm)
 
 
 @login_required
@@ -190,3 +191,35 @@ def delete_user_account(request):
     user.delete()
     messages.success(request, 'Your account has been deleted.')
     return redirect('home')
+
+
+@login_required
+def set_shipping_details_profile(request):
+    """ A view to return the index page """
+    user = request.user
+    user_profile = get_object_or_404(UserProfile, user=user)
+    orders_profile = user_profile.orders.all()
+    num_of_orders = orders_profile.count()
+
+    if request.method == 'POST':
+        shipping_address_form = ShippingAddressForm(request.POST)
+        if shipping_address_form.is_valid():
+            shipping_address = shipping_address_form.save(commit=False)
+            shipping_address.user_profile = user_profile  # Associate the user
+            shipping_address.save()
+            return redirect('manage_shipping_addresses')
+
+    else:
+        # For anonymous users, use session data
+        shipping_address_form = ShippingAddressForm()
+        shipping_details_profile = ShippingAddress(user_profile=user_profile)
+
+    template = 'user_profile/shipping-addresses.html'
+
+    context = {
+        'shipping_address_form': shipping_address_form,
+        'shipping_details_profile': shipping_details_profile,
+        'order_count': num_of_orders,
+    }
+
+    return render(request, template, context)
