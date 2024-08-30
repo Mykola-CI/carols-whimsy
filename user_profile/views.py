@@ -195,31 +195,37 @@ def delete_user_account(request):
 
 @login_required
 def set_shipping_details_profile(request):
-    """ A view to return the index page """
+    """ A view to manage shipping addresses """
     user = request.user
     user_profile = get_object_or_404(UserProfile, user=user)
-    orders_profile = user_profile.orders.all()
-    num_of_orders = orders_profile.count()
+    shipping_addresses = ShippingAddress.objects.filter(
+        user_profile=user_profile)
 
     if request.method == 'POST':
-        shipping_address_form = ShippingAddressForm(request.POST)
+        # Determine if we are editing an existing address or adding a new one
+        address_id = request.POST.get('address_id')
+        if address_id:
+            # Editing an existing address
+            shipping_address = get_object_or_404(
+                ShippingAddress, id=address_id, user_profile=user_profile)
+            shipping_address_form = ShippingAddressForm(
+                request.POST, instance=shipping_address)
+        else:
+            # Adding a new address
+            shipping_address_form = ShippingAddressForm(request.POST)
+
         if shipping_address_form.is_valid():
             shipping_address = shipping_address_form.save(commit=False)
             shipping_address.user_profile = user_profile  # Associate the user
             shipping_address.save()
             return redirect('manage_shipping_addresses')
-
     else:
-        # For anonymous users, use session data
         shipping_address_form = ShippingAddressForm()
-        shipping_details_profile = ShippingAddress(user_profile=user_profile)
 
     template = 'user_profile/shipping-addresses.html'
-
     context = {
         'shipping_address_form': shipping_address_form,
-        'shipping_details_profile': shipping_details_profile,
-        'order_count': num_of_orders,
+        'shipping_addresses': shipping_addresses,
     }
 
     return render(request, template, context)

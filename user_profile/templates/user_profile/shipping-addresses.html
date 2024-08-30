@@ -11,23 +11,57 @@
 {% include 'includes/shopping_cart_offcanvas.html' %}
 
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="shippingBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="shippingBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-danger" id="staticBackdropLabel">Delete Account</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                When you delete your account, your public profile will be deactivated
-                            immediately. If you change your mind before the 14 days are up, sign in with your email and
-                            password, and we'll send you a link to reactivate your account.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <a href="{% url 'delete_account' %}"  role="button" class="btn btn-primary">Delete</a>
-            </div>
+        <div class="modal-content p-sm-3">
+            <form action="{% url 'manage_shipping_addresses' %}" method="POST" id="profile-shipping-details">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger" id="shippingBackdropLabel">Shipping Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row row-cols-1 row-cols-sm-2 g-1 g-sm-2 mb-sm-2">
+                        <div class="col">
+                            {{ shipping_address_form.delivery_first_name|as_crispy_field }}
+                        </div>
+                        <div class="col">
+                            {{ shipping_address_form.delivery_last_name|as_crispy_field }}
+                        </div>
+                        <div class="col">
+                            {{ shipping_address_form.delivery_email|as_crispy_field }}
+                        </div>
+                        <div class="col">
+                            {{ shipping_address_form.delivery_phone_number|as_crispy_field }}
+                        </div>
+                        <div class="col">
+                            {{ shipping_address_form.shipping_town_city|as_crispy_field }}
+                        </div>
+                        <div class="col">
+                            {{ shipping_address_form.shipping_county|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="mb-sm-2">
+                        {{ shipping_address_form.shipping_street_address|as_crispy_field }}
+                    </div>
+                    <div class="row row-cols-1 row-cols-sm-2 g-1 g-sm-2 mb-2">
+                        <div class="col">
+                            {{ shipping_address_form.shipping_postcode|as_crispy_field }}
+                        </div>
+                        <div class="col">
+                            {{ shipping_address_form.shipping_country|as_crispy_field }}
+                        </div>
+                    </div>
+                </div>
+                <div id="shipping-modal-footer" class="modal-footer d-flex justify-content-around gap-3">
+                    <button type="submit"
+                        class="btn btn-primary rounded-pill d-lg-flex justify-content-center align-items-center py-2--5">
+                        Save Details
+                    </button>
+                    <button type="button" class="btn btn-secondary rounded-pill py-2--5" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -90,7 +124,7 @@
                             </a>
                             <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light pe-none active"
                                 href="#">
-                                <i class="fa-duotone fa-solid fa-address-book fs-base me-2"></i>
+                                <i class="fa-duotone fa-solid fa-address-book fs-xl me-2"></i>
                                 Addresses
                             </a>
                             <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
@@ -115,7 +149,7 @@
                         <nav class="list-group list-group-borderless pt-3">
                             <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
                                 href="{% url 'account_logout' %}">
-                                <i class="fa-duotone fa-solid fa-arrow-right-from-bracket fs-base me-2"></i>
+                                <i class="fa-duotone fa-solid fa-arrow-right-from-bracket fs-xl me-2"></i>
                                 Log out
                             </a>
                         </nav>
@@ -132,56 +166,34 @@
                     <h1 class="h2 mb-1 mb-sm-2">Shipping Addresses</h1>
 
                     <!-- Review Shipping Addresses -->
-                    
-
-
-                    <form action="{% url 'manage_shipping_addresses' %}" method="POST" id="profile-shipping-details">
-                        {% csrf_token %}
-                        <div class="row row-cols-1 row-cols-sm-2 g-1 g-sm-2 mb-sm-2">
-                            <div class="col">
-                                {{ shipping_address_form.delivery_first_name|as_crispy_field }}
+                    {% for address in shipping_addresses %}
+                    <div class="pt-2 pt-sm-4">
+                        <div class="nav flex-nowrap align-items-center justify-content-between pb-1 mb-3">
+                            <h2 class="h6 mb-0">Address-{{ forloop.counter }}</h2>
+                            <button type="button" class="btn btn-light text-danger fs-sm fw-medium rounded-pill"
+                                data-bs-toggle="modal" data-bs-target="#shippingBackdrop" data-address-id="{{ address.id }}">Edit</button>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <ul class="list-unstyled fs-sm m-0">
+                                    <li id="delivery_name{{ address.id }}">{{ address.delivery_first_name }}
+                                        {{ address.delivery_last_name }}</li>
+                                    <li id="delivery_phone{{ address.id }}">{{ address.delivery_phone_number }}</li>
+                                    <li id="delivery_email{{ address.id }}">{{ address.delivery_email }}</li>
+                                </ul>
                             </div>
-                            <div class="col">
-                                {{ shipping_address_form.delivery_last_name|as_crispy_field }}
-                            </div>
-                            <div class="col">
-                                {{ shipping_address_form.delivery_email|as_crispy_field }}
-                            </div>
-                            <div class="col">
-                                {{ shipping_address_form.delivery_phone_number|as_crispy_field }}
-                            </div>
-                            <div class="col">
-                                {{ shipping_address_form.shipping_town_city|as_crispy_field }}
-                            </div>
-                            <div class="col">
-                                {{ shipping_address_form.shipping_county|as_crispy_field }}
+                            <div class="col-sm-6">
+                                <ul class="list-unstyled fs-sm m-0">
+                                    <li id="shipping_address{{ address.id }}">{{ address.shipping_street_address }}</li>
+                                    <li id="shipping_town_city{{ address.id }}">{{ address.shipping_town_city }}</li>
+                                    <li id="shipping_county{{ address.id }}">{{ address.shipping_county }}</li>
+                                    <li id="shipping_postcode{{ address.id }}">{{ address.shipping_postcode }}</li>
+                                    <li id="shipping_country{{ address.id }}">{{ address.shipping_country }}</li>
+                                </ul>
                             </div>
                         </div>
-                        <div class="mb-sm-2">
-                            {{ shipping_address_form.shipping_street_address|as_crispy_field }}
-                        </div>
-                        <div class="row row-cols-1 row-cols-sm-2 g-1 g-sm-2 mb-2">
-                            <div class="col">
-                                {{ shipping_address_form.shipping_postcode|as_crispy_field }}
-                            </div>
-                            <div class="col">
-                                {{ shipping_address_form.shipping_country|as_crispy_field }}
-                            </div>
-                        </div>
-
-                        <button type="submit"
-                            class="btn btn-lg btn-primary w-100 rounded-pill d-none d-lg-flex justify-content-center align-items-center py-2--5">
-                            Continue
-                            <i class="fa-solid fa-chevron-right fs-lg ms-3"></i>
-                        </button>
-                        <!-- Fixed positioned pay button that is visible on screens < 992px wide (lg breakpoint) -->
-                        <div class="fixed-bottom z-sticky w-100 py-2 px-3 bg-body border-top shadow d-lg-none">
-                            <button type="submit" class="btn btn-lg btn-primary rounded-pill w-100">
-                                Continue
-                                <i class="fa-solid fa-chevron-right fs-lg ms-1 me-n1"></i>
-                            </button>
-                        </div>
-                    </form>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -202,5 +214,33 @@
 
 {% block postloadjs %}
 {{ block.super }}
-<script src="{% static 'user_profile/js/personal_info.js' %}"></script>
+<!-- <script>
+    $(document).ready(function() {
+        // Listen for the modal show event
+        $('#shippingBackdrop').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var addressId = button.data('address-id'); // Extract info from data-* attributes
+            
+            if (addressId) {
+                // Fetch the existing data using AJAX
+                $.ajax({
+                    url: '/get_shipping_address_data/', // URL to fetch data
+                    data: {
+                        'address_id': addressId
+                    },
+                    success: function(data) {
+                        // Pre-fill the form fields with the data
+                        $('#id_field_name').val(data.field_name); // Repeat for each field
+                        // Update the form action for editing
+                        $('#profile-shipping-details').attr('action', "{% url 'edit_shipping_address' 0 %}".replace('0', addressId));
+                    }
+                });
+            } else {
+                // Reset form for adding a new address
+                $('#profile-shipping-details')[0].reset();
+                $('#profile-shipping-details').attr('action', "{% url 'add_shipping_addresses' %}");
+            }
+        });
+    });
+</script> -->
 {% endblock %}
