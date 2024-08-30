@@ -139,8 +139,10 @@ class CustomPasswordChangeForm(PasswordChangeForm):
 class ShippingAddressForm(forms.ModelForm):
     class Meta:
         model = ShippingAddress
-        fields = ('delivery_first_name', 'delivery_last_name', 'delivery_email', 'delivery_phone_number',
-                  'shipping_town_city', 'shipping_county', 'shipping_street_address', 'shipping_postcode',
+        fields = ('delivery_first_name', 'delivery_last_name',
+                  'delivery_email', 'delivery_phone_number',
+                  'shipping_town_city', 'shipping_county',
+                  'shipping_street_address', 'shipping_postcode',
                   'shipping_country',)
         labels = {
             'delivery_first_name': 'First Name',

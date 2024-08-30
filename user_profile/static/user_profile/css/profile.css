@@ -84,3 +84,7 @@ aside * {
         font-weight: 300;
     }
 }
+
+#add-shipping-address:hover {
+    color:#f55266;
+}

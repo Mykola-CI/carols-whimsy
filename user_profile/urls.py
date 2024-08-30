@@ -16,4 +16,9 @@ urlpatterns = [
          views.delete_user_account, name='delete_account'),
     path('shipping_addresses/', views.set_shipping_details_profile,
          name='manage_shipping_addresses'),
+    path('shipping_addresses/edit/<int:address_id>/',
+         views.edit_shipping_addresses_profile,
+         name='edit_shipping_addresses'),
+    path('get_address_data/', views.get_address_data, name='get_address_data'),
+    path('delete_address/<int:address_id>/', views.delete_address, name='delete_address'),
 ]

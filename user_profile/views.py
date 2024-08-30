@@ -229,3 +229,56 @@ def set_shipping_details_profile(request):
     }
 
     return render(request, template, context)
+
+
+@login_required
+def get_address_data(request):
+    """ A view to get the address data for editing """
+    address_id = request.GET.get('address_id')
+    shipping_address = get_object_or_404(
+        ShippingAddress, id=address_id, user_profile=request.user.userprofile)
+
+    data = {
+        'delivery_first_name': shipping_address.delivery_first_name,
+        'delivery_last_name': shipping_address.delivery_last_name,
+        'delivery_phone_number': shipping_address.delivery_phone_number,
+        'delivery_email': shipping_address.delivery_email,
+        'shipping_street_address': shipping_address.shipping_street_address,
+        'shipping_town_city': shipping_address.shipping_town_city,
+        'shipping_county': shipping_address.shipping_county,
+        'shipping_postcode': shipping_address.shipping_postcode,
+        'shipping_country': shipping_address.shipping_country.code,
+    }
+
+    return JsonResponse(data)
+
+
+@login_required
+@require_POST
+def edit_shipping_addresses_profile(request, address_id):
+    """ A view to edit a shipping address """
+    user = request.user
+    user_profile = get_object_or_404(UserProfile, user=user)
+    shipping_address = get_object_or_404(
+        ShippingAddress, id=address_id, user_profile=user_profile)
+
+    shipping_address_form = ShippingAddressForm(
+        request.POST, instance=shipping_address)
+
+    if shipping_address_form.is_valid():
+        shipping_address_form.save()
+        messages.success(request, 'The shipping address updated successfully.')
+        return redirect('manage_shipping_addresses')
+    else:
+        messages.error(request, 'Failed to update address. Please try again.')
+        return redirect('manage_shipping_addresses')
+
+
+@login_required
+def delete_address(request):
+    """ A view to delete a shipping address """
+    address_id = request.GET.get('address_id')
+    shipping_address = get_object_or_404(
+        ShippingAddress, id=address_id, user_profile=request.user.userprofile)
+    shipping_address.delete()
+    return redirect('manage_shipping_addresses')

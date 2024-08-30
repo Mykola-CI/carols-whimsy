@@ -10,7 +10,10 @@
 
 {% include 'includes/shopping_cart_offcanvas.html' %}
 
-<!-- Modal -->
+<!-- Modal for deleting address -->
+
+
+<!-- Modal Shipping Details Form -->
 <div class="modal fade" id="shippingBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="shippingBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -59,7 +62,8 @@
                         class="btn btn-primary rounded-pill d-lg-flex justify-content-center align-items-center py-2--5">
                         Save Details
                     </button>
-                    <button type="button" class="btn btn-secondary rounded-pill py-2--5" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary rounded-pill py-2--5"
+                        data-bs-dismiss="modal">Close</button>
                 </div>
             </form>
         </div>
@@ -167,11 +171,12 @@
 
                     <!-- Review Shipping Addresses -->
                     {% for address in shipping_addresses %}
-                    <div class="pt-2 pt-sm-4">
+                    <div class="pt-2 pt-sm-4 mb-3">
                         <div class="nav flex-nowrap align-items-center justify-content-between pb-1 mb-3">
                             <h2 class="h6 mb-0">Address-{{ forloop.counter }}</h2>
-                            <button type="button" class="btn btn-light text-danger fs-sm fw-medium rounded-pill"
-                                data-bs-toggle="modal" data-bs-target="#shippingBackdrop" data-address-id="{{ address.id }}">Edit</button>
+                            <button type="button" class="btn btn-light fs-sm fw-medium rounded-pill"
+                                data-bs-toggle="modal" data-bs-target="#shippingBackdrop"
+                                data-address-id="{{ address.id }}">Edit</button>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
@@ -181,6 +186,13 @@
                                     <li id="delivery_phone{{ address.id }}">{{ address.delivery_phone_number }}</li>
                                     <li id="delivery_email{{ address.id }}">{{ address.delivery_email }}</li>
                                 </ul>
+                                <div class="button-delete-address">
+                                    <button id="delete-shipping-address" type="button" class="nav-link fs-sm px-0"
+                                        data-bs-toggle="modal" data-bs-target="#staticDeleteBackdrop">
+                                        <i class="fa-regular fa-plus fs-lg ms-n1 me-2"></i>
+                                        <span class="ms-2">Delete address</span>
+                                    </button>
+                                </div>
                             </div>
                             <div class="col-sm-6">
                                 <ul class="list-unstyled fs-sm m-0">
@@ -192,7 +204,15 @@
                                 </ul>
                             </div>
                         </div>
+                        <hr>
                         {% endfor %}
+                    </div>
+                    <div class="nav pt-4">
+                        <button id="add-shipping-address" type="button" class="nav-link fs-base px-0"
+                            data-bs-toggle="modal" data-bs-target="#shippingBackdrop">
+                            <i class="fa-regular fa-plus fs-lg ms-n1 me-2"></i>
+                            <span class="ms-2">Add address</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -214,33 +234,42 @@
 
 {% block postloadjs %}
 {{ block.super }}
-<!-- <script>
-    $(document).ready(function() {
+<script>
+    $(document).ready(function () {
         // Listen for the modal show event
-        $('#shippingBackdrop').on('show.bs.modal', function(event) {
+        $('#shippingBackdrop').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             var addressId = button.data('address-id'); // Extract info from data-* attributes
-            
+
             if (addressId) {
                 // Fetch the existing data using AJAX
                 $.ajax({
-                    url: '/get_shipping_address_data/', // URL to fetch data
+                    url: '/profile/get_address_data/', // URL to fetch data
                     data: {
                         'address_id': addressId
                     },
-                    success: function(data) {
+                    success: function (data) {
                         // Pre-fill the form fields with the data
-                        $('#id_field_name').val(data.field_name); // Repeat for each field
+                        $('#id_delivery_first_name').val(data.delivery_first_name);
+                        $('#id_delivery_last_name').val(data.delivery_last_name);
+                        $('#id_delivery_email').val(data.delivery_email);
+                        $('#id_delivery_phone_number').val(data.delivery_phone_number);
+                        $('#id_shipping_town_city').val(data.shipping_town_city);
+                        $('#id_shipping_county').val(data.shipping_county);
+                        $('#id_shipping_street_address').val(data.shipping_street_address);
+                        $('#id_shipping_postcode').val(data.shipping_postcode);
+                        $('#id_shipping_country').val(data.shipping_country);
                         // Update the form action for editing
-                        $('#profile-shipping-details').attr('action', "{% url 'edit_shipping_address' 0 %}".replace('0', addressId));
+                        var editActionUrl = '/profile/shipping_addresses/edit/' + addressId + '/';
+                        $('#profile-shipping-details').attr('action', editActionUrl);
                     }
                 });
             } else {
                 // Reset form for adding a new address
                 $('#profile-shipping-details')[0].reset();
-                $('#profile-shipping-details').attr('action', "{% url 'add_shipping_addresses' %}");
+                $('#profile-shipping-details').attr('action', "{% url 'manage_shipping_addresses' %}");
             }
         });
     });
-</script> -->
+</script>
 {% endblock %}
