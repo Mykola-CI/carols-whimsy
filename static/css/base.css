@@ -170,7 +170,7 @@ body {
     font-style: normal;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
 }
 

@@ -10,7 +10,6 @@ urlpatterns = [
         'confirmation/<order_number>/',
         views.order_confirmation,
         name='order_confirmation'),
-    # path('success/<order_number>/', views.checkout_success, name='payment_success'),
     path(
         'cache_checkout_data/',
         views.cache_checkout_data,
@@ -21,7 +20,7 @@ urlpatterns = [
     path(
         'order_pending/<str:pid>/status/',
         views.check_order_status, name='check_order_status'),
-    # path('order_interruption/',
-    #      views.order_interruption,
-    #      name='order_interruption'),
+    path('order_interruption/',
+         views.order_interruption,
+         name='order_interruption'),
 ]
