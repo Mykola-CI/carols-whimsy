@@ -1,4 +1,4 @@
-Hello {{ order.first_name }} {{ order.last_name }}!
+Hello {{ billing_name }}!
 
 Thanks for your order. We’ll let you know once your item(s) have dispatched. 
 
@@ -10,9 +10,11 @@ Delivery: £{{ order.delivery_cost|floatformat:2 }}
 Grand Total: £{{ order.grand_total|floatformat:2 }}
 
 Your order will be shipped to:
+{{ order.first_name }} {{ order.last_name }}
+Phone: {{ order.phone_number }}
 {{ order.street_address }} in {{ order.town_city }}, {% if order.county %} {{ order.county }}, {% endif %} {{ order.postcode }}, {{ order.country }}.
 
-We've got your phone number on file as {{ order.phone_number }}.
+We've got your phone number on file as {{ billing_phone }}.
 
 If you have any questions, feel free to contact us at {{ contact_email }}.
 

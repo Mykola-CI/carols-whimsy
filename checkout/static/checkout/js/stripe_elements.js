@@ -39,6 +39,11 @@ $(document).ready(function () {
 
     var paymentID = clientSecret.split('_secret')[0];
 
+    console.log('printed from stripe_elements.js 1:');
+    console.log(billingName);
+    console.log(billingPhone);
+    console.log(billingEmail);
+
     form.addEventListener('submit', function (ev) {
         ev.preventDefault();
         paymentElement.update({ 'disabled': true });
@@ -53,6 +58,11 @@ $(document).ready(function () {
         };
         var url = '/checkout/cache_checkout_data/';
 
+        console.log('printed from stripe_elements.js 2:');
+        console.log(billingName);
+        console.log(billingPhone);
+        console.log(billingEmail);
+
         $.post(url, postData).done(function () {
             stripe.confirmPayment({
                 elements,
@@ -60,9 +70,9 @@ $(document).ready(function () {
                     return_url: `${window.location.origin}/checkout/order_pending/${paymentID}/`,
                     payment_method_data: {
                         billing_details: {
-                            name: fullName,
-                            phone: phoneNumber,
-                            email: email,
+                            email: billingEmail,
+                            name: billingName,
+                            phone: billingPhone,
                         },
                     },
                     shipping: {

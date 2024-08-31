@@ -25,15 +25,18 @@ class WH_Handler:
     def __init__(self, request):
         self.request = request
 
-    def _send_confirmation_email(self, order):
+    def _send_confirmation_email(self, order, billing_details):
         """Send the user a confirmation email"""
 
-        customer_email = order.email
+        customer_email = billing_details['billing_email']
 
         # Prepare the context for rendering the email subject and body
         context = {
             'order': order,
             'contact_email': settings.DEFAULT_FROM_EMAIL,
+            'billing_name': billing_details['billing_name'],
+            'billing_email': billing_details['billing_email'],
+            'billing_phone': billing_details['billing_phone'],
         }
 
         subject = render_to_string(
@@ -63,7 +66,9 @@ class WH_Handler:
         if Order.objects.filter(stripe_pid=pid).exists():
             # Order already exists, do not create a new one
             return HttpResponse(
-                content=f'Webhook received: {event["type"]} | Order already exists',
+                content=(
+                    f'Webhook received: {event["type"]} | Order already exists'
+                ),
                 status=200
             )
         else:
@@ -75,13 +80,22 @@ class WH_Handler:
                 intent.latest_charge
             )
 
-            # Get email from the charge object as it does not come in the intent
-            email = stripe_charge.billing_details.email
+            # Get email from the charge object as it doesn't come in the intent
+            billing_email = stripe_charge.billing_details.email
+            billing_name = stripe_charge.billing_details.name
+            billing_phone = stripe_charge.billing_details.phone
+
+            billing_details = {
+                'billing_name': billing_name,
+                'billing_email': billing_email,
+                'billing_phone': billing_phone,
+            }
 
             # Split full name onto first and last name
             full_name = intent.shipping.name
             first_name = full_name.split()[0]
-            last_name = full_name.split()[-1] if len(full_name.split()) > 1 else ""
+            last_name = (
+                full_name.split()[-1] if len(full_name.split()) > 1 else "")
 
             phone = intent.shipping.phone
             street_address = intent.shipping.address.line1
@@ -96,7 +110,7 @@ class WH_Handler:
                 order = Order(
                     first_name=first_name,
                     last_name=last_name,
-                    email=email,
+                    email=billing_email,
                     phone_number=phone,
                     country=country,
                     postcode=postal_code,
@@ -119,7 +133,7 @@ class WH_Handler:
                     order_line_item.save()
 
                 # Send confirmation email
-                self._send_confirmation_email(order)
+                self._send_confirmation_email(order, billing_details)
 
                 return HttpResponse(
                     content=f'Webhook received: {event["type"]} | SUCCESS: Created order in webhook',

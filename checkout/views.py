@@ -13,6 +13,7 @@ import json
 from .models import Order, OrderLineItem
 from products.models import Product
 from user_profile.models import UserProfile, ShippingAddress
+from .utils import get_billing_name
 
 
 @require_POST
@@ -109,6 +110,29 @@ def checkout_payment(request):
     # Get the full country name
     country_name = countries.name(country_code)
 
+    user = request.user
+
+    # Define the billing details for both authenticated and anonymous users
+    if user.is_authenticated:
+        # Get the billing name for the user using the utility function
+        billing_name = get_billing_name(user)
+        billing_details = {
+            'billing_name': billing_name,
+            'billing_email': user.email,
+            'billing_phone_number': user.userprofile.profile_phone_number,
+        }
+
+    else:   # For anonymous users
+        billing_name = (
+            f"{shipping_details['first_name']} "
+            f"{shipping_details['last_name']}"
+        )
+        billing_details = {
+            'billing_name': billing_name,
+            'billing_email': shipping_details['email'],
+            'billing_phone_number': shipping_details['phone_number'],
+        }
+
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -138,8 +162,15 @@ def checkout_payment(request):
         'stripe_public_key': stripe_public_key,
         'client_secret': client_secret,
         'shipping_details': shipping_details,
+        'billing_details': billing_details,
         'country_name': country_name,
     }
+    print("billing details :")
+    print(billing_details)
+    print(billing_details['billing_name'])
+    print(billing_details['billing_email'])
+    print("shipping details :")
+    print(shipping_details)
 
     template = 'checkout/checkout-payment.html'
 
