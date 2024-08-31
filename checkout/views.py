@@ -54,10 +54,11 @@ def checkout_shipping(request):
     if request.user.is_authenticated:
         # Check if the profile data has been used and set the flag
         if not request.session.get('profile_data_used', False):
-            try:
-                default_address = ShippingAddress.objects.filter(
-                    user_profile__user=request.user, shipping_is_default=True
-                ).first()
+            default_address = ShippingAddress.objects.filter(
+                user_profile__user=request.user, shipping_is_default=True
+            ).first()
+
+            if default_address:
                 order_form = OrderForm(initial={
                     'first_name': default_address.delivery_first_name,
                     'last_name': default_address.delivery_last_name,
@@ -70,14 +71,15 @@ def checkout_shipping(request):
                     'street_address': default_address.shipping_street_address,
                     'county': default_address.shipping_county,
                 })
-
                 # Store the initial profile data in the session
                 request.session['shipping_details'] = order_form.initial
 
                 # Set the session flag to true as a signal that the db data has
                 # been used to prefill the form
                 request.session['profile_data_used'] = True
-            except UserProfile.DoesNotExist:
+
+            else:
+                # Render an empty form if no default address is found
                 order_form = OrderForm()
 
         else:
@@ -112,7 +114,7 @@ def checkout_payment(request):
 
     if request.method == 'POST':
         pid = request.POST.get('client_secret').split('_secret')[0]
-        print(pid)
+
         return redirect(reverse('order_pending', args=[pid]))
 
     else:
