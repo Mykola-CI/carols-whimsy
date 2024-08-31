@@ -275,9 +275,9 @@ def edit_shipping_addresses_profile(request, address_id):
 
 
 @login_required
-def delete_address(request):
+def delete_address(request, address_id):
     """ A view to delete a shipping address """
-    address_id = request.GET.get('address_id')
+
     shipping_address = get_object_or_404(
         ShippingAddress, id=address_id, user_profile=request.user.userprofile)
     shipping_address.delete()

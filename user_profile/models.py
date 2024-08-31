@@ -59,9 +59,38 @@ class ShippingAddress(models.Model):
     shipping_county = models.CharField(max_length=80)
     shipping_postcode = models.CharField(max_length=20)
     shipping_country = CountryField(blank_label='Country')
+    shipping_is_default = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user_profile.user.username
+
+    def save(self, *args, **kwargs):
+        """ Override save method to set default shipping address
+        to ensure there is only one default address per user"""
+
+        if (
+            not self.pk
+                and ShippingAddress.objects.filter(
+                    user_profile=self.user_profile).count() == 0):
+            self.shipping_is_default = True
+        elif self.shipping_is_default:
+            # Set all other addresses for this user to non-default
+            ShippingAddress.objects.filter(
+                user_profile=self.user_profile, shipping_is_default=True
+            ).update(shipping_is_default=False)
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        """ Override delete method to set default shipping address"""
+
+        super().delete(*args, **kwargs)
+        # After deletion, if there's only one address left, set it as default
+        remaining_addresses = ShippingAddress.objects.filter(
+            user_profile=self.user_profile)
+        if remaining_addresses.count() == 1:
+            remaining_address = remaining_addresses.first()
+            remaining_address.shipping_is_default = True
+            remaining_address.save()
 
     class Meta:
         verbose_name_plural = 'Shipping Addresses'

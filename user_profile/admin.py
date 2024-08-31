@@ -30,6 +30,7 @@ class ShippingAddressAdmin(admin.ModelAdmin):
         'shipping_postcode',
         'shipping_country',
         'user_profile',
+        'shipping_is_default',
     )
 
 

@@ -69,6 +69,7 @@ aside * {
         font-weight: 400;
         font-size: 14.88px;
         padding-left: 6px;
+        margin-bottom: 3px;
     }
     .form-control {
         font-weight: 300;
@@ -83,6 +84,10 @@ aside * {
         font-size: 1rem;
         font-weight: 300;
     }
+}
+
+.input-block-wrapper > div {
+    margin-bottom: 0.5rem !important;
 }
 
 #add-shipping-address:hover {

@@ -12,7 +12,7 @@ import json
 
 from .models import Order, OrderLineItem
 from products.models import Product
-from user_profile.models import UserProfile
+from user_profile.models import UserProfile, ShippingAddress
 
 
 @require_POST
@@ -55,18 +55,20 @@ def checkout_shipping(request):
         # Check if the profile data has been used and set the flag
         if not request.session.get('profile_data_used', False):
             try:
-                profile = UserProfile.objects.get(user=request.user)
+                default_address = ShippingAddress.objects.filter(
+                    user_profile__user=request.user, shipping_is_default=True
+                ).first()
                 order_form = OrderForm(initial={
-                    'first_name': profile.user.first_name,
-                    'last_name': profile.user.last_name,
-                    'email': profile.user.email,
-                    'phone_number': profile.profile_phone_number,
+                    'first_name': default_address.delivery_first_name,
+                    'last_name': default_address.delivery_last_name,
+                    'email': default_address.delivery_email,
+                    'phone_number': default_address.delivery_phone_number,
                     # Convert country field to the string as not serializable
-                    'country': str(profile.profile_country),
-                    'postcode': profile.profile_postcode,
-                    'town_city': profile.profile_town_city,
-                    'street_address': profile.profile_street_address,
-                    'county': profile.profile_county,
+                    'country': str(default_address.shipping_country),
+                    'postcode': default_address.shipping_postcode,
+                    'town_city': default_address.shipping_town_city,
+                    'street_address': default_address.shipping_street_address,
+                    'county': default_address.shipping_county,
                 })
 
                 # Store the initial profile data in the session

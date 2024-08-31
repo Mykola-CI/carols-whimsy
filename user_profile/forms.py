@@ -143,7 +143,7 @@ class ShippingAddressForm(forms.ModelForm):
                   'delivery_email', 'delivery_phone_number',
                   'shipping_town_city', 'shipping_county',
                   'shipping_street_address', 'shipping_postcode',
-                  'shipping_country',)
+                  'shipping_country', 'shipping_is_default')
         labels = {
             'delivery_first_name': 'First Name',
             'delivery_last_name': 'Last Name',
@@ -154,6 +154,7 @@ class ShippingAddressForm(forms.ModelForm):
             'shipping_street_address': 'Street Address',
             'shipping_postcode': 'Postal Code',
             'shipping_country': 'Country',
+            'shipping_is_default': 'Set as default shipping address',
         }
 
     def __init__(self, *args, **kwargs):
@@ -171,10 +172,11 @@ class ShippingAddressForm(forms.ModelForm):
         }
 
         for field in self.fields:
-            if field != 'shipping_country':
+            if field != 'shipping_country' and field != 'shipping_is_default':
                 placeholder = placeholders[field]
 
             self.fields[field].widget.attrs['placeholder'] = placeholder
-            self.fields[field].widget.attrs['class'] = (
-                'form-control form-control-lg'
-            )
+            if field != 'shipping_is_default':
+                self.fields[field].widget.attrs['class'] = (
+                    'form-control form-control-lg'
+                )
