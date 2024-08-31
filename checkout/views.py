@@ -165,12 +165,6 @@ def checkout_payment(request):
         'billing_details': billing_details,
         'country_name': country_name,
     }
-    print("billing details :")
-    print(billing_details)
-    print(billing_details['billing_name'])
-    print(billing_details['billing_email'])
-    print("shipping details :")
-    print(shipping_details)
 
     template = 'checkout/checkout-payment.html'
 
@@ -223,3 +217,5 @@ def order_confirmation(request, order_number):
     cart.clear()
 
     return render(request, template, context)
+
+

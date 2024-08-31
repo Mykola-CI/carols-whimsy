@@ -20,7 +20,7 @@ urlpatterns = [
     path(
         'order_pending/<str:pid>/status/',
         views.check_order_status, name='check_order_status'),
-    path('order_interruption/',
-         views.order_interruption,
-         name='order_interruption'),
+    # path('order_interruption/',
+    #      views.order_interruption,
+    #      name='order_interruption'),
 ]
