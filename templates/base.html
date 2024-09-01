@@ -71,14 +71,16 @@
                     alt="Goodwill commercial sign">
             </a>
         </div>
-        <a class="text-decoration-none shadow-sm d-none d-lg-inline text-reset fw-lighter ls-wider fs-xs" href="https://goodwill.be/en/home-eng/">
+        <a class="text-decoration-none shadow-sm d-none d-lg-inline text-reset fw-lighter ls-wider fs-xs"
+            href="https://goodwill.be/en/home-eng/">
             Carol's Whimsy Holy-Jolly Store is an on-line reseller of Goodwill.
             A World of Enchanting Decorations
         </a>
         <ul class="nav gap-2 gap-sm-4 me-4">
             {% if user.is_authenticated %}
             <li>
-                <div class="nav-link p-0 text-reset ls-wider fs-xs text-decoration-none" href="#!">Hello, {{ user.username }}!</div>
+                <div class="nav-link p-0 text-reset ls-wider fs-xs text-decoration-none" href="#!">Hello,
+                    {{ user.username }}!</div>
             </li>
             <li>
                 <a class="nav-link p-0 text-reset ls-wider fs-xs" href="#!">Wishlist</a>
@@ -260,12 +262,23 @@
     </header>
 
     {% if messages %}
-    <ul class="messages">
+    <div class="toast-container position-fixed top-0 end-0 p-3">
         {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message|linebreaksbr }}</li>
-            {% endfor %}
-    </ul>
+        <div class="toast align-items-center {{ message.tags }} border-0" role="alert" aria-live="assertive"
+            aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+            <div class="d-flex">
+                <div class="toast-body">
+                    {{ message }}
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
     {% endif %}
+
+    <!-- Container for JSON Response Toasts -->
+    <div id="json-toast-container" class="toast-container position-fixed top-0 end-0 p-3"></div>
 
     {% block page_header %}{% endblock %}
 
@@ -296,29 +309,29 @@
                             </button>
                         </form>
                         <div class="d-flex justify-content-center gap-5 pt-4 pt-md-3 mt-2 mt-md-3 mb-2">
-                            <a class="btn btn-icon fs-base btn-outline-secondary border-0" href="#!"
+                            <a class="btn btn-icon fs-xl btn-outline-secondary border-0" href="#!"
                                 data-bs-toggle="tooltip"
                                 data-bs-template='<div class="tooltip fs-xs mb-n2" role="tooltip"><div class="tooltip-inner bg-transparent text-white p-0"></div></div>'
                                 title="YouTube" aria-label="Follow us on YouTube">
-                                <i class="fa-brands fa-youtube"></i>
+                                <i class="fa-brands fa-youtube align-middle"></i>
                             </a>
-                            <a class="btn btn-icon fs-base btn-outline-secondary border-0" href="#!"
+                            <a class="btn btn-icon fs-xl btn-outline-secondary border-0" href="#!"
                                 data-bs-toggle="tooltip"
                                 data-bs-template='<div class="tooltip fs-xs mb-n2" role="tooltip"><div class="tooltip-inner bg-transparent text-white p-0"></div></div>'
                                 title="Facebook" aria-label="Follow us on Facebook">
-                                <i class="fa-brands fa-facebook-f"></i>
+                                <i class="fa-brands fa-facebook-f align-middle"></i>
                             </a>
-                            <a class="btn btn-icon fs-base btn-outline-secondary border-0" href="#!"
+                            <a class="btn btn-icon fs-xl btn-outline-secondary border-0" href="#!"
                                 data-bs-toggle="tooltip"
                                 data-bs-template='<div class="tooltip fs-xs mb-n2" role="tooltip"><div class="tooltip-inner bg-transparent text-white p-0"></div></div>'
                                 title="Instagram" aria-label="Follow us on Instagram">
-                                <i class="fa-brands fa-instagram"></i>
+                                <i class="fa-brands fa-instagram align-middle"></i>
                             </a>
-                            <a class="btn btn-icon fs-base btn-outline-secondary border-0" href="#!"
+                            <a class="btn btn-icon fs-xl btn-outline-secondary border-0" href="#!"
                                 data-bs-toggle="tooltip"
                                 data-bs-template='<div class="tooltip fs-xs mb-n2" role="tooltip"><div class="tooltip-inner bg-transparent text-white p-0"></div></div>'
                                 title="Telegram" aria-label="Follow us on Telegram">
-                                <i class="fa-brands fa-telegram"></i>
+                                <i class="fa-brands fa-telegram align-middle"></i>
                             </a>
                         </div>
                     </div>
@@ -370,10 +383,18 @@
     {% block postloadjs %}
     <!-- Adding tooltips to the footer social icons -->
     <script>
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
+        document.addEventListener('DOMContentLoaded', function () {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
+
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            var toastList = toastElList.map(function (toastEl) {
+                return new bootstrap.Toast(toastEl)
+            })
+            toastList.forEach(toast => toast.show());
+        });
     </script>
     {% endblock %}
 

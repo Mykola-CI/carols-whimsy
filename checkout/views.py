@@ -217,5 +217,3 @@ def order_confirmation(request, order_number):
     cart.clear()
 
     return render(request, template, context)
-
-

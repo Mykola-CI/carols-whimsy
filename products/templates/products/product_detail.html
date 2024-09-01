@@ -79,8 +79,7 @@
                                 aria-label="Decrement quantity">
                                 <i class="fa-regular fa-minus"></i>
                             </button>
-                            <input id="display_qtty" type="number" class="form-control" value="1" max="29"
-                                readonly>
+                            <input id="display_qtty" type="number" class="form-control" value="1" max="29" readonly>
                             <button id="increase_qtty" type="button" class="btn btn-icon"
                                 aria-label="Increment quantity">
                                 <i class="fa-regular fa-plus"></i>
@@ -141,10 +140,16 @@
                     'csrfmiddlewaretoken': '{{ csrf_token }}'
                 },
                 success: function (json) {
+                    // Update the cart details in the navbar and offcanvas 
                     window.location.reload();
                 },
                 error: function (xhr, errmsg, err) {
+                    const errorMessage = 'Failed to add to the cart. Try again later.';
+                    sessionStorage.setItem('toastMessage', errorMessage);
+                    sessionStorage.setItem('toastType', 'danger');
                     alert('Failed to add product to cart.');
+
+                    window.location.reload();
                 }
             });
         });

@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponseRedirect
 from django.views.decorators.http import require_POST
+from django.contrib import messages
 
 from .cart import Cart
 from products.models import Product, Brand, Category, Theme, Season
@@ -49,18 +50,26 @@ def add_to_cart(request):
     # Just checking if the product exists, if not, return a 404
     product = get_object_or_404(Product, pk=product_id)
 
-    # Add the product to the cart
-    cart = Cart(request)
-    cart.add(product=product, quantity=quantity)
+    try:
+        cart = Cart(request)
+        cart.add(product=product, quantity=quantity)
+        messages.success(
+            request, f'Added {quantity} item(s) of '
+                     f'{product.name} to your cart')
 
-    # Check if the request is AJAX
+    except Exception as e:
+        messages.error(
+            request, "There was an error adding the product to your cart.")
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'status': 'error'}, status=500)
+        else:
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        return JsonResponse({'message': 'Product added to cart successfully!'})
+        return JsonResponse({'status': 'success'})
     else:
-        # For regular form submissions, redirect back to the referring page
-        # with filters intact
-        referer = request.META.get('HTTP_REFERER', '/')
-        return HttpResponseRedirect(referer)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
 def update_cart(request):
@@ -71,13 +80,19 @@ def update_cart(request):
         # Check if the product exists
         product = get_object_or_404(Product, pk=product_id)
 
-        # Update the product quantity in the cart
         cart = Cart(request)
+        # Retrieve the old quantity for the product before the update
+        old_quantity = cart.cart.get(str(product_id), 0)
+        print(f'Old Quantity: {old_quantity}')
+        # Update the product quantity in the cart
         cart.update(product=product, quantity=new_quantity)
 
+        messages.success(
+            request, f'Updated quantity of {product.name} from '
+                     f'({old_quantity}) to ({new_quantity})')
+
         return JsonResponse(
-            {'message': 'Cart updated successfully!'}
-        )
+            {'status': 'success'}, status=200)
 
 
 def remove_item(request, product_id):
