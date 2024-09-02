@@ -1,0 +1,25 @@
+{% if widget.is_initial %}
+    <p>{{ widget.initial_text }}:</p>
+    <div class="d-flex align-items-center">
+        <a href="{{ widget.value.url }}">
+            <img width='96' height='96' src="{{ widget.value.url }}" class="rounded shadow-sm" alt="">
+        </a>
+            {% if not widget.required %}
+            <input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}" class="ms-5" style="width: 32px; height: 32px;" {% if widget.attrs.disabled %}
+                disabled{% endif %}{% if widget.attrs.checked %} checked{% endif %}>
+            <label for="{{ widget.checkbox_id }}" class="ms-3 align-middle">{{ widget.clear_checkbox_label }}</label>
+            {% endif %}
+    </div><br>
+    {{ widget.input_text }}
+{% endif %}
+<div class="d-flex flex-column pt-2 mt-3">
+    <p class="mb-1"><mark>Select Image</mark></p>
+    <div>
+        <span class="btn btn-secondary py-3 rounded-3 w-100">
+            <input id="new-image" type="{{ widget.type }}" name="{{ widget.name }}" {% include "django/forms/widgets/attrs.html" %}>
+        </span>
+    </div>
+    <strong>
+        <p class="text-danger" id="filename"></p>
+    </strong>
+</div>
