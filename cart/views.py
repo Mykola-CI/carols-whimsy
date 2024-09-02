@@ -54,8 +54,9 @@ def add_to_cart(request):
         cart = Cart(request)
         cart.add(product=product, quantity=quantity)
         messages.success(
-            request, f'Added {quantity} item(s) of '
-                     f'{product.name} to your cart')
+            request, f'Added ({quantity}) item(s) of '
+                     f'"{product.name}" to your cart. '
+                     f'Click on the Cart button to view your cart.')
 
     except Exception as e:
         messages.error(
@@ -88,8 +89,9 @@ def update_cart(request):
         cart.update(product=product, quantity=new_quantity)
 
         messages.success(
-            request, f'Updated quantity of {product.name} from '
-                     f'({old_quantity}) to ({new_quantity})')
+            request, f'Updated quantity of "{product.name}" from '
+                     f'({old_quantity}) to ({new_quantity}). '
+                     f'Click on the Cart button to view your cart.')
 
         return JsonResponse(
             {'status': 'success'}, status=200)
@@ -98,7 +100,12 @@ def update_cart(request):
 def remove_item(request, product_id):
 
     cart = Cart(request)
+    product_item = get_object_or_404(Product, pk=product_id)
+    name = product_item.name
     cart.delete_item(product_id)
+
+    messages.info(
+            request, f'Removed "{name}" from cart.')
 
     return redirect('cart_summary')
 
@@ -107,5 +114,7 @@ def clear_cart(request):
 
     cart = Cart(request)
     cart.clear()
+
+    messages.info(request, 'Cart has been cleared.')
 
     return redirect('cart_summary')

@@ -102,7 +102,8 @@
     <!-- Navigation bar (Page header) -->
     <header class="navbar-sticky sticky-top container-xxl z-fixed p-2" data-sticky-element>
         <div class="navbar navbar-expand-lg flex-nowrap bg-body rounded-pill shadow ps-0 mx-1 pt-1 pb-1">
-            <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark rounded-pill z-0 d-none d-block-dark"></div>
+            <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark rounded-pill z-0 d-none d-block-dark">
+            </div>
 
             <!-- Mobile offcanvas menu toggler (Hamburger) -->
             <button type="button" class="navbar-toggler ms-3" data-bs-toggle="offcanvas" data-bs-target="#navbarNav"
@@ -198,7 +199,8 @@
                                 <li><a class="dropdown-item" href="#">Wishlist</a></li>
                                 <li><a class="dropdown-item" href="#">Payment Methods</a></li>
                                 <li><a class="dropdown-item" href="#">My Reviews</a></li>
-                                <li><a class="dropdown-item" href="#">Shipping Details</a></li>
+                                <li><a class="dropdown-item" href="{% url 'manage_shipping_addresses' %}">Shipping
+                                        Details</a></li>
                                 <li><a class="dropdown-item" href="#">Notifications</a></li>
                             </ul>
                         </li>
@@ -227,6 +229,7 @@
                     </ul>
                 </div>
             </nav>
+
 
             <!-- Button group -->
             <div class="d-flex gap-sm-1 position-relative z-1">
@@ -262,23 +265,37 @@
     </header>
 
     {% if messages %}
-    <div class="toast-container position-fixed top-0 end-0 p-3">
+    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="margin-top: 120px;">
         {% for message in messages %}
         <div class="toast align-items-center {{ message.tags }} border-0" role="alert" aria-live="assertive"
             aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
-            <div class="d-flex">
-                <div class="toast-body">
-                    {{ message }}
-                </div>
+            <div class="toast-header bg-light bg-gradient">
+                {% if message.tags == 'alert-success' %}
+                <i class="fa-duotone fa-solid fa-thumbs-up me-2 text-success fs-xl"></i>
+                {% elif message.tags == 'alert-info' %}
+                <i class="fa-regular fa-circle-info me-2 text-info fs-xl"></i>
+                {% elif message.tags == 'alert-warning' %}
+                <i class="fa-duotone fa-solid fa-triangle-exclamation me-2 text-warning fs-xl"></i>
+                {% elif message.tags == 'alert-danger' %}
+                <i class="fa-solid fa-circle-exclamation text-danger fs-xl me-2"></i>
+                {% else %}
+                <i class="fa-sharp-duotone fa-solid fa-circle-info text-secondary fs-xl me-2"></i>
+                {% endif %}
+                <strong class="me-auto">Carol's Message</strong>
+                <small class="text-muted">{% now "H:i" %}</small>
                 <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body fs-base">
+                {{ message }}
             </div>
         </div>
         {% endfor %}
     </div>
     {% endif %}
 
-    <!-- Container for JSON Response Toasts -->
-    <div id="json-toast-container" class="toast-container position-fixed top-0 end-0 p-3"></div>
+    <!-- Toast json response messages-->
+    <div id="toast-container-json" class="toast-container position-fixed top-0 start-50 translate-middle-x p-3"
+        style="margin-top: 120px; z-index: 11;"></div>
 
     {% block page_header %}{% endblock %}
 

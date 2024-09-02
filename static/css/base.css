@@ -250,9 +250,6 @@ swiper-slide img {
 }
 
 
-/* Catalog page */
-
-
 /* Shopping cart summary page */
 .cart-product-detail {
     width: 20ch !important;
@@ -319,6 +316,12 @@ swiper-slide img {
         height: 2.5rem;
         padding: 0;
         width: 2.5rem;
+    }
+}
+
+@media (min-width: 768px) {
+    #toast-container-json {
+        margin-left: 150px;
     }
 }
 

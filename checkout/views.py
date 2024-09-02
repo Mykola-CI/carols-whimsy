@@ -49,6 +49,7 @@ def checkout_shipping(request):
                 request,
                 'There was an error with your form. '
                 'Please double check your information.'
+                ' Or check your Internet connection.'
             )
 
     # Prefill the form with any info the user maintains in their profile

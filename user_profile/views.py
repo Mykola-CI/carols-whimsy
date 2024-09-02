@@ -68,10 +68,20 @@ def update_user_basic_info(request):
             'date_of_birth': user_profile.profile_date_of_birth,
             'title': user_profile.get_title_readable(),
         }
-        return JsonResponse(
-            {'success': True, 'updated_basic': updated_data_basic})
+        message = 'Your account has been updated.'
+        success = True
+
     else:
-        return JsonResponse({'success': False, 'errors': form_basic.errors})
+        updated_data_basic = {}
+        message = 'Failed to update account. Please try again.'
+        success = False
+
+    return JsonResponse({
+        'success': success,
+        'updated_basic': updated_data_basic,
+        'errors': form_basic.errors if not success else {},
+        'message': message
+    })
 
 
 @login_required
@@ -88,11 +98,17 @@ def update_user_phone(request):
         # Re-fetch the user object to get the updated email
         user_profile.refresh_from_db()
 
-        return JsonResponse(
-            {'success': True,
-             'updated_phone': user_profile.profile_phone_number})
+        message = 'Your phone number has been updated.'
+        success = True
+
     else:
-        return JsonResponse({'success': False, 'errors': form_phone.errors})
+        message = 'Failed to update phone number. Please try again.'
+        success = False
+
+    return JsonResponse({
+        'success': success,
+        'message': message,
+        'updated_phone': user_profile.profile_phone_number})
 
 
 @login_required
@@ -103,8 +119,11 @@ def change_email(request):
 
         # Check if the email is already in use
         if EmailAddress.objects.filter(email=new_email).exists():
+
             return JsonResponse(
-                {'error': 'This email is already in use.'}, status=400)
+                {'success': False,
+                 'message': 'This email is already in use.'},
+                status=200)
 
         # Ensure no other email is marked as primary
         EmailAddress.objects.filter(
@@ -122,36 +141,44 @@ def change_email(request):
         #  as 'verified' in Email addresses and saved to User model.
         if created or not email_address.verified:
             email_address.send_confirmation(request)
-            return JsonResponse({'success': 'Email change request sent. ' +
-                                 'Please check your email for confirmation.'})
+            return JsonResponse({
+                'success': True,
+                'message': 'Email change request sent. Please check your email'
+                           ' for confirmation.'
+                           ' Your new email must be verified.'
+            })
         else:
             return JsonResponse(
-                {'error': 'This email is already associated '
-                 + 'with your account.'},
-                status=400
+               {'success': False,
+                'message': 'This email is already associated with '
+                           'your account.'},
+               status=200
             )
 
-    return JsonResponse({'error': 'Invalid request method.'}, status=400)
+    return JsonResponse(
+        {'success': False, 'message': 'Invalid request method.'}, status=400)
 
 
 @login_required
+@require_POST
 def change_password(request):
     """ A view to handle POST requests for the password change form """
 
-    if request.method == 'POST':
-        form = CustomPasswordChangeForm(user=request.user, data=request.POST)
-        if form.is_valid():
-            form.save()
-            # Important to keep the user logged in after password change
-            update_session_auth_hash(request, form.user)
-            messages.success(
-                request, 'Your password was successfully updated!')
-            return redirect('view_profile')
-        else:
-            messages.error(request, 'Please correct the error below.')
+    # if request.method == 'POST':
+    form = CustomPasswordChangeForm(user=request.user, data=request.POST)
+    if form.is_valid():
+        form.save()
+        # Important to keep the user logged in after password change
+        update_session_auth_hash(request, form.user)
+        messages.success(
+            request, 'Your password was successfully updated!')
+        return redirect('view_profile')
     else:
-        form = CustomPasswordChangeForm(user=request.user)
-    return render(request, 'change_password.html', {'form': form})
+        messages.error(request, 'Please correct the error or try again.')
+    # else:
+    #     form = CustomPasswordChangeForm(user=request.user)
+
+    # return render(request, 'user_profile/view_profile.html', {'form': form})
 
 
 @login_required
@@ -189,7 +216,7 @@ def delete_user_account(request):
 
     user = request.user
     user.delete()
-    messages.success(request, 'Your account has been deleted.')
+    messages.info(request, 'Your account has been deleted.')
     return redirect('home')
 
 
@@ -218,6 +245,9 @@ def set_shipping_details_profile(request):
             shipping_address = shipping_address_form.save(commit=False)
             shipping_address.user_profile = user_profile  # Associate the user
             shipping_address.save()
+
+            messages.success(
+                request, 'The shipping address added successfully.')
             return redirect('manage_shipping_addresses')
     else:
         shipping_address_form = ShippingAddressForm()
@@ -233,7 +263,7 @@ def set_shipping_details_profile(request):
 
 @login_required
 def get_address_data(request):
-    """ A view to get the address data for editing """
+    """ A view to get the existing address data for editing """
     address_id = request.GET.get('address_id')
     shipping_address = get_object_or_404(
         ShippingAddress, id=address_id, user_profile=request.user.userprofile)
@@ -281,4 +311,6 @@ def delete_address(request, address_id):
     shipping_address = get_object_or_404(
         ShippingAddress, id=address_id, user_profile=request.user.userprofile)
     shipping_address.delete()
+
+    messages.info(request, 'The shipping address has been deleted.')
     return redirect('manage_shipping_addresses')

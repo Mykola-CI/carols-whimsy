@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     console.log('Form submission failed:', data.errors || data.message);
                 }
+                showToast(data);
             })
             .catch(error => console.log('Error:', error));
     });
@@ -67,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     console.log('Form submission failed:', data.errors || data.message);
                 }
+                showToast(data);
             })
             .catch(error => console.log('Error:', error));
     });
@@ -81,13 +83,38 @@ document.addEventListener('DOMContentLoaded', function () {
             data: $(this).serialize(), // Serialize the form data
             success: function (response) {
                 // Handle success - display a message or update the page
-                $('#email-change-message').html('<p>' + response.success + '</p>');
+                showToast(response);
             },
             error: function (xhr, status, error) {
-                // Handle error - display an error message
-                var response = JSON.parse(xhr.responseText);
-                $('#email-change-message').html('<p>' + response.error + '</p>');
+                // Log the detailed error for debugging (optional)
+                console.error('Error details:', xhr, status, error);
+
+                // Show a generic error message to the user
+                showToast({
+                    success: false,
+                    message: 'An unexpected error occurred. Please try again later.'
+                });
             }
         });
     });
+
+    function showToast(data) {
+        // Display Bootstrap toast
+        const toastContainer = document.querySelector('#toast-container-json');
+        const toastHTML = `
+            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                <div class="toast-header bg-light">
+                    <strong class="me-auto">${data.success ? "Carol's Success Message" : "Carrol's sorry message"}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body fs-base">
+                    ${data.message}
+                </div>
+            </div>
+        `;
+        toastContainer.innerHTML = toastHTML;
+        const toastElement = toastContainer.querySelector('.toast');
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+    }
 });

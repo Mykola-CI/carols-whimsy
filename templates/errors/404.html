@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block project_content %}
+{% include 'includes/shopping_cart_offcanvas.html' %}
+
+<!-- Page content -->
+<main class="content-wrapper">
+ 
+    <section class="d-flex align-items-center overflow-hidden my-4">
+        <div class="container h-100 mx-auto w-lg-75 w-xxl-50 py-xxl-5 my-md-2 my-lg-3 my-xl-4 mb-xxl-5">
+            <h1 id="home-h1-heading"
+                class="display-5 text-start mx-auto mb-1 mb-sm-2 mb-md-3 mb-lg-4"
+                style="max-width: 680px;">The page you are looking for isn't available.</h1>
+            <div class="mx-auto gx-3 gx-sm-4 mb-3 mb-sm-4">
+                    <div class="caption text-center">
+                        <a class="btn btn-lg btn-dark rounded-pill" href="{% url 'catalog' %}">
+                            Shop now
+                            <i class="fa-solid fa-chevron-right ms-2"></i>
+                        </a>
+                    </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+
+{% endblock %}
