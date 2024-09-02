@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block extra_title %}Vendor Dashboard{% endblock %}
+
+{% block project_content %}
+
+{% include 'includes/shopping_cart_offcanvas.html' %}
+
+<!-- Page content -->
+<div class="overlay"></div>
+<main class="content-wrapper">
+    <div class="container py-5 mt-sm-0">
+        <div class="row pt-md-2 pt-lg-3 pb-sm-2 pb-md-3 pb-lg-4 pb-xl-5 gx-5">
+
+
+            <!-- Sidebar navigation that turns into offcanvas on screens < 992px wide (lg breakpoint) -->
+            <aside class="col-lg-3">
+                <div class="offcanvas-lg offcanvas-start pe-lg-0 pe-xl-4" id="accountSidebar">
+
+                    <!-- Header -->
+                    <div class="offcanvas-header d-lg-block py-3 p-lg-0">
+                        <div class="d-flex align-items-center">
+                            <div class="h5 d-flex justify-content-center align-items-center flex-shrink-0 text-primary bg-primary-subtle lh-1 rounded-circle mb-0"
+                                style="width: 3rem; height: 3rem"><i class="fa-duotone fa-solid fa-file-user"></i></div>
+                            <div class="min-w-0 ps-3">
+                                <h5 class="h6 mb-1">{{ user.username }}</h5>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-close d-lg-none" data-bs-dismiss="offcanvas"
+                            data-bs-target="#accountSidebar" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Body (Navigation) -->
+                    <div class="offcanvas-body d-block pt-2 pt-lg-4 pb-lg-0 aside-offcanvas-body">
+                        <nav class="list-group">
+                            <a class="list-group-item list-group-item-action list-group-item-light d-flex align-items-center fw-light pe-none active"
+                                href="#">
+                                <i class="fa-light fa-grid-horizontal fs-lg me-2"></i>
+                                Dashboard
+                            </a>
+                        </nav>
+                        <h6 class="pt-4 ps-2 ms-1">Manage Products</h6>
+                        <nav class="list-group">
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+                                <i class="fa-solid fa-plus fs-lg me-2"></i>
+                                Add Product
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+                                <i class="fa-sharp-duotone fa-solid fa-pen-to-square fs-xl me-2"></i>
+                                Edit Product
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+                                <i class="fa-duotone fa-solid fa-trash fs-xl me-2"></i>
+                                Remove Product
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+                                <i class="fa-duotone fa-solid fa-badge-percent fs-xl me-2"></i>
+                                Set PromoCode
+                            </a>
+                        </nav>
+                        <h6 class="pt-4 ps-2 ms-1">Manage Orders</h6>
+                        <nav class="list-group list-group-borderless">
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+                                <i class="fa-duotone fa-solid fa-truck-clock fs-xl me-2"></i>
+                                Orders Lookup
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+                                <i class="fa-duotone fa-solid fa-square-check fs-xl me-2"></i>
+                                Change Order Status
+                            </a>
+                        </nav>
+                        <nav class="list-group list-group-borderless pt-3">
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="{% url 'account_logout' %}">
+                                <i class="fa-duotone fa-solid fa-arrow-right-from-bracket fs-base me-2"></i>
+                                Log out
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </aside>
+
+
+            <!-- Dashboard content -->
+            <div class="col-lg-9">
+                <div class="px-3  ps-lg-3 ps-xl-0">
+
+                    <!-- Page title -->
+                    <h1 class="h2 mb-1 mb-sm-2">Dashboard</h1>
+
+                    <section class="mb-4">
+                        <h2 class="h6 lead mt-4 mb-0"><u>Product count</u></h2>
+                        <p class="mb-1">Total Product SKUs: {{ all_products_count }}</p>
+                        <div class="row border-bottom pt-2 gx-4 gy-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="card h-100 p-3">
+                                    <h3 class="h6">Totals by Brand:</h3>
+                                    <ul class="list-unstyled fs-sm mb-3 mb-sm-4">
+                                        {% for brand in brands %}
+                                        <li class="d-flex justify-content-between mb-1">{{ brand.friendly_name }}:
+                                            <span>{{ products_by_brand|dict_get:brand.id }}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <h3 class="h6">Totals by Season:</h3>
+                                    <ul class="list-unstyled fs-sm m-0">
+                                        {% for season in seasons %}
+                                        <li class="d-flex justify-content-between mb-1">{{ season.friendly_name }}:
+                                            <span>{{ products_by_season|dict_get:season.id }}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="card h-100 p-3">
+                                    <h3 class="h6">Totals by Categories:</h3>
+                                    <ul class="list-unstyled fs-sm mb-3 mb-sm-4">
+                                        {% for c in categories %}
+                                        <li class="d-flex justify-content-between mb-1">{{ c.friendly_name }}:
+                                            <span>{{ products_by_category|dict_get:c.id }}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-lg-4 ">
+                                <div class="card h-100 p-3">
+                                    <h3 class="h6">Totals by Themes:</h3>
+                                    <ul class="list-unstyled fs-sm mb-3 mb-sm-4">
+                                        {% for t in themes %}
+                                        <li class="d-flex justify-content-between mb-1">{{ t.friendly_name }}:
+                                            <span>{{ products_by_theme|dict_get:t.id }}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="w-100">
+                        <h2 class="h6 lead mt-4 mb-1"><u>Orders Stats</u></h2>
+                        <div class="w-100 d-sm-flex justify-content-between gap-sm-5 pt-2">
+                            <ul class="card list-unstyled fs-sm mb-3 mb-sm-4 flex-grow-1 p-3">
+                                <li class="d-flex justify-content-between mb-1">Orders pending:
+                                    <span>{{ orders_pending }}</span>
+                                </li>
+                                <li class="d-flex justify-content-between mb-1">Orders being processed:
+                                    <span>{{ orders_processing }}</span>
+                                </li>
+                                <li class="d-flex justify-content-between mb-1">Orders shipped:
+                                    <span>{{ orders_shipped }}</span>
+                                </li>
+                            </ul>
+                            <ul class="card list-unstyled fs-sm mb-3 mb-sm-4 flex-grow-1 p-3">
+
+                                <li class="d-flex justify-content-between mb-1">Total Orders to be shipped:
+                                    <span>{{ orders_not_shipped }}</span>
+                                </li>
+                                <li class="d-flex justify-content-between mb-1">Total orders not delivered:
+                                    <span>{{ orders_not_delivered }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
+
+{% block postfooter %}
+<!-- Sidebar navigation offcanvas toggle that is visible on screens < 992px wide (lg breakpoint) -->
+<button type="button"
+    class="fixed-bottom z-sticky w-100 btn btn-lg btn-dark border-0 border-top border-light border-opacity-10 rounded-0 pb-4 d-lg-none"
+    data-bs-toggle="offcanvas" data-bs-target="#accountSidebar" aria-controls="accountSidebar" data-bs-theme="light">
+    <i class="fa-duotone fa-solid fa-sidebar fs-base me-2"></i>
+    Account menu
+</button>
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+
+{% endblock %}
