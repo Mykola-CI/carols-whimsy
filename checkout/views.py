@@ -11,7 +11,6 @@ import stripe
 import json
 
 from .models import Order, OrderLineItem
-from products.models import Product
 from user_profile.models import UserProfile, ShippingAddress
 from .utils import get_billing_name
 

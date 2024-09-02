@@ -11,6 +11,16 @@ from user_profile.models import UserProfile, ShippingAddress
 
 
 class Order(models.Model):
+    """ A model for storing order information """
+
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Processing', 'Processing'),
+        ('Shipped', 'Shipped'),
+        ('Delivered', 'Delivered'),
+        ('Cancelled', 'Cancelled'),
+    ]
+
     order_number = models.CharField(max_length=32, null=False, editable=False)
     user_profile = models.ForeignKey(
         UserProfile, on_delete=models.SET_NULL,
@@ -38,6 +48,9 @@ class Order(models.Model):
     original_cart = models.TextField(null=False, blank=False, default='')
     stripe_pid = models.CharField(
         max_length=254, unique=True, null=False, blank=False, default='')
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, null=False, blank=False,
+        default='Pending')
 
     def _generate_order_number(self):
         """

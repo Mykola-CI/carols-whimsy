@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from django.db.models import Q
 
 from products.models import Product, Brand, Category, Theme, Season
+from checkout.models import Order
 
 
 def view_vendor_dashboard(request):
@@ -11,6 +13,18 @@ def view_vendor_dashboard(request):
     themes = Theme.objects.all()
     seasons = Season.objects.all()
     products = Product.objects.all()
+
+    orders = Order.objects.all()
+
+    orders_pending = orders.filter(status='Pending')
+    orders_processing = orders.filter(status='Processing')
+    orders_shipped = orders.filter(status='Shipped')
+    orders_not_shipped = orders.filter(
+        Q(status='Pending') | Q(status='Processing')
+    )
+    orders_not_delivered = orders.filter(
+        Q(status='Pending') | Q(status='Processing') | Q(status='Shipped')
+    )
 
     all_products_count = products.count()
 
@@ -41,6 +55,11 @@ def view_vendor_dashboard(request):
             'products_by_category': products_by_category,
             'products_by_theme': products_by_theme,
             'products_by_season': products_by_season,
+            'orders_pending': orders_pending,
+            'orders_processing': orders_processing,
+            'orders_shipped': orders_shipped,
+            'orders_not_shipped': orders_not_shipped,
+            'orders_not_delivered': orders_not_delivered,
         }
 
     return render(request, 'vendor/vendor_dashboard.html', context)
