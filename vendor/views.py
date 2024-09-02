@@ -8,8 +8,13 @@ from checkout.models import Order
 from .forms import ProductForm
 
 
+@login_required
 def view_vendor_dashboard(request):
     """ A view to return the vendor dashboard """
+
+    if not request.user.is_staff:
+        messages.error(request, 'Sorry, only store stuff is granted access.')
+        return redirect(reverse('home'))
 
     brands = Brand.objects.all()
     categories = Category.objects.all()
@@ -41,8 +46,6 @@ def view_vendor_dashboard(request):
         brand.id: products.filter(brand=brand).count()
         for brand in brands
     }
-
-    print(products_by_brand)
 
     products_by_category = {
         category.id: products.filter(category=category).count()
@@ -81,7 +84,7 @@ def add_product(request):
     """ Add a product to the store """
 
     if not request.user.is_staff:
-        messages.error(request, 'Sorry, only store owners can do that.')
+        messages.error(request, 'Sorry, only store stuff is granted access.')
         return redirect(reverse('home'))
 
     if request.method == 'POST':
@@ -133,3 +136,17 @@ def edit_product(request, product_id):
     }
 
     return render(request, template, context)
+
+
+@login_required
+def delete_product(request, product_id):
+    """ Delete a product from the store """
+
+    if not request.user.is_staff:
+        messages.error(request, 'Sorry, only store stuff is granted access.')
+        return redirect(reverse('home'))
+
+    product = get_object_or_404(Product, pk=product_id)
+    product.delete()
+    messages.success(request, 'Product deleted!')
+    return redirect(reverse('view_dashboard'))

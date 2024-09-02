@@ -25,10 +25,18 @@
         <!-- Product details -->
         <div class="row gx-5 mt-5">
             <div class="col-md-6 ">
+                {% if product.image %}
                 <div>
                     <img class="border rounded-3 card-img-top img-fluid" src="{{ product.image.url }}"
                         alt="Product image">
                 </div>
+                {% else %}
+                <div>
+                    <img class="card-img-top img-fluid"
+                    style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top;"
+                    src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
+                </div>
+                {% endif %}
             </div>
             <div class="col-md-6 px-4">
                 <div class="product-details">
@@ -86,6 +94,7 @@
                             </button>
                         </div>
                     </div>
+                    
                     <div class="nav position-relative z-2 my-4 mb-lg-0">
                         <a class="nav-link animate-underline px-0" href="{% url 'catalog' %}">
                             <i class="fa-duotone fa-solid fa-chevrons-left fs-lg me-1"></i>
@@ -93,6 +102,12 @@
                         </a>
                     </div>
                     <br><br>
+                    {% if user.is_staff %}
+                    <div class="d-flex justify-content-start gap-3 mt-3">
+                        <a class="btn btn-warning border-2" href="{% url 'edit_product' product.id %}">Edit Product</a>
+                        <a class="btn btn-outline-secondary border-danger" href="{% url 'delete_product' product.id %}">Remove</a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
