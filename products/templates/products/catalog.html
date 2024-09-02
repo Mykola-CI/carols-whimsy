@@ -144,6 +144,12 @@
                     </div>
 
                 </div>
+                {% if user.is_staff %}
+                <div class="d-flex justify-content-around mt-3">
+                    <a class="btn btn-secondary" href="{% url 'edit_product' product.id %}">Edit Product</a>
+                    <a class="btn btn-outline-secondary" href="#">Remove</a>
+                </div>
+                {% else %}
                 <form method="POST" action="{% url 'cart_add' %}" class="text-center">
                     {% csrf_token %}
                     <input type="hidden" name="product_id" value="{{ product.id }}">
@@ -153,6 +159,7 @@
                         Add to cart
                     </button>
                 </form>
+                {% endif %}
             </div>
             {% endfor %}
         </div>

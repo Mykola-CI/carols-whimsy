@@ -80,7 +80,7 @@ def view_vendor_dashboard(request):
 def add_product(request):
     """ Add a product to the store """
 
-    if not request.user.is_superuser:
+    if not request.user.is_staff:
         messages.error(request, 'Sorry, only store owners can do that.')
         return redirect(reverse('home'))
 
@@ -108,7 +108,7 @@ def add_product(request):
 def edit_product(request, product_id):
     """ Edit a product in the store """
 
-    if not request.user.is_superuser:
+    if not request.user.is_staff:
         messages.error(request, 'Sorry, only store stuff is granted access.')
         return redirect(reverse('home'))
 

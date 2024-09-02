@@ -196,12 +196,15 @@
                             <ul class="dropdown-menu mt-3">
                                 <li><a class="dropdown-item" href="{% url 'view_profile' %}">Personal Info</a></li>
                                 <li><a class="dropdown-item" href="{% url 'order_history' %}">Orders History</a></li>
-                                <li><a class="dropdown-item" href="#">Wishlist</a></li>
-                                <li><a class="dropdown-item" href="#">Payment Methods</a></li>
-                                <li><a class="dropdown-item" href="#">My Reviews</a></li>
                                 <li><a class="dropdown-item" href="{% url 'manage_shipping_addresses' %}">Shipping
-                                        Details</a></li>
-                                <li><a class="dropdown-item" href="#">Notifications</a></li>
+                                    Details</a></li>
+                                <li><a class="dropdown-item" href="#">Wishlist</a></li>
+                                {% if user.is_staff %}
+                                <hr>
+                                <li><a class="dropdown-item" href="{% url 'view_dashboard' %}">Management Dashboard</a></li>
+                                <li><a class="dropdown-item" href="{% url 'add_product' %}">Add Product</a></li>
+                                <li><a class="dropdown-item" href="#">Orders Lookup</a></li>
+                                {% endif %}
                             </ul>
                         </li>
                         <li class="nav-item dropdown me-lg-n1 me-xl-0">
