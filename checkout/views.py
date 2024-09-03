@@ -149,7 +149,10 @@ def checkout_payment(request):
             return redirect('catalog')
 
         total = cart.get_totals
-        stripe_total = round(total * 100)
+        saving = 0
+        ship_cost = 0
+        grand_total = total - saving + ship_cost
+        stripe_total = round(grand_total * 100)
 
         intent = stripe.PaymentIntent.create(
             amount=stripe_total,
