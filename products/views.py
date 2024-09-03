@@ -30,6 +30,8 @@ def catalog(request):
         if 'season_query' in request.GET:
             season = request.GET['season_query']
             products = products.filter(season__name=season)
+        if 'deals_query' in request.GET:
+            products = products.filter(discount__gt=0)
 
         if 'search' in request.GET:
             search = request.GET['search']

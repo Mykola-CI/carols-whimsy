@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+from decimal import Decimal, ROUND_HALF_UP
 
 
 class Brand(models.Model):
@@ -61,9 +63,26 @@ class Product(models.Model):
     material = models.TextField(blank=True, null=True)
     color = models.CharField(max_length=255, blank=True, null=True)
     other_details = models.TextField(blank=True, null=True)
-    discount = models.DecimalField(max_digits=5, decimal_places=2, default=0, blank=True, null=True)
+    discount = models.DecimalField(
+        max_digits=3,
+        decimal_places=2,
+        default=0,
+        validators=[MinValueValidator(0), MaxValueValidator(1)]
+    )
     image = models.ImageField(upload_to='', blank=True, null=True)
     image_url = models.URLField(max_length=1024, blank=True, null=True)
 
     def __str__(self):
         return self.name
+
+    def get_discounted_price(self):
+        """
+        Returns the price after applying the discount.
+        """
+        discounted_price = self.price * (1 - self.discount)
+
+        # Round to 2 decimal places
+        rounded_price = Decimal(discounted_price).quantize(
+            Decimal('0.00'), rounding=ROUND_HALF_UP)
+
+        return rounded_price

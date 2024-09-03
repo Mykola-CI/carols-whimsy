@@ -84,7 +84,7 @@
             {% for product in products %}
             <!-- Item -->
             <div class="col rounded">
-                <div class="card">
+                <div class="card position-relative">
                     {% if product.image %}
                     <a href="{% url 'product_detail' product.id %}">
                         <img class="card-img-top img-fluid"
@@ -104,7 +104,13 @@
                     <div class="card-footer bg-white pt-0 border-0 text-left ms-3 mt-2">
                         <div class="row">
                             <div class="col">
+                                {% if product.discount %}
+                                <p class="lead mb-0 text-left font-weight-bold"><span
+                                        class="small text-decoration-line-through text-warning">£{{ product.price }}</span><span
+                                        class="ps-2">£{{ product.get_discounted_price }}</span></p>
+                                {% else %}
                                 <p class="lead mb-0 text-left font-weight-bold">£{{ product.price }}</p>
+                                {% endif %}
                                 {% if product.brand %}
                                 <p class="small mt-1 mb-0 text-truncate">
                                     <a class="text-muted"
@@ -142,7 +148,11 @@
                             </div>
                         </div>
                     </div>
-
+                    {% if product.discount %}
+                    <span class="position-absolute top-0 start-0 translate-middle">
+                        <i class="fa-duotone fa-solid fa-badge-percent fs-2xl text-danger"></i>
+                    </span>
+                    {% endif %}
                 </div>
                 {% if user.is_staff %}
                 <div class="d-flex justify-content-around mt-3">

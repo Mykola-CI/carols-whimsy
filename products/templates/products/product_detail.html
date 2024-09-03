@@ -58,7 +58,11 @@
                         <span class="blockquote-footer">(product.id {{ product.id }})</span>
                     </div>
                     <div class="product-price mt-4">
+                        {% if product.discount %}
+                        <span class="small text-decoration-line-through text-warning ms-4">£{{ product.price }}</span><span class="ps-2 fs-xl">£{{ product.get_discounted_price }}</span>
+                        {% else %}
                         <span class="fs-xl ms-4">£{{ product.price }}</span>
+                        {% endif %}
                     </div>
                     {% if product.promo_text|nan_to_empty %}
                     <p class="product-description mt-3 text-muted ms-4">{{ product.promo_text }}</p>
