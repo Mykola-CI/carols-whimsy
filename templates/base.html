@@ -197,13 +197,14 @@
                                 <li><a class="dropdown-item" href="{% url 'view_profile' %}">Personal Info</a></li>
                                 <li><a class="dropdown-item" href="{% url 'order_history' %}">Orders History</a></li>
                                 <li><a class="dropdown-item" href="{% url 'manage_shipping_addresses' %}">Shipping
-                                    Details</a></li>
+                                        Details</a></li>
                                 <li><a class="dropdown-item" href="#">Wishlist</a></li>
                                 {% if user.is_staff %}
                                 <hr>
-                                <li><a class="dropdown-item" href="{% url 'view_dashboard' %}">Management Dashboard</a></li>
+                                <li class="h4 dropdown-header mb-2">Management pages</li>
+                                <li><a class="dropdown-item" href="{% url 'view_dashboard' %}">Dashboard</a></li>
                                 <li><a class="dropdown-item" href="{% url 'add_product' %}">Add Product</a></li>
-                                <li><a class="dropdown-item" href="#">Orders Lookup</a></li>
+                                <li><a class="dropdown-item" href="{% url 'view_orders' %}">Orders Lookup</a></li>
                                 {% endif %}
                             </ul>
                         </li>

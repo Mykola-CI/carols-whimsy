@@ -117,8 +117,13 @@
                             </tbody>
                         </table>
 
-                        <div class="nav position-relative z-2 mb-4 mb-lg-0"> 
-                            {% if from_profile and user.is_authenticated %}                          
+                        <div class="nav position-relative z-2 mb-4 mb-lg-0">
+                            {% if user.is_staff %} 
+                            <a class="nav-link animate-underline px-0" href="{% url 'view_orders' %}">
+                                <i class="fa-duotone fa-solid fa-chevrons-left fs-lg me-1"></i>
+                                <span class="fs-sm">Return to Shop Orders</span>
+                            </a>
+                            {% elif from_profile and user.is_authenticated %}                          
                             <a class="nav-link animate-underline px-0" href="{% url 'order_history' %}">
                                 <i class="fa-duotone fa-solid fa-chevrons-left fs-lg me-1"></i>
                                 <span class="fs-sm">Return to Order History</span>

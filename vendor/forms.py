@@ -37,14 +37,14 @@ class ProductForm(forms.ModelForm):
         self.fields['season'].choices = season_friendly_names
 
         for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'border-1 rounded'
+            field.widget.attrs['class'] = 'border-1 rounded text-secondary'
 
 
 class OrderStatusForm(forms.ModelForm):
     """ Form for updating the status of an order """
 
     STATUS_CHOICES = [
-        ('', 'Change order status'),  # Default choice
+        ('', 'Change status'),  # Default choice
         ('Pending', 'Pending'),
         ('Processing', 'Processing'),
         ('Shipped', 'Shipped'),
@@ -54,7 +54,8 @@ class OrderStatusForm(forms.ModelForm):
 
     status = forms.ChoiceField(
         choices=STATUS_CHOICES, required=True,
-        widget=forms.Select(attrs={'class': 'form-select'}))
+        widget=forms.Select(attrs={'class': 'form-select m-0'}),
+        label='')
 
     class Meta:
         model = Order
@@ -64,5 +65,5 @@ class OrderStatusForm(forms.ModelForm):
         super(OrderStatusForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            Field('status', css_class='form-control', label=False)
+            Field('status', css_class='m-0')
         )
