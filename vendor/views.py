@@ -4,8 +4,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from products.models import Product, Brand, Category, Theme, Season
-from checkout.models import Order
-from .forms import ProductForm
+from checkout.models import Order, OrderLineItem
+from .forms import ProductForm, OrderStatusForm
 
 
 @login_required
@@ -150,3 +150,56 @@ def delete_product(request, product_id):
     product.delete()
     messages.success(request, 'Product deleted!')
     return redirect(reverse('view_dashboard'))
+
+
+@login_required
+def view_orders(request):
+    """ A view to return the orders in progress """
+
+    if not request.user.is_staff:
+        messages.error(request, 'Sorry, only store stuff is granted access.')
+        return redirect(reverse('home'))
+
+    orders = Order.objects.all()
+
+    orders_except_delivered = orders.filter(
+        Q(status='Pending') | Q(status='Processing') | Q(status='Shipped')
+    )
+
+    order_count = orders_except_delivered.count()
+
+    orders_with_items = []
+    for order in orders_except_delivered:
+        line_items = OrderLineItem.objects.filter(order=order)
+        orders_with_items.append({
+            'order': order,
+            'line_items': line_items
+        })
+
+    form = OrderStatusForm()
+
+    context = {
+        'orders_with_items': orders_with_items,
+        'order_count': order_count,
+        'form': form,
+    }
+
+    return render(request, 'vendor/vendor_orders.html', context)
+
+
+@login_required
+def update_order_status(request, order_id):
+    """ Update the status of an order"""
+
+    order = get_object_or_404(Order, id=order_id)
+
+    if request.method == 'POST':
+        form = OrderStatusForm(request.POST, instance=order)
+
+        if form.is_valid() and form.cleaned_data['status'] != '':
+            form.save()
+            messages.success(request, 'Order status updated successfully!')
+            return redirect('view_orders')
+        else:
+            messages.error(request, 'Please select a valid order status.')
+            return redirect('view_orders')

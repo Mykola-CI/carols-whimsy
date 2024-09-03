@@ -1,6 +1,9 @@
 from django import forms
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field
 from .widgets import CustomClearableFileInput
 from products.models import Product, Category, Brand, Theme, Season
+from checkout.models import Order
 
 
 class ProductForm(forms.ModelForm):
@@ -35,3 +38,31 @@ class ProductForm(forms.ModelForm):
 
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'border-1 rounded'
+
+
+class OrderStatusForm(forms.ModelForm):
+    """ Form for updating the status of an order """
+
+    STATUS_CHOICES = [
+        ('', 'Change order status'),  # Default choice
+        ('Pending', 'Pending'),
+        ('Processing', 'Processing'),
+        ('Shipped', 'Shipped'),
+        ('Delivered', 'Delivered'),
+        ('Cancelled', 'Cancelled'),
+    ]
+
+    status = forms.ChoiceField(
+        choices=STATUS_CHOICES, required=True,
+        widget=forms.Select(attrs={'class': 'form-select'}))
+
+    class Meta:
+        model = Order
+        fields = ['status']
+
+    def __init__(self, *args, **kwargs):
+        super(OrderStatusForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Field('status', css_class='form-control', label=False)
+        )

@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'user_profile/css/profile.css' %}">
+{% endblock %}
+
+{% block project_content %}
+
+{% include 'includes/shopping_cart_offcanvas.html' %}
+
+
+<!-- Page content -->
+<div class="overlay"></div>
+<main class="content-wrapper">
+    <div class="container py-5 mt-sm-0">
+        <div class="row pt-md-2 pt-lg-3 pb-sm-2 pb-md-3 pb-lg-4 pb-xl-5 gx-5">
+
+
+            <!-- Sidebar navigation that turns into offcanvas on screens < 992px wide (lg breakpoint) -->
+            <aside class="col-lg-3">
+                <div class="offcanvas-lg offcanvas-start pe-lg-0 pe-xl-4" id="accountSidebar">
+
+                    <!-- Header -->
+                    <div class="offcanvas-header d-lg-block py-3 p-lg-0">
+                        <div class="d-flex align-items-center">
+                            <div class="h5 d-flex justify-content-center align-items-center flex-shrink-0 text-primary bg-primary-subtle lh-1 rounded-circle mb-0"
+                                style="width: 3rem; height: 3rem"><i class="fa-duotone fa-solid fa-file-user"></i></div>
+                            <div class="min-w-0 ps-3">
+                                <h5 class="h6 mb-1">{{ user.username }}</h5>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-close d-lg-none" data-bs-dismiss="offcanvas"
+                            data-bs-target="#accountSidebar" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Body (Navigation) -->
+                    <div class="offcanvas-body d-block pt-2 pt-lg-4 pb-lg-0 aside-offcanvas-body">
+                        <nav class="list-group">
+                            <a class="list-group-item list-group-item-action list-group-item-light d-flex align-items-center fw-light pe-none active"
+                                href="{% url 'view_dashboard' %}">
+                                <i class="fa-light fa-grid-horizontal fs-lg me-2"></i>
+                                Dashboard
+                            </a>
+                        </nav>
+                        <h6 class="pt-4 ps-2 ms-1">Manage Products</h6>
+                        <nav class="list-group">
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="{% url 'add_product' %}">
+                                <i class="fa-solid fa-plus fs-lg me-2"></i>
+                                Add Product
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="{% url 'catalog' %}">
+                                <i class="fa-sharp-duotone fa-solid fa-pen-to-square fs-xl me-2"></i>
+                                Edit Product
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="{% url 'catalog' %}">
+                                <i class="fa-duotone fa-solid fa-trash fs-xl me-2"></i>
+                                Remove Product
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+                                <i class="fa-duotone fa-solid fa-badge-percent fs-xl me-2"></i>
+                                Set PromoCode
+                            </a>
+                        </nav>
+                        <h6 class="pt-4 ps-2 ms-1">Manage Orders</h6>
+                        <nav class="list-group list-group-borderless">
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+                                <i class="fa-duotone fa-solid fa-truck-clock fs-xl me-2"></i>
+                                Orders Lookup
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+                                <i class="fa-duotone fa-solid fa-square-check fs-xl me-2"></i>
+                                Change Order Status
+                            </a>
+                        </nav>
+                        <nav class="list-group list-group-borderless pt-3">
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="{% url 'account_logout' %}">
+                                <i class="fa-duotone fa-solid fa-arrow-right-from-bracket fs-base me-2"></i>
+                                Log out
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </aside>
+
+
+            <!-- Pending Orders content -->
+            <div class="col-lg-9">
+                <div class="ps-lg-3 ps-xl-0">
+                    <!-- Page title -->
+                    <h1 class="h2 mb-1 mb-sm-2">Orders</h1>
+                    <!-- Sortable orders table -->
+                    <div class="w-100 overflow-scroll">
+                        <table class="table align-middle fs-sm text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th class="py-3 ps-0">
+                                        <span class="text-body fw-normal">Order <span
+                                                class="d-none d-md-inline">#</span></span>
+                                    </th>
+                                    <th class="py-3 d-none d-md-table-cell">
+                                        <span class="orders-sort fw-normal text-body p-0">Order date</span>
+                                    </th>
+                                    <th class="py-3 d-none d-md-table-cell">
+                                        <span class="text-body fw-normal">Status</span>
+                                    </th>
+                                    <th class="py-3 d-none d-md-table-cell">
+                                        <span class="orders-sort fw-normal text-body p-0">Total</span>
+                                    </th>
+                                    <th class="py-3">&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-body-emphasis orders-list">
+                                <!-- Items -->
+                                {% for order_set in orders_with_items %}
+                                <tr>
+                                    <td class="fw-medium pt-2 pb-3 py-md-2 ps-0">
+                                        <a class="d-inline-block text-body-emphasis text-decoration-none py-2"
+                                            href="{% url 'order_confirmation' order_set.order.order_number %}?from_profile=true"
+                                            aria-label="Show order details placed {{ order_with_items.order.date }} ">
+                                            <span
+                                                class="animate-target">{{ order_set.order.order_number|truncatechars:6 }}</span>
+                                        </a>
+                                        <ul class="list-unstyled fw-normal text-body m-0 d-md-none">
+                                            <li>{{ order_set.order.date|date:"M d, Y" }}</li>
+                                            <li class="d-flex align-items-center">
+                                                <span class="bg-info rounded-circle p-1 me-2"></span>
+                                                In progress
+                                            </li>
+                                            <li class="fw-medium text-body-emphasis">
+                                                {{ order_set.order.grand_total }}
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td class="fw-medium py-3 d-none d-md-table-cell">
+                                        {{ order_set.order.date|date:"M d, Y"  }}
+                                    </td>
+                                    <td class="fw-medium py-3 d-none d-md-table-cell">
+                                        <span class="d-flex align-items-center">
+                                            <span class="bg-info rounded-circle p-1 me-2"></span>
+                                            {{ order_set.order.status }}
+                                        </span>
+                                    </td>
+                                    <td class="fw-medium py-3 d-none d-md-table-cell">
+                                        £{{ order_set.order.grand_total }}
+                                    </td>
+                                    <td class="py-3 pe-0">
+                                        <div class="w-100 overflow-scroll">
+                                            <span
+                                                class="d-flex align-items-center justify-content-end position-relative gap-1 gap-sm-2 ms-sm-0">
+                                                <form method="post" action="{% url 'update_order' order_set.order.id %}">
+                                                    {% csrf_token %}
+                                                    {{ form.status|as_crispy_field }}
+                                                    <button type="submit" class="btn btn-secondary">Update Status</button>
+                                                </form>
+                                                <a class="btn btn-icon btn-ghost btn-light border-1 d-flex flex-column justify-content-center"
+                                                    href="#collapse-{{ order_set.order.id }}"
+                                                    data-bs-toggle="collapse" aria-expanded="false"
+                                                    aria-controls="collapse-{{ order_set.order.id }}"
+                                                    aria-label="Show order details">
+                                                    <i class="fa-duotone fa-solid fa-chevrons-down fs-lg toggle-icon"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="collapse" id="collapse-{{ order_set.order.id }}">
+                                    <td colspan="5">
+                                        <div class="card card-body">
+                                            <!-- Order line items -->
+                                            <table class="table">
+                                                {% for item in order_set.line_items %} 
+                                                <tr class="align-middle">
+                                                    <td class="text-wrap">{{ item.product.name }}</td>
+                                                    <td>£{{ item.product.price }}</td>
+                                                    <td>{{ item.quantity }}</td>
+                                                    <td>£{{ item.item_total }}</td>
+                                                    <td class="text-end d-none d-sm-block">
+                                                        <img class="img-fluid" style="max-width: 120px;" src="{{ item.product.image.url }}" aria-label="{{ item.product.name }}"></img>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
+
+{% block postfooter %}
+<!-- Sidebar navigation offcanvas toggle that is visible on screens < 992px wide (lg breakpoint) -->
+<button type="button"
+    class="fixed-bottom z-sticky w-100 btn btn-lg btn-dark border-0 border-top border-light border-opacity-10 rounded-0 pb-4 d-lg-none"
+    data-bs-toggle="offcanvas" data-bs-target="#accountSidebar" aria-controls="accountSidebar" data-bs-theme="light">
+    <i class="fa-duotone fa-solid fa-sidebar fs-base me-2"></i>
+    Account menu
+</button>
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+<script>
+    $(document).ready(function() {
+    $('.btn-icon').on('click', function() {
+        var icon = $(this).find('.toggle-icon');
+        icon.toggleClass('fa-chevrons-down fa-chevrons-up');
+    });
+});
+</script>
+{% endblock %}

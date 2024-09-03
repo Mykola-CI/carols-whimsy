@@ -113,6 +113,8 @@ def update_user_phone(request):
 
 @login_required
 def change_email(request):
+    """ A view to handle the email change request """
+
     if request.method == 'POST':
         new_email = request.POST.get('email')
         user = request.user
