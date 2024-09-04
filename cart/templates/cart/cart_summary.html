@@ -2,6 +2,9 @@
 {% load static %}
 {% load custom_filters %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'cart/css/cart.css' %}">
+{% endblock %}
 
 {% block project_content %}
 
@@ -233,21 +236,17 @@
                                         class="accordion-button animate-underline collapsed py-0 ps-sm-2 ps-lg-0 ps-xl-2"
                                         data-bs-toggle="collapse" data-bs-target="#promoCode" aria-expanded="false"
                                         aria-controls="promoCode">
-                                        <i class="fa-duotone fa-solid fa-percent fs-xl me-2"></i>&nbsp;
-                                        <span class="animate-target me-2">Apply promo code</span>
+                                        <i class="fa-duotone fa-solid fa-percent fs-xl me-3"></i>&nbsp;
+                                        <span class="me-2">Apply promo code</span>
                                     </button>
                                 </h3>
                                 <div class="accordion-collapse collapse" id="promoCode"
                                     aria-labelledby="promoCodeHeading">
-                                    <div class="accordion-body pt-3 pb-2 ps-sm-2 px-lg-0 px-xl-2">
-                                        <form class="needs-validation d-flex gap-2" novalidate>
-                                            <div class="position-relative w-100">
-                                                <input id="cart-display_quantity" type="text" class="form-control"
-                                                    placeholder="Enter promo code" required>
-                                                <div class="invalid-tooltip bg-transparent py-0">Enter a valid promo
-                                                    code!</div>
-                                            </div>
-                                            <button type="submit" class="btn btn-dark">Apply</button>
+                                    <div class="accordion-body pt-5 pb-2 ps-sm-2 px-lg-0 px-xl-2">
+                                        <form method="post" class="d-flex gap-2">
+                                            {% csrf_token %}
+                                            {{ form.promo_code|as_crispy_field }}
+                                            <button type="submit" class="btn btn-dark border-0 my-1 fs-sm">Apply</button>
                                         </form>
                                     </div>
                                 </div>

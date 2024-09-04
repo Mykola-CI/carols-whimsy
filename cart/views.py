@@ -5,14 +5,49 @@ from django.contrib import messages
 
 from .cart import Cart
 from products.models import Product, Brand, Category, Theme, Season
+from .forms import PromoCodeForm
+from vendor.models import CommercialConstant, PromoCodeUsage
 
 
 def cart_summary(request):
     """
     Summary view of the cart
-    Keyword arguments: request -- the full HTTP request object
     Return: render the cart summary template
     """
+
+    if request.method == 'POST':
+        # Check if User is authenticated
+        if not request.user.is_authenticated:
+            messages.error(
+                request, "You need to be logged in to use a promo code.")
+            return redirect('cart_summary')
+
+        form = PromoCodeForm(request.POST)
+        if form.is_valid():
+            promo_code = form.cleaned_data['promo_code']
+
+            if PromoCodeUsage.objects.filter(
+                    user=request.user, promo_code=promo_code).exists():
+                messages.error(
+                    request, "You have already used this promo code.")
+            else:
+                try:
+                    promo = CommercialConstant.objects.get(
+                        friendly_name=promo_code)
+                    request.session['promo_discount'] = promo.value
+                    PromoCodeUsage.objects.create(
+                        user=request.user, promo_code=promo_code)
+
+                    messages.success(
+                        request,
+                        "Promo code applied! You get a discount of " +
+                        f"{promo.value}%."
+                    )
+                except CommercialConstant.DoesNotExist:
+                    messages.error(request, "Invalid promo code.")
+                return redirect('cart_summary')
+    else:
+        form = PromoCodeForm()
 
     brands = Brand.objects.all()
     categories = Category.objects.all()
@@ -26,6 +61,7 @@ def cart_summary(request):
         'themes': themes,
         'seasons': seasons,
         'products': products,
+        'form': form,
     }
 
     return render(request, 'cart/cart_summary.html', context)
@@ -84,7 +120,7 @@ def update_cart(request):
         cart = Cart(request)
         # Retrieve the old quantity for the product before the update
         old_quantity = cart.cart.get(str(product_id), 0)
-        print(f'Old Quantity: {old_quantity}')
+
         # Update the product quantity in the cart
         cart.update(product=product, quantity=new_quantity)
 
