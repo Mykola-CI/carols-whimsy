@@ -1,6 +1,7 @@
 from django.conf import settings
 
 from products.models import Product
+from vendor.models import CommercialConstant
 
 
 class Cart():
@@ -102,3 +103,20 @@ class Cart():
         subtotal += product.price * self.cart[product_id]
 
         return subtotal
+
+    @property
+    def get_ship_cost(self):
+        """ Get the shipping cost """
+        delivery_threshold = CommercialConstant.objects.get(
+            name='free_delivery_threshold')
+        delivery_percent = CommercialConstant.objects.get(
+            name='delivery_percent')
+        threshold = delivery_threshold.get_value()
+        percent = delivery_percent.get_value()
+        cart_totals = self.get_totals
+        if cart_totals < threshold:
+            ship_cost = round((cart_totals * percent / 100), 2)
+        else:
+            ship_cost = 0
+
+        return ship_cost

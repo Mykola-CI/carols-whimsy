@@ -30,6 +30,9 @@ def cart_summary(request):
                     user=request.user, promo_code=promo_code).exists():
                 messages.error(
                     request, "You have already used this promo code.")
+                # Reset discount in the session to ensure it's not used within
+                # the same session twice after the first order completion
+                request.session['promo_discount'] = 0
             else:
                 try:
                     promo = CommercialConstant.objects.get(
@@ -45,7 +48,8 @@ def cart_summary(request):
                     )
                 except CommercialConstant.DoesNotExist:
                     messages.error(request, "Invalid promo code.")
-                return redirect('cart_summary')
+
+            return redirect('cart_summary')
     else:
         form = PromoCodeForm()
 

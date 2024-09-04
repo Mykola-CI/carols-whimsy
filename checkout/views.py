@@ -21,12 +21,21 @@ def cache_checkout_data(request):
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
 
+        cart = Cart(request)
+        cart_totals = cart.get_totals
+
         # Get the cart content from the session
         current_cart = request.session.get(settings.CART_SESSION_ID, {})
+        promo_discount = int(request.session.get('promo_discount', 0))
+        saving = round((cart_totals * promo_discount / 100), 2)
+
+        ship_cost = cart.get_ship_cost
 
         # Update the payment intent with the shipping details and cart_content
         stripe.PaymentIntent.modify(pid, metadata={
             'cart': json.dumps(current_cart),
+            'shipping_cost': str(ship_cost),
+            'saving': str(saving),
         })
         return HttpResponse(status=200)
     except Exception as e:
@@ -143,15 +152,18 @@ def checkout_payment(request):
 
     else:
         cart = Cart(request)
+        
         if cart.is_empty:
             messages.error(
                 request, "There's nothing in your cart at the moment")
             return redirect('catalog')
 
-        total = cart.get_totals
-        saving = 0
-        ship_cost = 0
-        grand_total = total - saving + ship_cost
+        cart_totals = cart.get_totals
+        promo_discount = int(request.session.get('promo_discount', 0))
+        saving = round((cart_totals * promo_discount / 100), 2)
+
+        ship_cost = cart.get_ship_cost
+        grand_total = cart_totals - saving + ship_cost
         stripe_total = round(grand_total * 100)
 
         intent = stripe.PaymentIntent.create(
@@ -218,5 +230,6 @@ def order_confirmation(request, order_number):
     }
     cart = Cart(request)
     cart.clear()
+    request.session['promo_discount'] = 0
 
     return render(request, template, context)

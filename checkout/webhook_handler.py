@@ -73,7 +73,10 @@ class WH_Handler:
             )
         else:
             # Get the cart from the event's metadata
-            cart = intent.metadata.cart
+            metadata = intent.metadata
+            cart = metadata.cart
+            shipping_cost = float(metadata.shipping_cost)
+            saving = float(metadata.saving)
 
             # Get the Charge object for capturing of phone and email
             stripe_charge = stripe.Charge.retrieve(
@@ -104,7 +107,8 @@ class WH_Handler:
             postal_code = intent.shipping.address.postal_code
             country = intent.shipping.address.country
 
-            grand_total = round(stripe_charge.amount / 100, 2)  # updated
+            grand_total = round(stripe_charge.amount / 100, 2)
+            order_total = grand_total + saving - shipping_cost  # updated
 
             try:
                 order = Order(
@@ -117,6 +121,9 @@ class WH_Handler:
                     town_city=city,
                     street_address=street_address,
                     county=county,
+                    order_total=order_total,
+                    delivery_cost=shipping_cost,
+                    saving=saving,
                     grand_total=grand_total,
                     original_cart=cart,
                     stripe_pid=pid,
@@ -125,11 +132,13 @@ class WH_Handler:
                 # Create order line items
                 for item_id, quantity in json.loads(cart).items():
                     product = Product.objects.get(id=item_id)
+                    print(f'Webhook: {item_id} - {quantity}')
                     order_line_item = OrderLineItem(
                         order=order,
                         product=product,
                         quantity=quantity,
                     )
+
                     order_line_item.save()
 
                 # Send confirmation email
