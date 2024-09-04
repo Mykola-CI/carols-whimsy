@@ -152,7 +152,7 @@ def checkout_payment(request):
 
     else:
         cart = Cart(request)
-        
+
         if cart.is_empty:
             messages.error(
                 request, "There's nothing in your cart at the moment")

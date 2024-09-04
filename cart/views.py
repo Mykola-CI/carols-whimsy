@@ -53,6 +53,18 @@ def cart_summary(request):
     else:
         form = PromoCodeForm()
 
+    # Calculation of amount left to free delivery
+    cart = Cart(request)
+    totals = cart.get_totals
+    threshold = CommercialConstant.objects.get(
+        name='free_delivery_threshold').get_value()
+    if totals < threshold:
+        left_to_free_delivery = round((threshold - totals), 2)
+        percent_of_threshold = round(((totals / threshold) * 100), 2)
+    else:
+        left_to_free_delivery = 0
+        percent_of_threshold = 100
+
     brands = Brand.objects.all()
     categories = Category.objects.all()
     themes = Theme.objects.all()
@@ -66,6 +78,8 @@ def cart_summary(request):
         'seasons': seasons,
         'products': products,
         'form': form,
+        'left_to_free_delivery': left_to_free_delivery,
+        'percent_of_threshold': percent_of_threshold,
     }
 
     return render(request, 'cart/cart_summary.html', context)

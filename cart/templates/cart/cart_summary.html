@@ -45,6 +45,24 @@
                 <!-- Items list -->
                 <div class="col-lg-8">
                     <div class="pe-lg-2 pe-xl-3 me-xl-3">
+                        {% if left_to_free_delivery %}
+                        <p class="fs-sm">Buy <span
+                                class="text-dark-emphasis fw-semibold">£{{ left_to_free_delivery }}</span> more to get
+                            <span class="text-dark-emphasis fw-semibold">Free Shipping</span>
+                        </p>
+                        <div class="progress w-100 overflow-visible mb-4" style="height: 4px">
+                            <div class="progress-bar bg-warning rounded-pill position-relative overflow-visible"
+                                style="height: 4px">
+                                <div class="position-absolute top-50 end-0 d-flex align-items-center justify-content-center translate-middle-y bg-body border border-warning rounded-circle me-n1"
+                                    style="width: 1.5rem; height: 1.5rem">
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <p class="fs-sm"><mark><span class="text-dark-emphasis fw-semibold">Congratulations!</span> You
+                                have qualified for
+                                <span class="text-dark-emphasis fw-semibold">Free Shipping</span></mark></p>
+                        {% endif %}
 
                         <!-- Table of items -->
                         <table class="table position-relative z-2 mb-4">
@@ -220,7 +238,8 @@
                                         <i class="fa-solid fa-chevron-right fs-lg ms-2 me-n1"></i>
                                     </a>
                                     <div class="nav justify-content-center fs-sm mt-3">
-                                        <a class="nav-link text-decoration-underline p-0 me-1" href="{% url 'account_signup' %}">Create an account</a>
+                                        <a class="nav-link text-decoration-underline p-0 me-1"
+                                            href="{% url 'account_signup' %}">Create an account</a>
                                         and get
                                         <span class="text-dark-emphasis fw-medium ms-1">your bonuses</span>
                                     </div>
@@ -244,7 +263,8 @@
                                         <form method="post" class="d-flex gap-2">
                                             {% csrf_token %}
                                             {{ form.promo_code|as_crispy_field }}
-                                            <button type="submit" class="btn btn-dark border-0 my-1 fs-sm">Apply</button>
+                                            <button type="submit"
+                                                class="btn btn-dark border-0 my-1 fs-sm">Apply</button>
                                         </form>
                                     </div>
                                 </div>
@@ -270,8 +290,23 @@
 {% block postloadjs %}
 {{ block.super }}
 <!-- Page specific scripts -->
+
 <script>
     $(document).ready(function () {
+
+        // Update progress bar for free shipping threshold
+        function updateProgressBar(newPercentage) {
+            const progressBar = document.querySelector('.progress-bar');
+            if (newPercentage < 100) {
+                progressBar.style.width = newPercentage + '%';
+            }
+        }
+
+        updateProgressBar('{{ percent_of_threshold }}');
+
+
+        // Update quantity when user changes input
+
         // Decrement quantity
         $('.cart-btn-decrement').on('click', function () {
             var $input = $(this).siblings('.cart-qty-input');

@@ -4,6 +4,7 @@ from django.http import HttpResponse
 
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from decimal import Decimal
 from django.conf import settings
 
 from .models import Order, OrderLineItem
@@ -75,8 +76,8 @@ class WH_Handler:
             # Get the cart from the event's metadata
             metadata = intent.metadata
             cart = metadata.cart
-            shipping_cost = float(metadata.shipping_cost)
-            saving = float(metadata.saving)
+            shipping_cost = Decimal(metadata.shipping_cost)
+            saving = Decimal(metadata.saving)
 
             # Get the Charge object for capturing of phone and email
             stripe_charge = stripe.Charge.retrieve(
@@ -107,7 +108,8 @@ class WH_Handler:
             postal_code = intent.shipping.address.postal_code
             country = intent.shipping.address.country
 
-            grand_total = round(stripe_charge.amount / 100, 2)
+            # Accurately converting to a Decimal
+            grand_total = Decimal(stripe_charge.amount) / Decimal('100.00')
             order_total = grand_total + saving - shipping_cost  # updated
 
             try:
