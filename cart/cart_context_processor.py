@@ -23,6 +23,8 @@ def cart(request):
     promo_discount = int(request.session.get('promo_discount', 0))
     saving = round((cart_totals * promo_discount / 100), 2)
     shipping = cart.get_ship_cost
+    threshold = CommercialConstant.objects.get(
+        name='free_delivery_threshold').get_value()
 
     grand_total = round((cart_totals + shipping - saving), 2)
 
@@ -36,6 +38,7 @@ def cart(request):
         'ship_cost': shipping,
         'grand_total': grand_total,
         'number_of_items': number_of_items,
+        'delivery_threshold': threshold,
     }
 
     return context
