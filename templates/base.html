@@ -201,7 +201,7 @@
                                 <li><a class="dropdown-item" href="{% url 'order_history' %}">Orders History</a></li>
                                 <li><a class="dropdown-item" href="{% url 'manage_shipping_addresses' %}">Shipping
                                         Details</a></li>
-                                <li><a class="dropdown-item" href="#">Wishlist</a></li>
+                                <li><a class="dropdown-item" href="{% url 'wishlist' %}">Wishlist</a></li>
                                 {% if user.is_staff %}
                                 <hr>
                                 <li class="h4 dropdown-header mb-2">Management pages</li>

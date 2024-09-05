@@ -38,13 +38,13 @@
                     <!-- Body (Navigation) -->
                     <div class="offcanvas-body d-block pt-2 pt-lg-4 pb-lg-0 aside-offcanvas-body">
                         <nav class="list-group">
-                            <a class="list-group-item list-group-item-action pe-none list-group-item-light d-flex align-items-center fw-light active"
+                            <a class="list-group-item list-group-item-action list-group-item-light d-flex align-items-center fw-light"
                                 href="{% url 'order_history' %}">
                                 <i class="fa-duotone fa-solid fa-bags-shopping fs-lg me-2"></i>
                                 Orders
                                 <span class="badge bg-primary bg-gradient rounded-pill ms-auto">{{ order_count }}</span>
                             </a>
-                            <a class="list-group-item list-group-item-action list-group-item-light d-flex align-items-center fw-light"
+                            <a class="list-group-item list-group-item-action list-group-item-light d-flex align-items-center fw-light  pe-none active"
                                 href="#">
 
                                 Wishlist
@@ -125,11 +125,6 @@
                                 </button>
                             </div>
                         </div>
-
-                        <!-- Sortable orders table -->
-                        {% if wishlist.products.count == 0 %}
-                        <p>Your wishlist is empty</p>
-                        {% else %}
                         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gx-3 gy-4 mx-3 mx-sm-0">
                             {% for product in wishlist.products.all %}
                             <!-- Item -->
@@ -180,14 +175,10 @@
                                         </div>
                                     </div>
                                     <div class="position-absolute bottom-0 end-0">
-                                        <form method="POST" action="{% url 'cart_add' %}" class="text-center">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="product_id" value="{{ product.id }}">
-                                            <input type="hidden" name="quantity" value="1">
-                                            <button type="submit"
+                                            <a href="{% url 'add_to_cart' product.id %}"
                                                 class="btn btn-outline-secondary rounded px-3 pt-2 m-2">
                                                 <i class="fa-duotone fa-solid fa-cart-plus fs-xl"></i>
-                                            </button>
+                                            </a>
                                         </form>
                                     </div>
                                     {% if product.discount %}
@@ -222,5 +213,24 @@
 
 {% block postloadjs %}
 {{ block.super }}
+<script>
+    // Get master checkbox
+    const masterCheckbox = document.getElementById('wishlist-master');
+    // Select all product checkboxes
+    const checkboxes = document.querySelectorAll('.select-card-check');
+    // Get the label for the master checkbox
+    const masterLabel = document.querySelector('label[for="wishlist-master"]');
+
+    // Add event listener to the master checkbox
+    masterCheckbox.addEventListener('change', function() {
+        const isChecked = masterCheckbox.checked;
+        // Select or deselect all checkboxes
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = isChecked;
+        });
+        // Change label text based on selection state
+        masterLabel.textContent = isChecked ? 'Unselect all' : 'Select all';
+    });
+</script>
 
 {% endblock %}

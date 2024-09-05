@@ -33,8 +33,8 @@
                 {% else %}
                 <div>
                     <img class="card-img-top img-fluid"
-                    style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top;"
-                    src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
+                        style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top;"
+                        src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
                 </div>
                 {% endif %}
             </div>
@@ -59,7 +59,9 @@
                     </div>
                     <div class="product-price mt-4">
                         {% if product.discount %}
-                        <span class="small text-decoration-line-through text-warning ms-4">£{{ product.price }}</span><span class="ps-2 fs-xl">£{{ product.get_discounted_price }}</span>
+                        <span
+                            class="small text-decoration-line-through text-warning ms-4">£{{ product.price }}</span><span
+                            class="ps-2 fs-xl">£{{ product.get_discounted_price }}</span>
                         {% else %}
                         <span class="fs-xl ms-4">£{{ product.price }}</span>
                         {% endif %}
@@ -80,6 +82,15 @@
                     <p class="mt-3 text-muted ms-4 fs-xs">{{ product.other_details }}</p>
                     {% endif %}
                     <br>
+                    <form method="POST" action="{% url 'add_to_wishlist' product.id %}">
+                        {% csrf_token %}
+                        <button type="submit" action="{% url 'add_to_wishlist' product.id %}"
+                            class="btn btn-lg btn-outline-secondary ms-4" data-bs-toggle="tooltip"
+                            data-bs-placement="top" data-bs-custom-class="tooltip-sm" data-bs-title="Add to Wishlist"
+                            aria-label="Add to Wishlist">
+                            <i class="fa-duotone fa-solid fa-circle-heart fs-4xl"></i>
+                        </button>
+                    </form>
                     <hr>
                     <!-- Count input + Add to cart button -->
                     <div class="count-input-cart d-flex gap-3 gap-sm-4 mt-5">
@@ -98,7 +109,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <div class="nav position-relative z-2 my-4 mb-lg-0">
                         <a class="nav-link animate-underline px-0" href="{% url 'catalog' %}">
                             <i class="fa-duotone fa-solid fa-chevrons-left fs-lg me-1"></i>
@@ -109,7 +120,8 @@
                     {% if user.is_staff %}
                     <div class="d-flex justify-content-start gap-3 mt-3">
                         <a class="btn btn-warning border-2" href="{% url 'edit_product' product.id %}">Edit Product</a>
-                        <a class="btn btn-outline-secondary border-danger" href="{% url 'delete_product' product.id %}">Remove</a>
+                        <a class="btn btn-outline-secondary border-danger"
+                            href="{% url 'delete_product' product.id %}">Remove</a>
                     </div>
                     {% endif %}
                 </div>

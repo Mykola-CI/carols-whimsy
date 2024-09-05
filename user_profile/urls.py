@@ -19,9 +19,19 @@ urlpatterns = [
      path('shipping_addresses/edit/<int:address_id>/',
           views.edit_shipping_addresses_profile,
           name='edit_shipping_addresses'),
-     path('get_address_data/', views.get_address_data, name='get_address_data'),
+     path(
+         'get_address_data/', views.get_address_data, name='get_address_data'),
      path(
           'delete_address/<int:address_id>/',
           views.delete_address, name='delete_address'),
      path('wishlist/', views.wishlist_view, name='wishlist'),
+     path(
+         'wishlist/remove/',
+         views.remove_wishlist_items,
+         name='remove_wishlist_items'),
+     path('wishlist/add_to_cart/<int:product_id>/',
+          views.add_to_cart_from_wishlist,
+          name='add_to_cart'),
+     path('wishlist/add/<int:product_id>/', views.add_to_wishlist,
+          name='add_to_wishlist'),
 ]

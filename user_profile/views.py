@@ -1,5 +1,5 @@
 from django.contrib.auth import update_session_auth_hash
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
@@ -9,6 +9,8 @@ from allauth.account.models import EmailAddress
 
 from .models import UserProfile, ShippingAddress, Wishlist
 from checkout.models import OrderLineItem
+from products.models import Product
+from cart.cart import Cart
 from .forms import (
     BasicUserInfoForm, PhoneNumberForm, EmailForm,
     CustomPasswordChangeForm, ShippingAddressForm)
@@ -52,7 +54,8 @@ def update_user_basic_info(request):
     user = request.user
     user_profile = get_object_or_404(UserProfile, user=user)
 
-    form_basic = BasicUserInfoForm(request.POST, instance=user_profile, user=user)
+    form_basic = BasicUserInfoForm(
+        request.POST, instance=user_profile, user=user)
     if form_basic.is_valid():
         form_basic.save()  # Save the updated form data
 
@@ -177,10 +180,7 @@ def change_password(request):
         return redirect('view_profile')
     else:
         messages.error(request, 'Please correct the error or try again.')
-    # else:
-    #     form = CustomPasswordChangeForm(user=request.user)
-
-    # return render(request, 'user_profile/view_profile.html', {'form': form})
+        return redirect('view_profile')
 
 
 @login_required
@@ -342,17 +342,56 @@ def wishlist_view(request):
     return render(request, template, context)
 
 
-# @login_required
-# def add_to_wishlist(request, product_id):
-#     product = get_object_or_404(Product, id=product_id)
-#     wishlist, created = Wishlist.objects.get_or_create(user=request.user)
-#     wishlist.products.add(product)
-#     return redirect('wishlist_view')
+@login_required
+def add_to_wishlist(request, product_id):
+    """ A view to add a product to the user's wishlist """
+
+    product = get_object_or_404(Product, id=product_id)
+
+    # Get the wishlist for the user
+    wishlist = get_object_or_404(Wishlist, user=request.user)
+    wishlist.products.add(product)
+
+    messages.success(request, f'"{product.name}" added to your wishlist')
+
+    return redirect(reverse('product_detail', args=[product_id]))
 
 
-# @login_required
-# def remove_from_wishlist(request, product_id):
-#     product = get_object_or_404(Product, id=product_id)
-#     wishlist = Wishlist.objects.get(user=request.user)
-#     wishlist.products.remove(product)
-#     return redirect('wishlist_view'
+@login_required
+def remove_wishlist_items(request):
+    """ A view to remove items from the user's wishlist """
+
+    # Get the user's wishlist
+    wishlist = get_object_or_404(Wishlist, user=request.user)
+
+    # Check if the request method is POST
+    if request.method == 'POST':
+        # Get the list of product IDs to remove from the wishlist
+        product_ids = request.POST.getlist('product_ids')
+
+        if not product_ids:
+            messages.error(
+                request, 'No items selected to remove from wishlist')
+            return redirect('wishlist')
+        # Remove the products from the wishlist
+        for product_id in product_ids:
+            product = get_object_or_404(Product, id=product_id)
+            wishlist.products.remove(product)
+
+        messages.success(request, 'Selected items removed from your wishlist')
+        # Redirect back to the wishlist view
+    return redirect('wishlist')
+
+
+@login_required
+def add_to_cart_from_wishlist(request, product_id):
+    """ A view to add a product to the cart from the wishlist """
+
+    product = get_object_or_404(Product, id=product_id)
+    cart = Cart(request)
+    cart.add(product=product, quantity=1)
+    messages.success(
+        request, f'Added "{product.name}" to your cart. '
+                 f'Click on the Cart button to view your cart'
+                 f' and update the quantity if needed.')
+    return redirect('wishlist')
