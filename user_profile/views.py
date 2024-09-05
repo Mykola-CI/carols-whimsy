@@ -7,7 +7,7 @@ from django.contrib import messages
 
 from allauth.account.models import EmailAddress
 
-from .models import UserProfile, ShippingAddress
+from .models import UserProfile, ShippingAddress, Wishlist
 from checkout.models import OrderLineItem
 from .forms import (
     BasicUserInfoForm, PhoneNumberForm, EmailForm,
@@ -316,3 +316,43 @@ def delete_address(request, address_id):
 
     messages.info(request, 'The shipping address has been deleted.')
     return redirect('manage_shipping_addresses')
+
+
+@login_required
+def wishlist_view(request):
+    ''' A view to display and manipulate the wishlist of the user '''
+
+    # Provide the order count context for the aside panel of the page
+    profile = get_object_or_404(UserProfile, user=request.user)
+    orders = profile.orders.all()
+
+    # Count the number of orders
+    order_count = orders.count()
+
+    # Get the wishlist for the user
+    wishlist = get_object_or_404(Wishlist, user=request.user)
+
+    template = 'user_profile/view-wishlist.html'
+
+    context = {
+        'wishlist': wishlist,
+        'order_count': order_count
+    }
+
+    return render(request, template, context)
+
+
+# @login_required
+# def add_to_wishlist(request, product_id):
+#     product = get_object_or_404(Product, id=product_id)
+#     wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+#     wishlist.products.add(product)
+#     return redirect('wishlist_view')
+
+
+# @login_required
+# def remove_from_wishlist(request, product_id):
+#     product = get_object_or_404(Product, id=product_id)
+#     wishlist = Wishlist.objects.get(user=request.user)
+#     wishlist.products.remove(product)
+#     return redirect('wishlist_view'

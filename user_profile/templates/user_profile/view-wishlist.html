@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'user_profile/css/profile.css' %}">
+{% endblock %}
+
+{% block project_content %}
+
+{% include 'includes/shopping_cart_offcanvas.html' %}
+
+
+<!-- Page content -->
+<div class="overlay"></div>
+<main class="content-wrapper">
+    <div class="container py-5 mt-sm-0">
+        <div class="row pt-md-2 pt-lg-3 pb-sm-2 pb-md-3 pb-lg-4 pb-xl-5 gx-5">
+
+
+            <!-- Sidebar navigation that turns into offcanvas on screens < 992px wide (lg breakpoint) -->
+            <aside class="col-lg-3">
+                <div class="offcanvas-lg offcanvas-start pe-lg-0 pe-xl-4" id="accountSidebar">
+
+                    <!-- Header -->
+                    <div class="offcanvas-header d-lg-block py-3 p-lg-0">
+                        <div class="d-flex align-items-center">
+                            <div class="h5 d-flex justify-content-center align-items-center flex-shrink-0 text-primary bg-primary-subtle lh-1 rounded-circle mb-0"
+                                style="width: 3rem; height: 3rem"><i class="fa-duotone fa-solid fa-file-user"></i></div>
+                            <div class="min-w-0 ps-3">
+                                <h5 class="h6 mb-1">{{ user.username }}</h5>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-close d-lg-none" data-bs-dismiss="offcanvas"
+                            data-bs-target="#accountSidebar" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Body (Navigation) -->
+                    <div class="offcanvas-body d-block pt-2 pt-lg-4 pb-lg-0 aside-offcanvas-body">
+                        <nav class="list-group">
+                            <a class="list-group-item list-group-item-action pe-none list-group-item-light d-flex align-items-center fw-light active"
+                                href="{% url 'order_history' %}">
+                                <i class="fa-duotone fa-solid fa-bags-shopping fs-lg me-2"></i>
+                                Orders
+                                <span class="badge bg-primary bg-gradient rounded-pill ms-auto">{{ order_count }}</span>
+                            </a>
+                            <a class="list-group-item list-group-item-action list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+
+                                Wishlist
+                            </a>
+                            <a class="list-group-item list-group-item-action list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+
+                                Payment methods
+                            </a>
+                            <a class="list-group-item list-group-item-action list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+
+                                My reviews
+                            </a>
+                        </nav>
+                        <h6 class="pt-4 ps-2 ms-1">Manage account</h6>
+                        <nav class="list-group">
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="{% url 'view_profile' %}">
+                                <i class="fa-sharp-duotone fa-solid fa-laptop fs-lg me-2"></i>
+                                Personal info
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="{% url 'manage_shipping_addresses' %}">
+                                <i class="fa-duotone fa-solid fa-address-book fs-xl me-2"></i>
+                                Addresses
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+                                Notifications
+                            </a>
+                        </nav>
+                        <h6 class="pt-4 ps-2 ms-1">Customer service</h6>
+                        <nav class="list-group list-group-borderless">
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+                                <i class="ci-help-circle fs-base opacity-75 me-2"></i>
+                                Help center
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="#">
+
+                                Terms and conditions
+                            </a>
+                        </nav>
+                        <nav class="list-group list-group-borderless pt-3">
+                            <a class="list-group-item list-group-item-action d-flex align-items-center list-group-item-light d-flex align-items-center fw-light"
+                                href="{% url 'account_logout' %}">
+                                <i class="fa-duotone fa-solid fa-arrow-right-from-bracket fs-base me-2"></i>
+                                Log out
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </aside>
+
+
+            <!-- Wishlist Product Cards -->
+            <div class="col-lg-9">
+                <div class="ps-lg-3 ps-xl-0">
+                    <!-- Page title -->
+                    <h1 class="h2 mb-1 mb-sm-2">Wishlist</h1>
+                    {% if wishlist.products.count == 0 %}
+                    <p>Your wishlist is empty</p>
+                    {% else %}
+                    <form method="POST" action="{% url 'remove_wishlist_items' %}">
+                        {% csrf_token %}
+                        <div class="nav align-items-center mb-2">
+                            <div class="form-check nav-link fs-lg ps-4 ms-4 pe-2 py-2 mt-n1 me-4">
+                                <input type="checkbox" class="form-check-input mt-2" id="wishlist-master">
+                                <label for="wishlist-master" class="form-check-label fs-base mt-1 ms-2">Select
+                                    all</label>
+                            </div>
+                            <div class="d-flex flex-wrap" id="action-buttons">
+                                <button type="submit" class="nav-link px-0 py-2" href="#!">
+                                    <i class="fa-duotone fa-solid fa-trash me-2"></i>
+                                    <span class="d-none d-md-inline fs-base">Remove selected</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Sortable orders table -->
+                        {% if wishlist.products.count == 0 %}
+                        <p>Your wishlist is empty</p>
+                        {% else %}
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gx-3 gy-4 mx-3 mx-sm-0">
+                            {% for product in wishlist.products.all %}
+                            <!-- Item -->
+                            <div class="col rounded">
+                                <div class="card position-relative">
+                                    <div class="position-absolute top-0 start-0 z-1 pt-1 ps-1 mt-2 ms-2">
+                                        <div class="form-check fs-lg">
+                                            <input type="checkbox" class="form-check-input select-card-check"
+                                                name="product_ids" value="{{ product.id }}">
+                                        </div>
+                                    </div>
+                                    {% if product.image %}
+                                    <a href="{% url 'product_detail' product.id %}">
+                                        <img class="card-img-top img-fluid"
+                                            style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top; "
+                                            src="{{ product.image.url }}" alt="{{ product.name }}">
+                                    </a>
+                                    {% else %}
+                                    <a href="{% url 'product_detail' product.id %}">
+                                        <img class="card-img-top img-fluid"
+                                            style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top;"
+                                            src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
+                                    </a>
+                                    {% endif %}
+                                    <div class="card-body pb-0 d-flex align-items-end">
+                                        <p class="mb-0 text-truncate">{{ product.name }}</p>
+                                    </div>
+                                    <div class="card-footer bg-white pt-0 border-0 text-left ms-3 mt-2">
+                                        <div class="row">
+                                            <div class="col">
+                                                {% if product.discount %}
+                                                <p class="lead mb-0 text-left font-weight-bold"><span
+                                                        class="small text-decoration-line-through text-warning">£{{ product.price }}</span><span
+                                                        class="ps-2">£{{ product.get_discounted_price }}</span></p>
+                                                {% else %}
+                                                <p class="lead mb-0 text-left font-weight-bold">£{{ product.price }}</p>
+                                                {% endif %}
+                                                {% if product.brand %}
+                                                <p class="small mt-1 mb-0 text-truncate">
+                                                    <a class="text-muted"
+                                                        href="{% url 'catalog' %}?brand_query={{ item.product.brand.name }}">
+                                                        <i
+                                                            class="fa-solid fa-copyright"></i>&nbsp;{{ product.brand.friendly_name }}
+                                                    </a>
+                                                </p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="position-absolute bottom-0 end-0">
+                                        <form method="POST" action="{% url 'cart_add' %}" class="text-center">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                                            <input type="hidden" name="quantity" value="1">
+                                            <button type="submit"
+                                                class="btn btn-outline-secondary rounded px-3 pt-2 m-2">
+                                                <i class="fa-duotone fa-solid fa-cart-plus fs-xl"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    {% if product.discount %}
+                                    <span class="position-absolute top-0 start-0 translate-middle">
+                                        <i class="fa-duotone fa-solid fa-badge-percent fs-2xl text-danger"></i>
+                                    </span>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
+
+{% block postfooter %}
+<!-- Sidebar navigation offcanvas toggle that is visible on screens < 992px wide (lg breakpoint) -->
+<button type="button"
+    class="fixed-bottom z-sticky w-100 btn btn-lg btn-dark border-0 border-top border-light border-opacity-10 rounded-0 pb-4 d-lg-none"
+    data-bs-toggle="offcanvas" data-bs-target="#accountSidebar" aria-controls="accountSidebar" data-bs-theme="light">
+    <i class="fa-duotone fa-solid fa-sidebar fs-base me-2"></i>
+    Account menu
+</button>
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+
+{% endblock %}
