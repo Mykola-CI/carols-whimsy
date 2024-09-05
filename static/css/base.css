@@ -187,6 +187,15 @@ a:not(.btn):focus {
 
 #header-search-dropdown {
     min-width: 300px;
+    input {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+}
+
+#header-search-btn {
+    margin-top: 0.3rem;
+    margin-right: 0.3rem;
 }
 
 .custom-dropdown-menu {
