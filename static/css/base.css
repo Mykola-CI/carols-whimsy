@@ -251,12 +251,13 @@ swiper-slide img {
     width: 100%;
 }
 
-.caption {
-    display: none;
-    /* Hide all captions initially */
-    margin-top: 20px;
-    /* Adjust as needed */
+#captions {
+    .caption {
+        display: none;
+        margin-top: 20px;
+    }
 }
+
 
 
 /* Shopping cart summary page */
