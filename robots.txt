@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /accounts/
+Disallow: /profile/
+Disallow: /cart/
+Disallow: /vendor/
+Sitemap: https://carols-whimsy-bba92a6158ba.herokuapp.com/sitemap.xml

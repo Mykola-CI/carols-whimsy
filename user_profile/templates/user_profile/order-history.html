@@ -155,8 +155,10 @@
                                     </td>
                                     <td class="fw-medium py-3 d-none d-md-table-cell">
                                         <span class="d-flex align-items-center">
-                                            <span class="{% if order_set.order.status == 'Pending' %}bg-danger{% elif order_set.order.status == 'Processing' %}bg-info{% elif order_set.order.status == 'Shipped' %}bg-success{% endif %} rounded-circle p-1 me-2"></span>
-                                            {{ order_set.order.status }}
+                                            <span
+                                                class="{% if order_with_items.order.status == 'Pending' %}bg-danger{% elif order_with_items.order.status == 'Processing' %}bg-info{% elif order_with_items.order.status == 'Shipped' %}bg-success{% elif order_with_items.order.status == 'Cancelled' %}bg-secondary{% elif order_with_items.order.status == 'Delivered' %}bg-warning{% endif %} rounded-circle p-1 me-2">
+                                            </span>
+                                            {{ order_with_items.order.status }}
                                         </span>
                                     </td>
                                     <td class="fw-medium py-3 d-none d-md-table-cell">
@@ -175,7 +177,8 @@
                                                     data-bs-toggle="collapse" aria-expanded="false"
                                                     aria-controls="collapse-{{ order_with_items.order.id }}"
                                                     aria-label="Show order details">
-                                                    <i class="fa-duotone fa-solid fa-chevrons-down fs-lg toggle-icon"></i>
+                                                    <i
+                                                        class="fa-duotone fa-solid fa-chevrons-down fs-lg toggle-icon"></i>
                                                 </a>
                                             </span>
                                         </div>
@@ -186,14 +189,16 @@
                                         <div class="card card-body">
                                             <!-- Order line items -->
                                             <table class="table">
-                                                {% for item in order_with_items.line_items %} 
+                                                {% for item in order_with_items.line_items %}
                                                 <tr class="align-middle">
                                                     <td class="text-wrap">{{ item.product.name }}</td>
                                                     <td>£{{ item.product.price }}</td>
                                                     <td>{{ item.quantity }}</td>
                                                     <td>£{{ item.item_total }}</td>
                                                     <td class="text-end d-none d-sm-block">
-                                                        <img class="img-fluid" style="max-width: 120px;" src="{{ item.product.image.url }}" aria-label="{{ item.product.name }}"></img>
+                                                        <img class="img-fluid" style="max-width: 120px;"
+                                                            src="{{ item.product.image.url }}"
+                                                            aria-label="{{ item.product.name }}"></img>
                                                     </td>
                                                 </tr>
                                                 {% endfor %}
@@ -226,11 +231,11 @@
 {% block postloadjs %}
 {{ block.super }}
 <script>
-    $(document).ready(function() {
-    $('.btn-icon').on('click', function() {
-        var icon = $(this).find('.toggle-icon');
-        icon.toggleClass('fa-chevrons-down fa-chevrons-up');
+    $(document).ready(function () {
+        $('.btn-icon').on('click', function () {
+            var icon = $(this).find('.toggle-icon');
+            icon.toggleClass('fa-chevrons-down fa-chevrons-up');
+        });
     });
-});
 </script>
 {% endblock %}
