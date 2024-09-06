@@ -30,6 +30,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Clicker+Script&family=Inter:wght@100..900&display=swap"
         rel="stylesheet">
 
+    <!-- MailChimp Styles -->
+    <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% endblock corecss %}
@@ -191,7 +194,7 @@
                             </div>
                         </li>
                         <li class="nav-item me-lg-n2 me-xl-0"></li>
-                            <a class="nav-link fs-sm" href="{% url 'catalog' %}?deals_query">Deals</a>
+                        <a class="nav-link fs-sm" href="{% url 'catalog' %}?deals_query">Deals</a>
                         </li>
                         <li class="nav-item dropdown me-lg-n1 me-xl-0">
                             <a class="nav-link dropdown-toggle fs-sm" href="#" role="button" data-bs-toggle="dropdown"
@@ -319,16 +322,36 @@
                         <h3 class="pb-1 mb-2 text-white">Stay in touch with us</h3>
                         <p class="fs-sm text-body pb-2 pb-sm-3">Receive the latest updates about our products &amp;
                             promotions</p>
-                        <form class="position-relative">
-                            <input type="email" id="footer-email"
-                                class="form-control form-control-lg rounded-pill text-start fw-light text-white-50"
-                                placeholder="Your email" aria-label="Your email address" required>
-                            <button type="submit"
-                                class="btn btn-icon fs-lg btn-dark rounded-circle position-absolute top-0 end-0 mt-1 me-1"
-                                aria-label="Submit your email address" data-bs-theme="light">
-                                <i class="fa-solid fa-arrow-up-right text-white-50"></i>
-                            </button>
-                        </form>
+                        <div id="mc_embed_shell">
+                            <div id="mc_embed_signup">
+                                <form class="position-relative"
+                                    action="https://herokuapp.us12.list-manage.com/subscribe/post?u=1834627b3e99d04cca19a3f99&amp;id=346595d674&amp;f_id=0024b8e0f0"
+                                    method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                                    class="validate" target="_blank">
+                                    <div aria-hidden="true">
+                                        <input type="email" name="EMAIL" id="mce-EMAIL" required="" value=""
+                                            class="required e-mail form-control form-control-lg rounded-pill text-start fw-light text-white-50"
+                                            placeholder="Your email" aria-label="Your email address" required>
+                                    </div>
+                                    <div id="mce-responses" class="clear">
+                                        <div class="response" id="mce-error-response" style="display: none;">
+                                        </div>
+                                        <div class="response" id="mce-success-response" style="display: none;">
+                                        </div>
+                                    </div>
+                                    <div aria-hidden="true" style="position: absolute; left: -5000px;">
+                                        <input type="text" name="b_1834627b3e99d04cca19a3f99_346595d674"
+                                            tabindex="-1" value="">
+                                    </div>
+                                    <div class="clear position-absolute top-0 end-0 mt-1 me-1">
+                                        <input type="submit" name="subscribe" id="mc-embedded-subscribe" value="&#128232;"
+                                            class="btn btn-icon fs-2xl btn-dark rounded-circle"
+                                            aria-label="Submit your email address">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
                         <div class="d-flex justify-content-center gap-5 pt-4 pt-md-3 mt-2 mt-md-3 mb-2">
                             <a class="btn btn-icon fs-xl btn-outline-secondary border-0" href="#!"
                                 data-bs-toggle="tooltip"
@@ -362,13 +385,16 @@
                 <div class="col-md-auto col-xl-2 text-center order-md-1 pt-4 pt-md-2">
                     <ul class="nav d-inline-flex flex-md-column justify-content-center align-items-center gap-md-2">
                         <li class="my-1 mx-2 m-md-0">
-                            <a class="nav-link d-inline-flex fw-normal p-0 text-white-50" href="{% url 'home' %}">Home</a>
+                            <a class="nav-link d-inline-flex fw-normal p-0 text-white-50"
+                                href="{% url 'home' %}">Home</a>
                         </li>
                         <li class="my-1 mx-2 m-md-0">
-                            <a class="nav-link d-inline-flex fw-normal p-0 text-white-50" href="{% url 'catalog' %}">Catalog</a>
+                            <a class="nav-link d-inline-flex fw-normal p-0 text-white-50"
+                                href="{% url 'catalog' %}">Catalog</a>
                         </li>
                         <li class="my-1 mx-2 m-md-0">
-                            <a class="nav-link d-inline-flex fw-normal p-0 text-white-50" href="{% url 'catalog' %}?deals_query">Deals</a>
+                            <a class="nav-link d-inline-flex fw-normal p-0 text-white-50"
+                                href="{% url 'catalog' %}?deals_query">Deals</a>
                         </li>
                         <li class="my-1 mx-2 m-md-0">
                             <a class="nav-link d-inline-flex fw-normal p-0 text-white-50" href="#!">Hotline</a>
@@ -416,6 +442,30 @@
             })
             toastList.forEach(toast => toast.show());
         });
+    </script>
+
+    <!-- Mailchimp Form Scripts -->
+    <script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+    <script type="text/javascript">
+        (function ($) {
+            window.fnames = new Array();
+            window.ftypes = new Array();
+            fnames[0] = 'EMAIL';
+            ftypes[0] = 'email';
+            fnames[1] = 'FNAME';
+            ftypes[1] = 'text';
+            fnames[2] = 'LNAME';
+            ftypes[2] = 'text';
+            fnames[3] = 'ADDRESS';
+            ftypes[3] = 'address';
+            fnames[4] = 'PHONE';
+            ftypes[4] = 'phone';
+            fnames[5] = 'BIRTHDAY';
+            ftypes[5] = 'birthday';
+            fnames[6] = 'COMPANY';
+            ftypes[6] = 'text';
+        }(jQuery));
+        var $mcj = jQuery.noConflict(true);
     </script>
     {% endblock %}
 

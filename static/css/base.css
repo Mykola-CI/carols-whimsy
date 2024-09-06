@@ -133,9 +133,12 @@ select:hover {
 }
 
 .truncate {
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide the overflowed text */
-    text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
+    white-space: nowrap;
+    /* Prevent text from wrapping */
+    overflow: hidden;
+    /* Hide the overflowed text */
+    text-overflow: ellipsis;
+    /* Display ellipsis (...) for overflowed text */
 }
 
 .accordion-button,
@@ -158,6 +161,7 @@ select:hover {
 html {
     scroll-behavior: smooth;
 }
+
 html,
 body {
     position: relative;
@@ -187,6 +191,7 @@ a:not(.btn):focus {
 
 #header-search-dropdown {
     min-width: 300px;
+
     input {
         padding-top: 0.75rem;
         padding-bottom: 0.75rem;
@@ -276,21 +281,23 @@ swiper-slide img {
     }
 
     .count-input button:hover,
-    .count-input button:active
-    .count-input button:focus {
-        background-color: rgb(227, 229, 235) !important;;
+    .count-input button:active .count-input button:focus {
+        background-color: rgb(227, 229, 235) !important;
+        ;
     }
 
     .btn {
         border: 0;
         border-radius: 0;
     }
+
     .btn-icon {
         flex-shrink: 0;
         height: 2.5rem;
         padding: 0;
         width: 2.5rem;
     }
+
     .form-control {
         -moz-appearance: textfield;
         -webkit-appearance: textfield;
@@ -303,6 +310,23 @@ swiper-slide img {
         text-align: center;
         width: 2.5rem;
     }
+}
+
+/* Overriding MailChimp Styles */
+#mc-embedded-subscribe {
+    border: 0;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    margin: auto !important;
+    border: none !important;
+    z-index: 10;
+}
+
+#mce-success-response,
+#mce-error-response {
+    position: absolute;
+    top: -60px;
+    left: 40px;
 }
 
 
@@ -326,6 +350,13 @@ swiper-slide img {
         height: 2.5rem;
         padding: 0;
         width: 2.5rem;
+    }
+
+    #mce-success-response,
+    #mce-error-response {
+        position: absolute;
+        top: -20px;
+        left: 150px;
     }
 }
 
