@@ -14,21 +14,11 @@
 <!-- Page content -->
 <div class="overlay"></div>
 <main class="content-wrapper-shop">
-    <div class="container-xxl pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5">
-
-        <!-- Breadcrumb -->
-        <nav class="position-relative pt-3 my-3 my-md-4 d-sm-flex justify-content-between" aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a class="link-dark" href="{% url 'home' %}">Home</a></li>
-                <li class="breadcrumb-item"><a class="link-dark" href="{% url 'catalog' %}">Products</a></li>
-                <li class="breadcrumb-item active d-none d-sm-block" aria-current="page">Cart</li>
-            </ol>
-            <div class="me-5 mt-3 mb-4 mb-sm-0"><mark class="py-2 px-3 rounded-3">Get Free Delivery at<strong class="ps-3">£{{ delivery_threshold }}+</strong></mark></div>
-        </nav>
+    <div class="container-xxl mb-2 mb-sm-3 mb-lg-4 mb-xl-5">
 
         {% if cart_status %}
-        <section class="container pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5">
-            <h1 class="h3 mb-4">Shopping cart</h1>
+        <section class="container-xxl mb-2 mb-md-3 mb-lg-4 mb-xl-5">
+            <h1 class="h3 mb-4 pt-1 pt-lg-4">Shopping cart</h1>
             <div class="mt-5">
                 <i class="fa-light fa-cart-shopping-fast display-1 mt-5"></i>
                 <h6 class="mt-5 mb-2">Your shopping cart is currently empty!</h6>
@@ -39,9 +29,9 @@
         </section>
         {% else %}
 
-        <section class="container-xxl pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5">
-            <h1 class="h3 mb-4">Shopping cart</h1>
-            <div class="row">
+        <section class="container-xxl pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5 d-flex flex-column">
+            <h1 class="h3 mb-4 pt-1 pt-lg-4">Shopping cart</h1>
+            <div class="row grow-1">
 
                 <!-- Items list -->
                 <div class="col-lg-8">
@@ -211,6 +201,8 @@
                 <!-- Order summary (sticky sidebar) -->
                 <aside class="col-lg-4" style="margin-top: -100px">
                     <div class="position-sticky top-0" style="padding-top: 100px">
+                        <div class="text-center me-2 mb-5 ps-xl-3 ps-xxl-5"><mark class="py-2 px-3 rounded-3">Get Free Delivery
+                                at<strong class="ps-2">£{{ delivery_threshold }}+</strong></mark></div>
                         <div class="bg-body-tertiary rounded-5 p-4 mb-3">
                             <div class="p-sm-2 p-lg-0 p-xl-2">
                                 <h5 class="border-bottom pb-4 mb-4">Order summary</h5>

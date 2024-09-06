@@ -127,7 +127,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body pt-3 pb-4 py-lg-0 mx-lg-auto">
-                    <ul class="navbar-nav position-relative">
+                    <ul class="navbar-nav position-relative gap-3">
                         <li class="nav-item dropdown me-lg-n1 me-xl-0">
                             <a class="nav-link dropdown-toggle fs-sm active" aria-current="page" href="#" role="button"
                                 data-bs-toggle="dropdown" data-bs-trigger="hover" aria-expanded="false">Our Brands</a>
@@ -193,8 +193,8 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="nav-item me-lg-n2 me-xl-0"></li>
-                        <a class="nav-link fs-sm" href="{% url 'catalog' %}?deals_query">Deals</a>
+                        <li class="nav-item me-lg-n2 me-xl-0">
+                            <a class="nav-link fs-sm" href="{% url 'catalog' %}?deals_query">Deals</a>
                         </li>
                         <li class="nav-item dropdown me-lg-n1 me-xl-0">
                             <a class="nav-link dropdown-toggle fs-sm" href="#" role="button" data-bs-toggle="dropdown"
@@ -271,38 +271,41 @@
         </div>
     </header>
 
-    {% if messages %}
-    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="margin-top: 120px;">
-        {% for message in messages %}
-        <div class="toast align-items-center {{ message.tags }} border-0" role="alert" aria-live="assertive"
-            aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
-            <div class="toast-header bg-light bg-gradient">
-                {% if message.tags == 'alert-success' %}
-                <i class="fa-duotone fa-solid fa-thumbs-up me-2 text-success fs-xl"></i>
-                {% elif message.tags == 'alert-info' %}
-                <i class="fa-regular fa-circle-info me-2 text-info fs-xl"></i>
-                {% elif message.tags == 'alert-warning' %}
-                <i class="fa-duotone fa-solid fa-triangle-exclamation me-2 text-warning fs-xl"></i>
-                {% elif message.tags == 'alert-danger' %}
-                <i class="fa-solid fa-circle-exclamation text-danger fs-xl me-2"></i>
-                {% else %}
-                <i class="fa-sharp-duotone fa-solid fa-circle-info text-secondary fs-xl me-2"></i>
-                {% endif %}
-                <strong class="me-auto">Carol's Message</strong>
-                <small class="text-muted">{% now "H:i" %}</small>
-                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    <div class="container-xxl position-relative">
+        {% if messages %}
+        <div class="toast-container position-absolute top-0 end-0 p-3" style="z-index: 11;">
+            {% for message in messages %}
+            <div class="toast align-items-center {{ message.tags }} border-0" role="alert" aria-live="assertive"
+                aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                <div class="toast-header bg-light bg-gradient">
+                    {% if message.tags == 'alert-success' %}
+                    <i class="fa-duotone fa-solid fa-thumbs-up me-2 text-success fs-xl"></i>
+                    {% elif message.tags == 'alert-info' %}
+                    <i class="fa-regular fa-circle-info me-2 text-info fs-xl"></i>
+                    {% elif message.tags == 'alert-warning' %}
+                    <i class="fa-duotone fa-solid fa-triangle-exclamation me-2 text-warning fs-xl"></i>
+                    {% elif message.tags == 'alert-danger' %}
+                    <i class="fa-solid fa-circle-exclamation text-danger fs-xl me-2"></i>
+                    {% else %}
+                    <i class="fa-sharp-duotone fa-solid fa-circle-info text-secondary fs-xl me-2"></i>
+                    {% endif %}
+                    <strong class="me-auto">Carol's Message</strong>
+                    <small class="text-muted">{% now "H:i" %}</small>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+                <div class="toast-body fs-base">
+                    {{ message }}
+                </div>
             </div>
-            <div class="toast-body fs-base">
-                {{ message }}
-            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
-    {% endif %}
+        {% endif %}
 
-    <!-- Toast json response messages-->
-    <div id="toast-container-json" class="toast-container position-fixed top-0 start-50 translate-middle-x p-3"
-        style="margin-top: 120px; z-index: 11;"></div>
+        <!-- Toast json response messages-->
+        <div id="toast-container-json" class="toast-container position-absolute top-0 end-0 p-3" style="z-index: 11;">
+        </div>
+    </div>
 
     {% block page_header %}{% endblock %}
 
@@ -340,12 +343,12 @@
                                         </div>
                                     </div>
                                     <div aria-hidden="true" style="position: absolute; left: -5000px;">
-                                        <input type="text" name="b_1834627b3e99d04cca19a3f99_346595d674"
-                                            tabindex="-1" value="">
+                                        <input type="text" name="b_1834627b3e99d04cca19a3f99_346595d674" tabindex="-1"
+                                            value="">
                                     </div>
                                     <div class="clear position-absolute top-0 end-0 mt-1 me-1">
-                                        <input type="submit" name="subscribe" id="mc-embedded-subscribe" value="&#128232;"
-                                            class="btn btn-icon fs-2xl btn-dark rounded-circle"
+                                        <input type="submit" name="subscribe" id="mc-embedded-subscribe"
+                                            value="&#128232;" class="btn btn-icon fs-2xl btn-dark rounded-circle"
                                             aria-label="Submit your email address">
                                     </div>
                                 </form>
@@ -382,8 +385,9 @@
                 </div>
 
                 <!-- Category links -->
-                <div class="col-md-auto col-xl-2 text-center order-md-1 pt-4 pt-md-2">
-                    <ul class="nav d-inline-flex flex-md-column justify-content-center align-items-center gap-md-2">
+                <div
+                    class="col-md-auto col-xl-2 text-center order-md-1 pt-4 pt-md-2 d-md-flex flex-md-column justify-content-center">
+                    <ul class="nav d-inline-flex flex-md-column justify-content-start align-items-center gap-md-4">
                         <li class="my-1 mx-2 m-md-0">
                             <a class="nav-link d-inline-flex fw-normal p-0 text-white-50"
                                 href="{% url 'home' %}">Home</a>
@@ -396,15 +400,13 @@
                             <a class="nav-link d-inline-flex fw-normal p-0 text-white-50"
                                 href="{% url 'catalog' %}?deals_query">Deals</a>
                         </li>
-                        <li class="my-1 mx-2 m-md-0">
-                            <a class="nav-link d-inline-flex fw-normal p-0 text-white-50" href="#!">Hotline</a>
-                        </li>
                     </ul>
                 </div>
 
                 <!-- Customer links -->
-                <div class="col-md-auto col-xl-2 text-center order-md-3 pt-3 pt-md-2">
-                    <ul class="nav d-inline-flex flex-md-column justify-content-center align-items-center gap-md-2">
+                <div
+                    class="col-md-auto col-xl-2 text-center order-md-3 pt-3 pt-md-2 d-md-flex flex-md-column justify-content-center">
+                    <ul class="nav d-inline-flex flex-md-column justify-content-center align-items-center gap-md-4">
                         <li class="my-1 mx-2 m-md-0">
                             <a class="nav-link d-inline-flex fw-normal p-0 text-white-50" href="#!">About Us</a>
                         </li>
@@ -412,10 +414,7 @@
                             <a class="nav-link d-inline-flex fw-normal p-0 text-white-50" href="#!">Contact Us</a>
                         </li>
                         <li class="my-1 mx-2 m-md-0">
-                            <a class="nav-link d-inline-flex fw-normal p-0 text-white-50" href="#!">Help center</a>
-                        </li>
-                        <li class="my-1 mx-2 m-md-0">
-                            <a class="nav-link d-inline-flex fw-normal p-0 text-white-50" href="#!">Legal</a>
+                            <a class="nav-link d-inline-flex fw-normal p-0 text-white-50" href="#!">FAQ</a>
                         </li>
                     </ul>
                 </div>
