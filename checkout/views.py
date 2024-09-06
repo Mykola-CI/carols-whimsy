@@ -50,6 +50,29 @@ def checkout_shipping(request):
     if request.method == 'POST':
         order_form = OrderForm(request.POST)
         if order_form.is_valid():
+            # Save the form data to the User's shipping addresses
+            if request.user.is_authenticated:
+                if order_form.cleaned_data.get('save_address'):
+                    ShippingAddress.objects.create(
+                        user_profile=request.user.userprofile,
+                        delivery_first_name=order_form.cleaned_data[
+                            'first_name'],
+                        delivery_last_name=order_form.cleaned_data[
+                            'last_name'],
+                        delivery_phone_number=order_form.cleaned_data[
+                            'phone_number'],
+                        delivery_email=order_form.cleaned_data['email'],
+                        shipping_street_address=order_form.cleaned_data[
+                            'street_address'],
+                        shipping_town_city=order_form.cleaned_data[
+                            'town_city'],
+                        shipping_county=order_form.cleaned_data[
+                            'county'],
+                        shipping_postcode=order_form.cleaned_data[
+                            'postcode'],
+                        shipping_country=order_form.cleaned_data['country'],
+                    )
+            # Save the form data in the session for saving order later
             request.session['shipping_details'] = order_form.cleaned_data
             return redirect('checkout_payment')
         else:

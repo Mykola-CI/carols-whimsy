@@ -155,8 +155,8 @@
                                     </td>
                                     <td class="fw-medium py-3 d-none d-md-table-cell">
                                         <span class="d-flex align-items-center">
-                                            <span class="bg-info rounded-circle p-1 me-2"></span>
-                                            In progress
+                                            <span class="{% if order_set.order.status == 'Pending' %}bg-danger{% elif order_set.order.status == 'Processing' %}bg-info{% elif order_set.order.status == 'Shipped' %}bg-success{% endif %} rounded-circle p-1 me-2"></span>
+                                            {{ order_set.order.status }}
                                         </span>
                                     </td>
                                     <td class="fw-medium py-3 d-none d-md-table-cell">

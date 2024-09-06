@@ -58,12 +58,22 @@
                                     {{ order_form.country|as_crispy_field }}
                                 </div>
                             </div>
+                            {% if user.is_authenticated %}
+                            <div class="form-check ms-sm-4 d-flex align-items-center">
+                                {{ order_form.save_address }} <!-- Render the checkbox -->
+                                <label for="{{ form.shipping_is_default.id_for_label }}"
+                                    class="form-check-label fs-sm ms-3">
+                                    {{ order_form.save_address.label }}
+                                </label>
+                            </div>
+                            {% endif %}
 
                             <button type="submit"
-                                class="btn btn-lg btn-primary w-100 rounded-pill d-none d-lg-flex justify-content-center align-items-center py-2--5 mt-3">
+                                class="btn btn-lg btn-primary w-100 rounded-pill d-none d-lg-flex justify-content-center align-items-center py-2--5 mt-4">
                                 Continue
                                 <i class="fa-solid fa-chevron-right fs-lg ms-3"></i>
                             </button>
+
                             <!-- Fixed positioned pay button that is visible on screens < 992px wide (lg breakpoint) -->
                             <div class="fixed-bottom z-sticky w-100 py-2 px-3 bg-body border-top shadow d-lg-none">
                                 <button type="submit" class="btn btn-lg btn-primary rounded-pill w-100">
@@ -87,9 +97,10 @@
 
             <!-- Order summary (sticky sidebar) -->
             <aside class="col-lg-4" style="margin-top: -100px">
-                
+
                 <div class="position-sticky top-0" style="padding-top: 100px">
-                    <div class="text-center me-2 mb-5 ps-xl-3 ps-xxl-5"><mark class="py-2 px-3 rounded-3">Get Free Delivery at<strong class="ps-2">£{{ delivery_threshold }}+</strong></mark></div>
+                    <div class="text-center me-2 mb-5 ps-xl-3 ps-xxl-5"><mark class="py-2 px-3 rounded-3">Get Free
+                            Delivery at<strong class="ps-2">£{{ delivery_threshold }}+</strong></mark></div>
                     <div class="bg-body-tertiary rounded-5 p-4 mb-3">
                         <div class="p-sm-2 p-lg-0 p-xl-2">
                             <h5 class="border-bottom pb-4 mb-4">Order summary</h5>
@@ -113,8 +124,9 @@
                                     <span class="h5 mb-0">£{{ grand_total }}</span>
                                 </div>
                                 <div class="nav justify-content-center fs-sm mt-5">
-                                    <a class="nav-link text-decoration-underline p-0 me-1" href=""
-                                        data-bs-toggle="offcanvas" role="button">Create an account</a>
+                                    <a class="nav-link text-decoration-underline p-0 me-1"
+                                        href="{% url 'account_signup' %}" data-bs-toggle="offcanvas"
+                                        role="button">Create an account</a>
                                     and get
                                     <span class="text-dark-emphasis fw-medium ms-1">your bonuses</span>
                                 </div>

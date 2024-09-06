@@ -5,6 +5,15 @@ from .models import Order
 
 
 class OrderForm(forms.ModelForm):
+    """ Form for the user to fill in their shipping details """
+
+    save_address = forms.BooleanField(
+        required=False,
+        label='Save to your profile',
+        widget=forms.CheckboxInput(
+            attrs={'style': 'width: 20px; height: 20px;'})
+    )
+
     class Meta:
         model = Order
         fields = ('first_name', 'last_name', 'email', 'phone_number',
@@ -37,8 +46,11 @@ class OrderForm(forms.ModelForm):
         }
 
         for field in self.fields:
-            if field != 'country':
+            if field != 'country' and field != 'save_address':
                 placeholder = placeholders[field]
 
             self.fields[field].widget.attrs['placeholder'] = placeholder
-            self.fields[field].widget.attrs['class'] = 'form-control form-control-lg'
+            if field != 'save_address':
+                self.fields[field].widget.attrs['class'] = (
+                    'form-control form-control-lg'
+                )
