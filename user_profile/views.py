@@ -188,7 +188,7 @@ def view_order_history(request):
     ''' A view to display the order history of the user '''
 
     profile = get_object_or_404(UserProfile, user=request.user)
-    orders = profile.orders.all()
+    orders = profile.orders.all().order_by('-date')
 
     # Count the number of orders
     order_count = orders.count()
