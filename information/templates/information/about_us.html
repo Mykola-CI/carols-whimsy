@@ -2,64 +2,66 @@
 {% load static %}
 {% load custom_filters %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'information/css/information.css' %}">
+{% endblock %}
 
 {% block project_content %}
 
 {% include 'includes/shopping_cart_offcanvas.html' %}
 
-
+<div class="information-banner position-fixed top-0 start-0 w-100">
+    <img class="img-fluid" src="{{ MEDIA_URL }}benefits_background_allauth.jpg" alt="Goodwill banner flying porcelain">
+    <h1 class="display-4 text-center mt-4 mt-md-0">About Us</h1>
+</div>
 <!-- Page content -->
-<main class="content-wrapper">
-    <div class="container-xxl pb-3 mb-sm-2 mb-xl-3">
-
-        <!-- Hero Banner -->
-        <div class="row gx-5 mt-5 gx-5 gy-5">
-            <div class="col-md-4 ps-lg-5">
-                <div>
-                    <img class="card-img-top img-fluid"
-                        style="aspect-ratio: 4 / 5; object-fit: cover; object-position: top;"
-                        src="{{ MEDIA_URL }}Goodwill_M&G_96.jpg" alt="Goodwill wooden corner">
-                </div>
+<main class="content-wrapper-info container px-3 pt-0">
+    <!-- Hero Banner -->
+    <div class="row gx-5 mt-md-2 mb-4 gy-5">
+        <div class="col-md-4 ps-lg-5">
+            <div>
+                <img class="card-img-top img-fluid"
+                    style="aspect-ratio: 4 / 5; object-fit: cover; object-position: top;"
+                    src="{{ MEDIA_URL }}Goodwill_M&G_96.jpg" alt="Goodwill wooden corner">
             </div>
-            <div class="col-md-8 px-4 px-lg-5">
-                <h2 class="display-6 mt-4 mt-md-0">About Us</h2>
-                <p>Welcome to Carol's Whimsy! We are a dedicated online B-to-C reseller of exquisite Christmas
-                    decorations and gifts, proudly partnering with Goodwill, Belgium. Our mission is to bring the
-                    festive spirit to homes across the UK with high-quality, unique decorations that add a touch of
-                    magic to your holiday celebrations.</p>
-                <h5>Our Story</h5>
-                <p>Our journey began with a passion for transforming spaces into festive wonderlands. Inspired by
-                    the rich tradition and craftsmanship of Goodwill, Belgium, we set out to make their beautiful
-                    creations accessible to customers in the UK. Our commitment is to offer a curated selection of
-                    decorations that blend traditional charm with contemporary elegance.</p>
-                <h5>Our Mission</h5>
-                <p>At [Your Company Name], our mission is to spread joy and create memorable holiday experiences by
-                    providing exceptional products and outstanding customer service. We believe that every home
-                    deserves to shine during the festive season, and we are here to make that happen.</p>
-            </div>
-            <div class="col-md-6 px-4 px-lg-5">
-                <h5>Our Values</h5>
-                <ul>
-                    <li>Quality: We are committed to offering products that meet the highest standards of craftsmanship
-                        and durability.</li>
-                    <li>Customer Satisfaction: Your happiness is our priority. We strive to provide a seamless shopping
-                        experience and exceptional customer support.</li>
-                    <li>Sustainability: We are conscious of our environmental impact and aim to offer eco-friendly
-                        options whenever possible.</li>
-                </ul>
-            </div>
-            <div class="col-md-6 px-4 px-lg-5">
-                <h5>Who We Serve</h5>
-                <p>Our customers are at the heart of everything we do. We cater to individuals and families who
-                    cherish the holiday season and seek to enhance their celebrations with unique and high-quality
-                    decorations. Whether you're looking for a statement piece or subtle accents, we have something
-                    for everyone.</p>
-                <h5>Meet Our Team</h5>
-                <p>Our team is a group of passionate individuals who share a love for the holiday season and a
-                    commitment to excellence. From our customer service representatives to our logistics experts,
-                    each team member plays a vital role in ensuring your experience with us is nothing short of
-                    magical.</p>
-            </div>
+        </div>
+        <div class="col-md-8 px-4 px-lg-5">
+            <p>Welcome to Carol's Whimsy! We are a dedicated online B-to-C reseller of exquisite Christmas
+                decorations and gifts, proudly partnering with Goodwill, Belgium. Our mission is to bring the
+                festive spirit to homes across the UK with high-quality, unique decorations that add a touch of
+                magic to your holiday celebrations.</p>
+            <h5>Our Story</h5>
+            <p>Our journey began with a passion for transforming spaces into festive wonderlands. Inspired by
+                the rich tradition and craftsmanship of Goodwill, Belgium, we set out to make their beautiful
+                creations accessible to customers in the UK. Our commitment is to offer a curated selection of
+                decorations that blend traditional charm with contemporary elegance.</p>
+            <h5>Our Mission</h5>
+            <p>At Carol's Whimsy, our mission is to spread joy and create memorable holiday experiences by
+                providing exceptional products and outstanding customer service. We believe that every home
+                deserves to shine during the festive season, and we are here to make that happen.</p>
+        </div>
+        <div class="col-md-6 px-4 px-lg-5">
+            <h5>Our Values</h5>
+            <ul>
+                <li>Quality: We are committed to offering products that meet the highest standards of craftsmanship
+                    and durability.</li>
+                <li>Customer Satisfaction: Your happiness is our priority. We strive to provide a seamless shopping
+                    experience and exceptional customer support.</li>
+                <li>Sustainability: We are conscious of our environmental impact and aim to offer eco-friendly
+                    options whenever possible.</li>
+            </ul>
+        </div>
+        <div class="col-md-6 px-4 px-lg-5">
+            <h5>Who We Serve</h5>
+            <p>Our customers are at the heart of everything we do. We cater to individuals and families who
+                cherish the holiday season and seek to enhance their celebrations with unique and high-quality
+                decorations. Whether you're looking for a statement piece or subtle accents, we have something
+                for everyone.</p>
+            <h5>Meet Our Team</h5>
+            <p>Our team is a group of passionate individuals who share a love for the holiday season and a
+                commitment to excellence. From our customer service representatives to our logistics experts,
+                each team member plays a vital role in ensuring your experience with us is nothing short of
+                magical.</p>
         </div>
     </div>
 </main>

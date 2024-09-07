@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'information/css/information.css' %}">
+{% endblock %}
+
+{% block project_content %}
+
+{% include 'includes/shopping_cart_offcanvas.html' %}
+
+<div class="information-banner position-fixed top-0 start-0 w-100">
+    <img class="img-fluid" src="{{ MEDIA_URL }}benefits_background_allauth.jpg" alt="Goodwill banner flying porcelain">
+    <h1 class="display-4 text-center mt-4 mt-md-0">Contact Us</h1>
+</div>
+<!-- Page content -->
+<main class="content-wrapper-info container px-3 pt-0">
+    <!-- Hero Banner -->
+    <div class="row gx-5 mt-md-2 mb-4 gy-5">
+        <div class="col-md-4 ps-lg-5">
+            <div>
+                <img class="card-img-top img-fluid"
+                    style="aspect-ratio: 4 / 5; object-fit: cover; object-position: top;"
+                    src="{{ MEDIA_URL }}Goodwill_M&G_96.jpg" alt="Goodwill wooden corner">
+            </div>
+        </div>
+        <div class="col-md-8 px-4 px-lg-5">
+            <div class="mb-3 mb-md-5">
+                <h5>Email Us at:</h5>
+                <p>carolswhimsy.deco@gmail.com</p>
+            </div>
+            <div class="mb-3 mb-md-5">
+                <h5>On Specific Subject:</h5>
+                <ul class="row justify-content-start list-unstyled">
+                    <li class="col-md-3">Customer Service</li>
+                    <li class="col-md-3">carolswhimsy.deco+1@gmail.com</li>
+                </ul>
+                <ul class="row justify-content-start list-unstyled">
+                    <li class="col-md-3">Order Inquiries</li>
+                    <li class="col-md-3">carolswhimsy.deco+2@gmail.com</li>
+                    
+                </ul>
+                <ul class="row justify-content-start list-unstyled">
+                    <li class="col-md-3">Product Information</li>
+                    <li class="col-md-3">carolswhimsy.deco+3@gmail.com</li>
+                </ul>
+            </div>
+            <div class="mb-3 mb-md-5">
+                <h5>Call Us at:</h5>
+                <blockquote>+44 756 2182182</blockquote>
+                <figcaption class="blockquote-footer"><small>Working Hours: 9:00 - 18-00 Mon-Fri</small></figcaption>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+
+{% endblock %}

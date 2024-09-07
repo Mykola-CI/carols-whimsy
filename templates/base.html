@@ -67,7 +67,7 @@
 
     <!-- Topbar -->
     <div
-        class="top-bar container-xxl position-relative d-flex align-items-center justify-content-between z-1 pt-2 pb-1 fw-light">
+        class="top-bar container-xxl position-relative d-flex align-items-center justify-content-between z-3 pt-2 pb-1 fw-light">
         <div class="nav principal-logo ms-4">
             <a class="nav-link p-0 text-reset" href="https://goodwill.be/en/home-eng/" target="_blank">
                 <img src="{{ MEDIA_URL }}goodwillangel_xl_glow_poster.png" class="img-fluid"
@@ -220,16 +220,12 @@
                                 aria-expanded="false">Information</a>
                             <ul class="dropdown-menu mt-3">
                                 <li class="dropend">
-                                    <a class="dropdown-item dropdown-toggle" href="#!" role="button"
-                                        data-bs-toggle="dropdown" data-bs-trigger="hover"
-                                        aria-expanded="false">About</a>
+                                    <a class="dropdown-item" href="{% url 'about' %}">About</a>
                                 </li>
                                 <li class="dropend">
-                                    <a class="dropdown-item dropdown-toggle" href="#!" role="button"
-                                        data-bs-toggle="dropdown" data-bs-trigger="hover" aria-expanded="false">Contact
-                                        Us</a>
+                                    <a class="dropdown-item" href="{% url 'faq' %}">FAQ</a>
                                 </li>
-                                <li><a class="dropdown-item" href="#">Terms &amp; Conditions</a>
+                                <li><a class="dropdown-item" href="{% url 'contacts' %}">Contact Us</a>
                                 </li>
                             </ul>
                         </li>
@@ -408,13 +404,13 @@
                     class="col-md-auto col-xl-2 text-center order-md-3 pt-3 pt-md-2 d-md-flex flex-md-column justify-content-center">
                     <ul class="nav d-inline-flex flex-md-column justify-content-center align-items-center gap-md-4">
                         <li class="my-1 mx-2 m-md-0">
-                            <a class="nav-link d-inline-flex fw-normal p-0 text-white-50" href="#!">About Us</a>
+                            <a class="nav-link d-inline-flex fw-normal p-0 text-white-50" href="{% url 'about' %}">About Us</a>
                         </li>
                         <li class="my-1 mx-2 m-md-0">
-                            <a class="nav-link d-inline-flex fw-normal p-0 text-white-50" href="#!">Contact Us</a>
+                            <a class="nav-link d-inline-flex fw-normal p-0 text-white-50" href="{% url 'contacts' %}">Contact Us</a>
                         </li>
                         <li class="my-1 mx-2 m-md-0">
-                            <a class="nav-link d-inline-flex fw-normal p-0 text-white-50" href="#!">FAQ</a>
+                            <a class="nav-link d-inline-flex fw-normal p-0 text-white-50" href="{% url 'faq' %}">FAQ</a>
                         </li>
                     </ul>
                 </div>

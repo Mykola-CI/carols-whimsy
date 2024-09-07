@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'information/css/information.css' %}">
+{% endblock %}
+
+{% block project_content %}
+
+{% include 'includes/shopping_cart_offcanvas.html' %}
+
+
+<div class="information-banner position-fixed top-0 start-0 w-100">
+    <img class="img-fluid" src="{{ MEDIA_URL }}benefits_background_allauth.jpg" alt="Goodwill banner flying porcelain">
+    <h1 class="display-4 text-center">Frequently Asked Questions</h1>
+</div>
+<!-- Page content -->
+<main class="content-wrapper-info container p-3 p-md-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <h2 class="h5">What is Carol's Whimsy?</h2>
+            <p>
+                Carol's Whimsy is an online retailer specializing in Christmas decorations and gifts from Goodwill,
+                Belgium. We offer a wide range of products to help you celebrate the holiday season in style.
+            </p>
+            <h2 class="h5">How can I place an order?</h2>
+            <p>You can easily place an order through our website by browsing our selection, adding items to your cart,
+                and proceeding to checkout. We accept payments via credit or debit cards and PayPal.</p>
+            <h2 class="h5">Do you offer delivery to the UK?</h2>
+            <p>Yes, we deliver to all locations within the UK using Royal Mail. Delivery times and costs will be
+                calculated at checkout based on your location and the size of your order.</p>
+            <h2 class="h5">How can I contact customer service?</h2>
+            <p>Our customer service team is here to help! You can reach us via email at carolswhimsy.deco@gmail.com or
+                by
+                calling +44 756 2182182 during our business hours. We aim to respond to all inquiries within 24
+                hours.</p>
+            <h2 class="h5">What is your return policy?</h2>
+            <p>We want you to be completely satisfied with your purchase. If for any reason you are not, you can return
+                items within 30 days of receipt for a full refund or exchange. Please refer to our Return Policy page
+                for more details.</p>
+        </div>
+
+        <div class="col-md-5">
+            <h2 class="h5">What are the benefits of registering an account?</h2>
+            <p>
+                Registering an account with Carol's Whimsy offers a range of exclusive benefits designed to enhance your
+                shopping experience:
+            </p>
+            <ul>
+                <li class="p-1">
+                    <strong>Wishlist Management:</strong> Easily add and remove items from your wishlist, and transfer
+                    them to your cart when you're ready to purchase.
+                </li>
+                <li class="p-1">
+                    <strong>Multiple Shipping Addresses:</strong> Store multiple shipping addresses in your profile,
+                    with options to add, edit, or remove them as needed. This feature streamlines the checkout process,
+                    allowing you to select from existing addresses quickly.
+                </li>
+                <li class="p-1">
+                    <strong>Efficient Checkout Process:</strong> Use your saved shipping addresses during checkout to
+                    speed up the order process. Any manual changes to shipping details during checkout can be saved as a
+                    new address in your profile for future use.
+                </li>
+                <li class="p-1">
+                    <strong>Order History and Status Tracking:</strong> Access a detailed history of your orders,
+                    including the status of each one, from pending to shipped and delivered. This feature helps you keep
+                    track of your purchases and their delivery progress.
+                </li>
+                <li class="p-1">
+                    <strong>Personal Information Management:</strong> Easily manage your personal information, including
+                    contact details and email addresses, ensuring your profile is always up-to-date.
+                    Exclusive Newsletter: Subscribe to our newsletter to receive exclusive deals, promotions, and
+                    updates on new collections directly to your inbox.
+
+                </li>
+                <li class="p-1">
+                    <strong>Rewards and Draws:</strong> Earn rewards for your purchases and participate in exciting
+                    draws, giving you the chance to win special prizes and discounts.
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>
+
+
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+
+{% endblock %}
