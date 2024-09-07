@@ -13,6 +13,7 @@ urlpatterns = [
     path('checkout/', include('checkout.urls')),
     path('profile/', include('user_profile.urls')),
     path('vendor/', include('vendor.urls')),
+    path('information/', include('information.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'carols_project.views.handler404'
