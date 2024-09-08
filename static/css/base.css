@@ -313,8 +313,12 @@ swiper-slide img {
 }
 
 /* Overriding MailChimp Styles */
+#wrapper-mc-embedded-subscribe {
+    position: absolute;
+}
+
+
 #mc-embedded-subscribe {
-    border: 0;
     width: 2.5rem !important;
     height: 2.5rem !important;
     margin: auto !important;
@@ -325,9 +329,10 @@ swiper-slide img {
 #mce-success-response,
 #mce-error-response {
     position: absolute;
-    top: -60px;
+    top: -60px !important;
     left: 40px;
 }
+
 
 
 /* Media queries */
@@ -355,7 +360,7 @@ swiper-slide img {
     #mce-success-response,
     #mce-error-response {
         position: absolute;
-        top: -20px;
+        top: -20px !important;
         left: 150px;
     }
 }
