@@ -45,7 +45,7 @@ def catalog(request):
                 Q(promo_text__icontains=search) |
                 Q(color__icontains=search) |
                 Q(material__icontains=search) |
-                Q(other_details__icontains=search)
+                Q(size__icontains=search)
             )
             products = products.filter(queries)
 

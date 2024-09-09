@@ -53,10 +53,18 @@ class Season(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=255)
     sku = models.CharField(max_length=100, unique=True, blank=False)
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, default=1, related_name='branded_products')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='group_of_products')
-    theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, blank=True, null=True, related_name='theme_products')
-    season = models.ForeignKey(Season, on_delete=models.SET_NULL, blank=True, null=True, related_name='season_products')
+    brand = models.ForeignKey(
+        Brand, on_delete=models.CASCADE, default=1,
+        related_name='branded_products')
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE,
+        related_name='group_of_products')
+    theme = models.ForeignKey(
+        Theme, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name='theme_products')
+    season = models.ForeignKey(
+        Season, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name='season_products')
     price = models.DecimalField(max_digits=6, decimal_places=2)
     promo_text = models.TextField(blank=True, null=True)
     size = models.CharField(max_length=255, blank=True, null=True)

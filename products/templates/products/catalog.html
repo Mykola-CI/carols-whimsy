@@ -14,32 +14,6 @@
 {% include 'includes/shopping_cart_offcanvas.html' %}
 
 
-<!-- Shop filters offcanvas -->
-<div class="offcanvas offcanvas-end pb-sm-2 px-sm-2" id="shopFilters" tabindex="-1" aria-labelledby="shopFiltersLabel">
-
-    <!-- Header -->
-    <div class="offcanvas-header py-3">
-        <h5 class="offcanvas-title" id="shopFiltersLabel">Filter and sort</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-
-    <!-- Body -->
-    <div class="offcanvas-body pt-0">
-
-        <!-- Filters -->
-
-        <div class="position-relative dropup mt-3">
-            <select class="sorting-select form-select fw-medium py-3 position-absolute top-50" aria-label="Sorting">
-                <option value="reset" {% if sortkey == None %}selected{% endif %}>Sort by...</option>
-                <option value="price_asc" {% if sortkey == 'price_asc' %}selected{% endif %}>Price (low to high)
-                </option>
-                <option value="price_desc" {% if sortkey == 'price_desc' %}selected{% endif %}>Price (high to low)
-                </option>
-            </select>
-        </div>
-    </div>
-</div>
-
 <!-- Page content -->
 <div class="overlay"></div>
 <main class="content-wrapper-shop">
@@ -69,11 +43,6 @@
                 <option value="price_desc" {% if sortkey == 'price_desc' %}selected{% endif %}>Price (high to low)
                 </option>
             </select>
-            <!-- All filters offcanvas toggle -->
-            <a class="px-2 link-secondary" href="#shopFilters" data-bs-toggle="offcanvas" aria-controls="shopFilters">
-                <i class="fa-sharp fa-regular fa-filters d-none d-sm-inline"></i>
-                <span class="text-nowrap">All filters</span>
-            </a>
             <a class="px-2 link-secondary" href="{% url 'catalog' %}" aria-label="Clear all filters">
                 <i class="fa-regular fa-filter-circle-xmark d-none d-sm-inline"></i>
                 <span class="text-nowrap">Clear All</span>
