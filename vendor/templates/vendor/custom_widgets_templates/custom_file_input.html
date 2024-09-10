@@ -16,10 +16,8 @@
     <p class="mb-1"><mark>Select Image</mark></p>
     <div>
         <span class="btn btn-secondary py-3 rounded-3 w-100">
-            <input id="new-image" type="{{ widget.type }}" name="{{ widget.name }}" {% include "django/forms/widgets/attrs.html" %}>
+            <input type="{{ widget.type }}" name="{{ widget.name }}" {% include "django/forms/widgets/attrs.html" %}>
         </span>
     </div>
-    <strong>
-        <p class="text-danger" id="filename"></p>
-    </strong>
+    <p class="text-danger" id="filename"></p>
 </div>

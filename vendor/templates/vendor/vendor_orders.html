@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="{% static 'vendor/css/vendor_pages.css' %}">
 {% endblock %}
 
+{% block extra_title %}Vendor Orders{% endblock %}
+
 {% block project_content %}
 
 {% include 'includes/shopping_cart_offcanvas.html' %}
@@ -159,8 +161,16 @@
                                             <form method="post" action="{% url 'update_order' order_set.order.id %}">
                                                 {% csrf_token %}
                                                 <div class="d-flex align-items-center gap-2">
-                                                    {{ form.status|as_crispy_field }}
-                                                    <div class="">
+                                                    <div id="div_id_status_{{ forloop.counter }}" class="mb-3">
+                                                        <select name="status" class="form-select m-0" required id="id_status_{{ forloop.counter }}">
+                                                            {% for choice in form.fields.status.choices %}
+                                                                <option value="{{ choice.0 }}" {% if choice.0 == form.initial.status %}selected{% endif %}>
+                                                                    {{ choice.1 }}
+                                                                </option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div>
                                                         <button type="submit"
                                                             class="btn btn-icon fs-lg btn-secondary rounded-circle mt-1 me-1"
                                                             data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm"
@@ -195,7 +205,7 @@
                                                         <img class="img-fluid" style="max-width: 120px;"
                                                             src="{{ item.product.image.url }}"
                                                             alt="{{ item.product.name }}"
-                                                            aria-label="{{ item.product.name }}"></img>
+                                                            aria-label="{{ item.product.name }}">
                                                     </td>
                                                 </tr>
                                                 {% endfor %}
