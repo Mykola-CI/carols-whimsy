@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
-from django.db.models import Q
+from django.db.models import Case, When, Value, IntegerField, Q
 
 from .models import Product, Brand, Category, Theme, Season
 
@@ -55,6 +55,16 @@ def catalog(request):
                 products = products.order_by('price')
             if sortkey == 'price_desc':
                 products = products.order_by('-price')
+        else:
+            # This is to move "package" items to the bottom of the list
+            # so they cannot appear on the first page
+            products = products.annotate(
+                custom_order=Case(
+                    When(category__name='package', then=Value(1)),
+                    default=Value(0),
+                    output_field=IntegerField(),
+                )
+            ).order_by('custom_order', 'id')
 
     products_count = products.count()
 
