@@ -55,16 +55,6 @@ def catalog(request):
                 products = products.order_by('price')
             if sortkey == 'price_desc':
                 products = products.order_by('-price')
-        else:
-            # This is to move "package" items to the bottom of the list
-            # so they cannot appear on the first page
-            products = products.annotate(
-                custom_order=Case(
-                    When(category__name='package', then=Value(1)),
-                    default=Value(0),
-                    output_field=IntegerField(),
-                )
-            ).order_by('custom_order', 'id')
 
     products_count = products.count()
 
