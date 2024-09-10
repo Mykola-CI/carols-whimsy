@@ -2,7 +2,7 @@
     <p>{{ widget.initial_text }}:</p>
     <div class="d-flex align-items-center">
         <a href="{{ widget.value.url }}">
-            <img width='96' height='96' src="{{ widget.value.url }}" class="rounded shadow-sm" alt="">
+            <img width='96' height='96' src="{{ widget.value.url }}" class="rounded shadow-sm" alt="product thumbnail">
         </a>
             {% if not widget.required %}
             <input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}" class="ms-5" style="width: 32px; height: 32px;" {% if widget.attrs.disabled %}

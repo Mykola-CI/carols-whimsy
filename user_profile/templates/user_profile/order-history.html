@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="{% static 'user_profile/css/profile.css' %}">
 {% endblock %}
 
+{% block extra_title %}Order History{% endblock %}
+
 {% block project_content %}
 
 {% include 'includes/shopping_cart_offcanvas.html' %}
@@ -174,8 +176,7 @@
                                                     data-bs-toggle="collapse" aria-expanded="false"
                                                     aria-controls="collapse-{{ order_with_items.order.id }}"
                                                     aria-label="Show order details">
-                                                    <i
-                                                        class="fa-duotone fa-solid fa-chevrons-down fs-lg toggle-icon"></i>
+                                                    <i class="fa-duotone fa-solid fa-chevrons-down fs-lg toggle-icon"></i>
                                                 </a>
                                             </span>
                                         </div>
@@ -195,7 +196,8 @@
                                                     <td class="text-end d-none d-sm-block">
                                                         <img class="img-fluid" style="max-width: 120px;"
                                                             src="{{ item.product.image.url }}"
-                                                            aria-label="{{ item.product.name }}"></img>
+                                                            alt="{{ item.product.name }}"
+                                                            aria-label="{{ item.product.name }}" />
                                                     </td>
                                                 </tr>
                                                 {% endfor %}

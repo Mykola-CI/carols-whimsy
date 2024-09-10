@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="{% static 'user_profile/css/profile.css' %}">
 {% endblock %}
 
+{% block extra_title %}Client Wishlist{% endblock %}
+
 {% block project_content %}
 
 {% include 'includes/shopping_cart_offcanvas.html' %}
@@ -119,7 +121,7 @@
                                     all</label>
                             </div>
                             <div class="d-flex flex-wrap" id="action-buttons">
-                                <button type="submit" class="nav-link px-0 py-2" href="#!">
+                                <button type="submit" class="nav-link px-0 py-2">
                                     <i class="fa-duotone fa-solid fa-trash me-2"></i>
                                     <span class="d-none d-md-inline fs-base">Remove selected</span>
                                 </button>
@@ -179,7 +181,6 @@
                                                 class="btn btn-outline-secondary rounded px-3 pt-2 m-2">
                                                 <i class="fa-duotone fa-solid fa-cart-plus fs-xl"></i>
                                             </a>
-                                        </form>
                                     </div>
                                     {% if product.discount %}
                                     <span class="position-absolute top-0 start-0 translate-middle">

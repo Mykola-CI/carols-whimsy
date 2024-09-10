@@ -69,10 +69,10 @@ Ensuring secure transactions through reliable payment gateways and adhering to d
 - **Initial Project Phase:** This project represents the foundational stage of a future business venture. It serves as a prototype for the envisioned commercial platform, providing a basis for further development and refinement.
 - **Incomplete Feature Set:** Given the constraints of time, the project is not yet fully realized. While it includes essential features to initiate commercial operations, there are numerous enhancements required to reach a fully operational and comprehensive platform. It is designed to evolve and expand over time.
 - **Priority Future Developments:** Key features that need to be prioritized in future iterations include:
-  - Customer ratings and reviews to enhance user engagement and trust.
-  - Advanced filtering options and faceted navigation to improve product discoverability.
-  - Stock availability control to ensure accurate inventory management.
-  - Efficient customer contact handling to facilitate communication and support.
+  - <ins>Customer ratings and reviews</ins> to enhance user engagement and trust.
+  - <ins>Advanced filtering options</ins> and faceted navigation to improve product discoverability.
+  - <ins>Stock availability control</ins> to mark out of stock items and ensure customer is alerted on delivery terms.
+  - <ins>Efficient customer contact handling</ins> to facilitate communication and support.
 
 - **Non-Realistic Pricing:** The prices displayed in Carol's catalog are placeholders and do not reflect actual market values.
 - **Fictitious Contact Information:** The contact details provided for the shop are fictional and intended solely for demonstration purposes.
@@ -84,7 +84,8 @@ User stories as a guidance for the project can be found on my GitHub [here](http
 The stories had been tracked using the [Kanban board](https://github.com/users/Mykola-CI/projects/6/views/1) and some other table views utilized during development, such as MoSCoW table, Themes and Epic-to-Stories tables. 
 
 
-In total there are 52 GitHub issues including 6 epics that evolved into stories. As a summary:
-- Total User Stories = 46 including
-  - Total in "Done" category = 37
-  - Total in "Backlog" category = 9 to be worked on and finished as the project develops into a production stage. 
+In total there are 55 GitHub issues including 6 epics that evolved into stories. As a summary:
+- Total User Stories = 49 including
+  - Total in "Done" category = 40
+  - Total in "Backlog" category = 9 - to be worked on and finished as the project develops into a production stage. 
+

@@ -62,8 +62,8 @@
     {% block extra_js %}{% endblock %}
 
     <title>
-        Carol's Whimsy 
-        {% block extra_title %}Holiday decorations{% endblock %}
+        Carol's
+        {% block extra_title %}Whimsy Decor{% endblock %}
         {% block head_title %}{% endblock %}
     </title>
 </head>
@@ -210,8 +210,8 @@
                                         Details</a></li>
                                 <li><a class="dropdown-item" href="{% url 'wishlist' %}">Wishlist</a></li>
                                 {% if user.is_staff %}
-                                <hr>
-                                <li class="h4 dropdown-header mb-2">Management pages</li>
+                                <li class="border-top border-light-subtle border-2"></li>
+                                <li class="h4 dropdown-header mt-2">Management pages</li>
                                 <li><a class="dropdown-item" href="{% url 'view_dashboard' %}">Dashboard</a></li>
                                 <li><a class="dropdown-item" href="{% url 'add_product' %}">Add Product</a></li>
                                 <li><a class="dropdown-item" href="{% url 'view_orders' %}">Orders Lookup</a></li>
@@ -327,14 +327,14 @@
                             promotions</p>
                         <div id="mc_embed_shell">
                             <div id="mc_embed_signup">
-                                <form class="position-relative"
+                                <form class="position-relative validate"
                                     action="https://herokuapp.us12.list-manage.com/subscribe/post?u=1834627b3e99d04cca19a3f99&amp;id=346595d674&amp;f_id=0024b8e0f0"
                                     method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
-                                    class="validate" target="_blank">
+                                    target="_blank">
                                     <div aria-hidden="true">
-                                        <input type="email" name="EMAIL" id="mce-EMAIL" required="" value=""
+                                        <input type="email" name="EMAIL" id="mce-EMAIL" required value=""
                                             class="required e-mail form-control form-control-lg rounded-pill text-start fw-light text-white-50"
-                                            placeholder="Your email" aria-label="Your email address" required>
+                                            placeholder="Your email" aria-label="Your email address">
                                     </div>
                                     <div id="mce-responses" class="clear">
                                         <div class="response" id="mce-error-response" style="display: none;">

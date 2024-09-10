@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="{% static 'user_profile/css/profile.css' %}">
 {% endblock %}
 
+{% block extra_title %}Client Info{% endblock %}
+
 {% block project_content %}
 
 {% include 'includes/shopping_cart_offcanvas.html' %}
@@ -199,7 +201,7 @@
                             </ul>
                         </div>
                         <div class="collapse contact-info" id="contactInfoEdit">
-                            <div class="row g-3 g-sm-4 needs-validation" novalidate>
+                            <div class="row g-3 g-sm-4">
                                 <form id="user_email_form" method="post" action="{% url 'update_email' %}"
                                     class="col-sm-6">
                                     {% csrf_token %}

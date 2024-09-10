@@ -34,19 +34,20 @@ class BasicUserInfoForm(forms.ModelForm):
             self.fields['last_name'].initial = user.last_name
 
         # Set placeholders and classes for the form fields
-        placeholders = {
-            'profile_date_of_birth': (
-                self.instance.profile_date_of_birth or 'DD-MM-YYYY'
-            ),
-            'profile_title': self.instance.profile_title or 'Title',
-            'first_name': user.first_name or 'First Name',
-            'last_name': user.last_name or 'Last Name',
-        }
+        # placeholders = {
+            # 'profile_date_of_birth': (
+            #     self.instance.profile_date_of_birth or 'DD-MM-YYYY'
+            # ),
+            # 'profile_title': self.instance.profile_title or 'Title',
+        #     'first_name': user.first_name or 'First Name',
+        #     'last_name': user.last_name or 'Last Name',
+        # }
+        self.fields['first_name'].widget.attrs['placeholder'] = (
+            user.first_name or 'First Name')
+        self.fields['last_name'].widget.attrs['placeholder'] = (
+            user.last_name or 'Last Name')
 
         for field in self.fields:
-            self.fields[field].widget.attrs['placeholder'] = (
-                placeholders[field]
-            )
             self.fields[field].widget.attrs['class'] = (
                 'form-control form-control-lg'
             )
@@ -174,8 +175,8 @@ class ShippingAddressForm(forms.ModelForm):
         for field in self.fields:
             if field != 'shipping_country' and field != 'shipping_is_default':
                 placeholder = placeholders[field]
+                self.fields[field].widget.attrs['placeholder'] = placeholder
 
-            self.fields[field].widget.attrs['placeholder'] = placeholder
             if field != 'shipping_is_default':
                 self.fields[field].widget.attrs['class'] = (
                     'form-control form-control-lg'
