@@ -273,7 +273,9 @@
 
 {% block postloadjs %}
 {{ block.super }}
+
 <script>
+    // Listen for the modal show event and pre-fill the form fields
     $(document).ready(function () {
         // Listen for the modal show event
         $('#shippingBackdrop').on('show.bs.modal', function (event) {

@@ -284,67 +284,6 @@
 {{ block.super }}
 <!-- Page specific scripts -->
 
-<script>
-    $(document).ready(function () {
-
-        // Update progress bar for free shipping threshold
-        function updateProgressBar(newPercentage) {
-            const progressBar = document.querySelector('.progress-bar');
-            if (newPercentage < 100) {
-                progressBar.style.width = newPercentage + '%';
-            }
-        }
-
-        updateProgressBar('{{ percent_of_threshold }}');
-
-
-        // Update quantity when user changes input
-
-        // Decrement quantity
-        $('.cart-btn-decrement').on('click', function () {
-            var $input = $(this).siblings('.cart-qty-input');
-            var currentQuantity = parseInt($input.val());
-            var productId = $(this).closest('.count-input').data('product-id');
-
-            if (currentQuantity > 1) {
-                $input.val(currentQuantity - 1);
-                updateCart(productId, $input.val());
-            }
-        });
-
-        // Increment quantity
-        $('.cart-btn-increment').on('click', function () {
-            var $input = $(this).siblings('.cart-qty-input');
-            var currentQuantity = parseInt($input.val());
-            var productId = $(this).closest('.count-input').data('product-id');
-
-            $input.val(currentQuantity + 1);
-            updateCart(productId, $input.val());
-        });
-
-        // Function to send AJAX request
-        function updateCart(productId, newQuantity) {
-            $.ajax({
-                url: '/cart/update/',
-                type: 'POST',
-                data: {
-                    'csrfmiddlewaretoken': '{{ csrf_token }}', // Ensure CSRF token is included
-                    'product_id': productId,
-                    'quantity': newQuantity
-                },
-
-                success: function (response) {
-                    // Handle success (e.g., update cart total, display message)
-                    window.location.reload();
-                },
-                error: function (xhr, status, error) {
-                    // Handle error
-                    console.error('Error updating cart:', error);
-                }
-            });
-        }
-    });
-</script>
-
+{% include 'cart/includes/change_quantity_and_progress_bar.html' %}
 
 {% endblock %}

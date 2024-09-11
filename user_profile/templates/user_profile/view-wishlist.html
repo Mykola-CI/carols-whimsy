@@ -214,6 +214,8 @@
 
 {% block postloadjs %}
 {{ block.super }}
+
+<!-- The script selects and de-selects the Product cards for further action -->
 <script>
     // Get master checkbox
     const masterCheckbox = document.getElementById('wishlist-master');

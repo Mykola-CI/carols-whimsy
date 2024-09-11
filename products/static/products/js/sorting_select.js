@@ -1,3 +1,5 @@
+// Replace the URL with the current URL and add the sorting parameter to the URL
+
 $(document).ready(function () {
     $('.sorting-select').change(function () {
         var selector = $(this);

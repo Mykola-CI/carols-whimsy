@@ -73,13 +73,13 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.log('Error:', error));
     });
 
-    // 
+    // AJAX form submission for email
     $('#user_email_form').on('submit', function (event) {
         event.preventDefault(); // Prevent the default form submission
 
         $.ajax({
             type: 'POST',
-            url: $(this).attr('action'), // Use the form's action URL
+            url: $(this).attr('action'),
             data: $(this).serialize(), // Serialize the form data
             success: function (response) {
                 // Handle success - display a message or update the page
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-
+    // Show toast message returned with json response
     function showToast(data) {
         // Display Bootstrap toast
         const toastContainer = document.querySelector('#toast-container-json');

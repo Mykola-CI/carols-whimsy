@@ -238,6 +238,7 @@
 {% block postloadjs %}
 {{ block.super }}
 <script>
+    // Toggle icon on click up or down
     $(document).ready(function () {
         $('.btn-icon').on('click', function () {
             var icon = $(this).find('.toggle-icon');

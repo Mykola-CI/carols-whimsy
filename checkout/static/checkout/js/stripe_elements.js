@@ -39,11 +39,6 @@ $(document).ready(function () {
 
     var paymentID = clientSecret.split('_secret')[0];
 
-    console.log('printed from stripe_elements.js 1:');
-    console.log(billingName);
-    console.log(billingPhone);
-    console.log(billingEmail);
-
     form.addEventListener('submit', function (ev) {
         ev.preventDefault();
         paymentElement.update({ 'disabled': true });
@@ -57,11 +52,6 @@ $(document).ready(function () {
             'client_secret': clientSecret,
         };
         var url = '/checkout/cache_checkout_data/';
-
-        console.log('printed from stripe_elements.js 2:');
-        console.log(billingName);
-        console.log(billingPhone);
-        console.log(billingEmail);
 
         $.post(url, postData).done(function () {
             stripe.confirmPayment({
