@@ -161,7 +161,7 @@
                                             <form method="post" action="{% url 'update_order' order_set.order.id %}">
                                                 {% csrf_token %}
                                                 <div class="d-flex align-items-center gap-2">
-                                                    <div id="div_id_status_{{ forloop.counter }}" class="mb-3">
+                                                    <div id="div_id_status_{{ forloop.counter }}">
                                                         <select name="status" class="form-select m-0" required id="id_status_{{ forloop.counter }}">
                                                             {% for choice in form.fields.status.choices %}
                                                                 <option value="{{ choice.0 }}" {% if choice.0 == form.initial.status %}selected{% endif %}>

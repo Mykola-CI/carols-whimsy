@@ -3,6 +3,8 @@
 {% load custom_filters %}
 
 
+{% block extra_title %}Product Spec{% endblock %}
+
 {% block project_content %}
 
 {% include 'includes/shopping_cart_offcanvas.html' %}
@@ -84,7 +86,7 @@
                     <br>
                     <form method="POST" action="{% url 'add_to_wishlist' product.id %}">
                         {% csrf_token %}
-                        <button type="submit" action="{% url 'add_to_wishlist' product.id %}"
+                        <button type="submit"
                             class="btn btn-lg btn-outline-secondary ms-4" data-bs-toggle="tooltip"
                             data-bs-placement="top" data-bs-custom-class="tooltip-sm" data-bs-title="Add to Wishlist"
                             aria-label="Add to Wishlist">
