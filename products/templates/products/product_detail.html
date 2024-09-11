@@ -84,16 +84,17 @@
                     <p class="mt-3 text-muted ms-4 fs-xs">{{ product.other_details }}</p>
                     {% endif %}
                     <br>
+                    {% if user.is_authenticated %}
                     <form method="POST" action="{% url 'add_to_wishlist' product.id %}">
                         {% csrf_token %}
-                        <button type="submit"
-                            class="btn btn-lg btn-outline-secondary ms-4" data-bs-toggle="tooltip"
+                        <button type="submit" class="btn btn-lg btn-outline-secondary ms-4" data-bs-toggle="tooltip"
                             data-bs-placement="top" data-bs-custom-class="tooltip-sm" data-bs-title="Add to Wishlist"
                             aria-label="Add to Wishlist">
                             <i class="fa-duotone fa-solid fa-circle-heart fs-4xl"></i>
                         </button>
                     </form>
                     <hr>
+                    {% endif %}
                     <!-- Count input + Add to cart button -->
                     <div class="count-input-cart d-flex gap-3 gap-sm-4 mt-5">
                         <button type="button" value="{{ product.id }}"
