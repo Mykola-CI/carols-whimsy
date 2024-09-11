@@ -9,7 +9,6 @@ from django.conf import settings
 
 from .models import Order, OrderLineItem
 from products.models import Product
-from cart.cart import Cart
 
 import json
 # import logging
@@ -147,23 +146,18 @@ class WH_Handler:
                 self._send_confirmation_email(order, billing_details)
 
                 return HttpResponse(
-                    content=f'Webhook received: {event["type"]} | SUCCESS: Created order in webhook',
+                    content=(
+                        f'Webhook received: {event["type"]} | '
+                        f'SUCCESS: Created order in webhook'
+                    ),
                     status=200
                 )
 
             except IntegrityError:
-                # Handle the case where the order already exists due to a race condition
                 return HttpResponse(
-                    content=f'Webhook received: {event["type"]} | ERROR: Order already exists',
+                    content=(
+                        f'Webhook received: {event["type"]} | '
+                        f'ERROR: Order already exists'
+                    ),
                     status=200
                 )
-
-    def handle_payment_intent_payment_failed(self, event):
-        """
-        Handle the payment_intent.payment_failed webhook from Stripe
-        """
-        intent = event.data.object
-
-        return HttpResponse(
-            # content=f'Webhook received: {event["type"]}',
-            status=200)

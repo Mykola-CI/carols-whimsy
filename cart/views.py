@@ -112,7 +112,7 @@ def add_to_cart(request):
                      f'"{product.name}" to your cart. '
                      f'Click on the Cart button to view your cart.')
 
-    except Exception as e:
+    except Exception as _:
         messages.error(
             request, "There was an error adding the product to your cart.")
 

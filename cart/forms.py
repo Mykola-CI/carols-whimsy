@@ -7,6 +7,9 @@ class PromoCodeForm(forms.Form):
         required=True,
         label='',
         widget=forms.TextInput(
-            attrs={'placeholder': 'Enter promo code', 'class': 'form-control form-control-lg'},
+            attrs={
+                'placeholder': 'Enter promo code',
+                'class': 'form-control form-control-lg',
+            },
         )
     )

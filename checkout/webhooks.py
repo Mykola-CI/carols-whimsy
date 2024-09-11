@@ -1,4 +1,3 @@
-import json
 from django.conf import settings
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
@@ -38,19 +37,10 @@ def webhook_view(request):
 
     handler = WH_Handler(request)
 
-    print(f'Received event: {event.type}')
-
     # Handle the event
     if event and hasattr(event, 'type') and \
             event.type == 'payment_intent.succeeded':
 
         handler.handle_payment_intent_succeeded(event)
-
-    # elif event.type == 'payment_intent.payment_failed':
-
-    #     handler.handle_payment_intent_payment_failed(event)
-
-    # else:
-    #     print('Unhandled event type {}'.format(event.type))
 
     return HttpResponse(status=200)
