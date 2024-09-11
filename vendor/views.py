@@ -164,7 +164,7 @@ def view_orders(request):
 
     orders_except_delivered = orders.filter(
         Q(status='Pending') | Q(status='Processing') | Q(status='Shipped')
-    )
+    ).order_by('date')  # Order by date from older to newer
 
     order_count = orders_except_delivered.count()
 
