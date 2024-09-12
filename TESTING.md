@@ -174,3 +174,26 @@ The full JSHint report is [here](documentation/validation/jshint_report_carols_w
 
 As a summary, I must state that no errors on the custom script, all 'undefined variables' warnings are caused by the vendors' scripts (like Bootstrap, Swiper or MailChimp) which define them in their external files with links placed earlier in the code.
 
+
+## Responsiveness
+
+Checked on real devices: Desktop, MacBook Pro, Ipad Mini, iPhone14 Pro, iPhoneSE, Samsung Galaxy M33
+Checked in Chrome DevTools and FireFox Inspect mode.
+Checked in Responsive Viewer extension for Chrome.
+
+- Swiper home page
+
+![Home page swiper](documentation/responsive/home_carols_swiper.gif)
+
+- Footer
+
+![Footer](documentation/responsive/footer_home.gif)
+
+- Catalog
+
+![Catalog](documentation/responsive/catalog-responsive.gif)
+
+- Cart offcanvas
+
+![Cart offcanvas](documentation/responsive/home_carols_offcanvas_cart.gif)
+
