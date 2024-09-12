@@ -258,44 +258,7 @@
 
 {% block postloadjs %}
 {{ block.super }}
+<!-- Add shipping address form ajax submit -->
+{% include 'user_profile/includes/add_shipping_address.html' %}
 
-<script>
-    // Listen for the modal show event and pre-fill the form fields
-    $(document).ready(function () {
-        // Listen for the modal show event
-        $('#shippingBackdrop').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var addressId = button.data('address-id'); // Extract info from data-* attributes
-
-            if (addressId) {
-                // Fetch the existing data using AJAX
-                $.ajax({
-                    url: '/profile/get_address_data/', // URL to fetch data
-                    data: {
-                        'address_id': addressId
-                    },
-                    success: function (data) {
-                        // Pre-fill the form fields with the data
-                        $('#id_delivery_first_name').val(data.delivery_first_name);
-                        $('#id_delivery_last_name').val(data.delivery_last_name);
-                        $('#id_delivery_email').val(data.delivery_email);
-                        $('#id_delivery_phone_number').val(data.delivery_phone_number);
-                        $('#id_shipping_town_city').val(data.shipping_town_city);
-                        $('#id_shipping_county').val(data.shipping_county);
-                        $('#id_shipping_street_address').val(data.shipping_street_address);
-                        $('#id_shipping_postcode').val(data.shipping_postcode);
-                        $('#id_shipping_country').val(data.shipping_country);
-                        // Update the form action for editing
-                        var editActionUrl = '/profile/shipping_addresses/edit/' + addressId + '/';
-                        $('#profile-shipping-details').attr('action', editActionUrl);
-                    }
-                });
-            } else {
-                // Reset form for adding a new address
-                $('#profile-shipping-details')[0].reset();
-                $('#profile-shipping-details').attr('action', "{% url 'manage_shipping_addresses' %}");
-            }
-        });
-    });
-</script>
 {% endblock %}
