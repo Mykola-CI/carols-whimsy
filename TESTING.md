@@ -26,16 +26,38 @@ The reports can be found here:
 ### CSS Validation
 
 - [CSS validation report: base.css](documentation/validation/css-valid-base.png)
+  - body Property `font-optical-sizing` doesn't exist : `auto`
+
+  The font-optical-sizing CSS property does exist: 
+   
+   [Web Reference: font-optical-sizing](https://webreference.com/css/properties/font-optical-sizing/)
+
+   [Mdn web docs: font-optical-sizing](https://developer.mozilla.org/en-US/docs/Web/CSS/font-optical-sizing)
+
+
+  It is used to control whether text rendering is optimized for different sizes, improving legibility and aesthetics. 
+  This property is particularly useful for fonts that have an optical size variation axis, which allows them to adjust the outlines of glyphs based on the font size and resolution. 
+  This means that smaller text sizes may be rendered with thicker strokes for better contrast, while larger text sizes may appear more delicate with more contrast between strokes.\
+  I use -__Inter__- as a font family which is a <ins>variable</ins> font and it does support the property.
+
+
+    <ins>Values of font-optical-sizing</ins>\
+    __auto:__ This is the default value and enables optical sizing. 
+    It allows the browser to automatically adjust the font's design based on the size, optimizing it for legibility across different sizes.\
+    __none:__ Disables optical sizing, meaning the font will not adjust its design based on size changes
+
 - [CSS validation report: catalog.css](documentation/validation/css-valid-catalog.png)
 - [CSS validation report: checkout.css](documentation/validation/css-valid-checkout.png)
 - [CSS validation report: information.css](documentation/validation/css-valid-information.png.png)
 - [CSS validation report: profile.css](documentation/validation/css-valid-profile.png)
 
-__Explanation of Errors Revealed in Validator Results:__
+__Explanation of the other Errors Revealed in Validator Results:__
 
-All of the parse errors reported by W3C CSS validator are related to 'CSS nested rules', which the validator does not yet support, the 'nested CSS' syntax being a relatively new feature. The issue has been discussed in a number of places, particularly on GitHub issues , Reddit and some other less popular blogs.
+All of the parse errors reported by W3C CSS validator are related to 'CSS nested rules', which the validator does not yet support, the 'nested CSS' syntax being a relatively new feature. 
+The issue has been discussed in a number of places, particularly on GitHub issues , Reddit and some other less popular blogs.
 
-It is acknowledged that such approach as CSS nesting reduces redundancy and simplifies the management of complex styles, leading to cleaner and more organized code. Additionally, CSS nesting aligns with the principles of modular design, which is especially in demand for complex and large-scale projects.
+It is acknowledged that such approach as CSS nesting reduces redundancy and simplifies the management of complex styles, leading to cleaner and more organized code. 
+Additionally, CSS nesting aligns with the principles of modular design, which is especially in demand for complex and large-scale projects.
 Moreover, CSS nesting is supported by all major modern browsers: 
 
 | Browser Name: | Full support from: | Version released in: |
@@ -57,7 +79,7 @@ Moreover, CSS nesting is supported by all major modern browsers:
 
 ### PEP 8
 I used Flake8 package for checking the custom project folders for Python compliance in CLI.
-- [Pep8: carols_home app](documentation/validation/flake8/flake-carols-home.png)
+- [Pep8: carols_home app CLI report](documentation/validation/flake8/flake-carols-home.png)
 
 'F401 imported but unused': 
 
@@ -68,7 +90,7 @@ I used Flake8 package for checking the custom project folders for Python complia
 The above files are empty except standard imports pre-filled by django when starting application.\
 I deliberately left them unscathed to utilize these files in further development.
 
-- [Pep8: carols_project folder](documentation/validation/flake8/flake-carols-project.png)
+- [Pep8: carols_project folder CLI report](documentation/validation/flake8/flake-carols-project.png)
 
 E501 line too long found in my settings.py, particularly for the following:
 ~~~
@@ -90,11 +112,70 @@ AUTH_PASSWORD_VALIDATORS = [
 
 I leave it as is because if I break it it will become quite less readable.
 
-F811 'redefinition of unused 'handler404' from line1': 
+- [Pep8: cart app CLI report](documentation/validation/flake8/flake-cart.png)
+
+'F401 imported but unused': 
+
+'django.contrib.admin' in admin.py \
+'django.db.models' in models.py\
+'django.test.TestCase' in tests.py
+
+The above files are empty except standard imports pre-filled by django when starting application.
+
+F841 local variable '_' is assigned but unused in views.py is related to :
+~~~
+except Exception as _:
+        messages.error(
+            request, "There was an error adding the product to your cart.")
+~~~
+I replaced `e` with an underscore _, which is a conventional way to indicate that a variable is intentionally unused. In this context I could use it for debugging, but in any case I don't want to confuse user with sophisticated messages.
+
+- [Pep8: information app CLI report](documentation/validation/flake8/flake-information.png)
+
+Here we have the same three F401 'imported but unused' errors as these files are empty except automatically pre-populated imports in __admin.py__ , __models.py__ and __tests.py__.
+
+- [Pep8: vendor app CLI report](documentation/validation/flake8/flake-root-vendor.png)
+
+E501 errors 'line too long' are found only in migrations files.\
+The same F401 'imported but unused' fount in the empty tests.py.
+
+- [Pep8: checkout app CLI report](documentation/validation/flake8/flake-user-checkout.png)
+
+F401 'checkout.signals' imported but unused:
+~~~
+from django.apps import AppConfig
 
 
-font-optical-sizing: auto
-https://webreference.com/css/properties/font-optical-sizing/
+class CheckoutConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'checkout'
+
+    def ready(self):
+        import checkout.signals
+~~~
+
+It's common to import the signals module in the AppConfig.ready() method to ensure that signal handlers are connected when the application starts.
+
+E501 'line too long' errors are found only in migrations, automatically generated by Django.
+
+- [Pep8: products app CLI report](documentation/validation/flake8/flake-user-products.png)
+
+E501 'line too long' errors are found only in migrations, automatically generated by Django.
+
+- [Pep8: user_profile app CLI report](documentation/validation/flake8/flake-user-profile.png)
+
+E501 'line too long' errors are found only in migrations, automatically generated by Django.
+
+
+### JS Validation
+
+
+
+
+
+
+
+
 
 ~~~
 <script>
