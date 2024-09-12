@@ -170,24 +170,7 @@ E501 'line too long' errors are found only in migrations, automatically generate
 ### JS Validation
 
 
+The full JSHint report is [here](documentation/validation/jshint_report_carols_whimsy.pdf)
 
+As a summary, I must state that no errors on the custom script, all 'undefined variables' warnings are caused by the vendors' scripts (like Bootstrap, Swiper or MailChimp) which define them in their external files with links placed earlier in the code.
 
-
-
-
-
-
-~~~
-<script>
-    streetAddress = "{{ shipping_details.street_address }}";
-    townCity = "{{ shipping_details.town_city }}";
-    county = "{{ shipping_details.county }}";
-    postcode = "{{ shipping_details.postcode }}";
-    country = "{{ shipping_details.country }}";
-    phoneNumber = "{{ shipping_details.phone_number }}";
-    fullName = "{{ shipping_details.first_name }} {{ shipping_details.last_name }}";
-    billingName = "{{ billing_details.billing_name }}";
-    billingEmail = "{{ billing_details.billing_email }}";
-    billingPhone = "{{ billing_details.billing_phone_number }}";
-</script>
-~~~
