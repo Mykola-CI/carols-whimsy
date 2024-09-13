@@ -177,23 +177,23 @@ As a summary, I must state that no errors on the custom script, all 'undefined v
 
 ## Responsiveness
 
-Checked on real devices: Desktop, MacBook Pro, Ipad Mini, iPhone14 Pro, iPhoneSE, Samsung Galaxy M33
-Checked in Chrome DevTools and FireFox Inspect mode.
+Checked on real devices: Desktop, MacBook Pro, Ipad Mini, iPhone14 Pro, iPhoneSE, Samsung Galaxy M33.\
+Checked in Chrome DevTools and FireFox Inspect mode.\
 Checked in Responsive Viewer extension for Chrome.
 
 - Swiper home page
 
 ![Home page swiper](documentation/responsive/home_carols_swiper.gif)
 
-- Footer
+Full GIF Report of Responsive Viewer is [here](documentation/responsive/responsive.md).
 
-![Footer](documentation/responsive/footer_home.gif)
+## Lighthouse
 
-- Catalog
+- Home Page 
 
-![Catalog](documentation/responsive/catalog-responsive.gif)
+![Home page](documentation/lighthouse/home_page.png)
 
-- Cart offcanvas
+Full screens report is [here](documentation/lighthouse/lighthouse.md).
 
-![Cart offcanvas](documentation/responsive/home_carols_offcanvas_cart.gif)
 
+## Manual Testing
