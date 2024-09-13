@@ -83,7 +83,7 @@
             Explore the enchanting worlds of Christmas, Easter and Halloween.
             <span class="d-none d-xl-inline">A World of Enchanting Decorations & Gifts</span>
         </a>
-        <ul class="nav gap-2 gap-sm-4 me-4 align-items-start align-items-sm-center flex-column flex-sm-row">
+        <ul class="nav gap-2 gap-sm-4 me-4 align-items-start align-items-sm-end flex-column flex-sm-row">
             {% if user.is_authenticated %}
             <li>
                 <div class="p-0 text-reset ls-wider fs-sm text-decoration-none">Hello,
@@ -245,7 +245,7 @@
                 <button type="button" class="btn btn-outline-secondary border-0 me-4" data-bs-toggle="offcanvas"
                     data-bs-target="#shoppingCart" aria-controls="shoppingCart" aria-label="Shopping cart">
                     <i class="fa-regular fa-cart-shopping"></i>
-                    &nbsp; £{{ cart_totals }}
+                    &nbsp; £{{ grand_total }}
                 </button>
 
                 <!-- Search -->

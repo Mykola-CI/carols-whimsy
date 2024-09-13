@@ -107,6 +107,7 @@ def add_to_cart(request):
     try:
         cart = Cart(request)
         cart.add(product=product, quantity=quantity)
+
         messages.success(
             request, f'Added ({quantity}) item(s) of '
                      f'"{product.name}" to your cart. '

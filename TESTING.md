@@ -197,3 +197,47 @@ Full screens report is [here](documentation/lighthouse/lighthouse.md).
 
 
 ## Manual Testing
+
+### Segmented by User Story Themed Groups 
+All references to User Stories are mapped using numbers as per my [GitHub Issues](https://github.com/Mykola-CI/carols-whimsy/issues?q=is%3Aissue+sort%3Acreated-asc) for the project. 
+
+__NOTE!__: 
+- To see all issues the filter `is:open` must be removed or follow [this link](https://github.com/Mykola-CI/carols-whimsy/issues?q=is%3Aissue+sort%3Acreated-asc)
+- The protocol on manual testing refers only those User Stories that are not immediately obvious and worth testing from my perspective.
+
+
+| num. | Test Name | Purpose | User Story | Findings
+| ---- | ---- | ---- | ---- | ---- |
+| | |__Product presentation__ | 
+| 1 | Check Swiper links | Test all slides' captions and 'shop now' button for any wrong or broken links | [#1](https://github.com/Mykola-CI/carols-whimsy/issues/1), [#4](https://github.com/Mykola-CI/carols-whimsy/issues/4)  | 'Shop Now' leads to Catalog page, product cards are filtered in line with slide captions |
+| 2 | Product search | Check if the words keyed in to the search bar trigger correct filters | [#3](https://github.com/Mykola-CI/carols-whimsy/issues/3) | Checked both words and numbers, both leading to correct results, total count of products found in place. Note: sometimes it is not obvious why such result, one needs to get to product detail view to see why |
+| 3 | Product filters | Test all filters accessible from the Our Brands navigation bar menu | [#29](https://github.com/Mykola-CI/carols-whimsy/issues/29) | Checked 4 brands +1 All products from Our Brands menu. All filters work as expected, number of product found displayed correctly |
+| 4 | Product filters | Test all filters accessible from the Shop navigation bar menu | [#29](https://github.com/Mykola-CI/carols-whimsy/issues/29) | Tested 9 product categories, 16 themes, 4 seasons from Shop menu. All filters work as expected, number of product found displayed correctly |
+| 5 | Sorting | Test price sorting ascending order | [#34](https://github.com/Mykola-CI/carols-whimsy/issues/34) | Tested sorting by selecting 'prices from low to high' from the select menu. Sorting implemented as expected. The 'low to high' selected option is displayed inside the select element |
+| 6 | Sorting | Test price sorting descending order | [#34](https://github.com/Mykola-CI/carols-whimsy/issues/34) | Tested sorting by selecting 'prices from high to low' from the select menu. Sorting implemented as expected. The 'high to low' selected option is displayed inside the select element |
+| 7 | Sorting after Filter | Test price sorting after applying a filter | [#34](https://github.com/Mykola-CI/carols-whimsy/issues/34) | Tested sorting after applying filters one-by-one. Sorting implemented within the filtered set only and correct. No conflicts found |
+| 8 | Link to Product detail view | Check for broken or wrong links to product detail view | [#2](https://github.com/Mykola-CI/carols-whimsy/issues/2) | the Links tested. All is good |
+| | | __Shopping Cart features__ |
+| 9 | Add to cart | Test add to cart button on the Product Detail view | [#6](https://github.com/Mykola-CI/carols-whimsy/issues/6) | The button adds product to the cart. Manifestations: Amount shown beside the cart icon increases, offcanvas cart shows the added product and quantity, Shopping cart view shows the product is there, the session object (a dictionary) logged and checked. Success message pops up temporarily in the toast style |
+| 10 | Add to cart | Test adding to cart item "Pearl needle burst stem" quantity=2, repeat the same item quantity=1 from Product Detail view | [#6](https://github.com/Mykola-CI/carols-whimsy/issues/6) | The product item added to the cart first time (the log from session {"5": 2}), if the same item added second or multiple times, the new line in the cart is not added - only quantity of previously added item increases {"5": 3}. Tested for different products |
+| 11 | Add to cart | Test add to cart button from Catalog view | [#6](https://github.com/Mykola-CI/carols-whimsy/issues/6) | The button adds product to the cart with the quantity = 1. |
+| 12 | Cart saved to session | Test if the cart dictionary exists in the session if cart is not empty | [#6](https://github.com/Mykola-CI/carols-whimsy/issues/6) | After adding products to the cart the cart appears in the session. Tested multiple times and logged out the result to CLI: ex. {"5": 3, "8": 2, "47": 4}  |
+| 13 | Offcanvas Cart element | Test shopping cart button toggle offcanvas cart | [#37](https://github.com/Mykola-CI/carols-whimsy/issues/37) | the button shows offcanvas cart summary. Cart contents with quantities and cart totals are shown and correct |
+
+- Item id=5 quantity=5 added to cart and saved to the user session
+
+![Item 5 to the Cart](documentation/manual_tests/id5_added_to_cart.png)
+
+
+| num. | Test Name | Purpose | User Story | Findings
+| ---- | ---- | ---- | ---- | ---- |
+| | |__Shopping Cart features__ | __continue..__ |
+| 14 | Change quantity in Shopping Cart View | Test if "+/-" correctly updates quantities by 1  | [#8](https://github.com/Mykola-CI/carols-whimsy/issues/8) | Clicking on "+" or "-" either increases or decreases quantity by 1 directly without any other buttons needed to confirm. Quantity updates in the cart content table accordingly |
+| 15 | Remove line items from Cart | Test the "X" buttons to check if the item is removed  | [#7](https://github.com/Mykola-CI/carols-whimsy/issues/7) | Clicking on "X" to the right end in the same line removes item |
+| 16 | Clear entire Cart | Test if the underlined "Clear cart" link clears the cart  | [#38](https://github.com/Mykola-CI/carols-whimsy/issues/38) | Clicking on "Clear cart" link clears the cart |
+| 17 | Order summary | Test if the order summary on the side panel displays the correct numbers | [#66](https://github.com/Mykola-CI/carols-whimsy/issues/66) | Checked. Saving = 0 if no promo code is utilized. Delivery costs amount to 10%, when the cart net totals are £50+ delivery costs are 0 |
+| 18 | Cart Total in the Navbar | Test if the Cart total is displayed dynamically against the cart icon | [#36](https://github.com/Mykola-CI/carols-whimsy/issues/36) | Checked. Cart total , i.e.  |
+
+
+
+

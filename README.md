@@ -75,13 +75,17 @@ Ensuring secure transactions through reliable payment gateways and adhering to d
   - <ins>Efficient customer contact handling</ins> to facilitate communication and support.
 
 - **Non-Realistic Pricing:** The prices displayed in Carol's catalog are placeholders and do not reflect actual market values.
+- **Non-Realistic Star Rating:** The star ratings as well as a number of votes displayed in the Carol's catalog and the Product Detail view are placeholders and do not reflect actual ratings. For now they are for the front end demonstration only and must be implemented as a functionality in future. 
 - **Fictitious Contact Information:** The contact details provided for the shop are fictional and intended solely for demonstration purposes.
 - **Generic Informational Pages:** The "About Us" and "FAQ" pages contain generic content and will require detailed, specific information in future updates to accurately represent the business and address customer inquiries.
 
 ## User Stories
 
-User stories as a guidance for the project can be found on my GitHub [here](https://github.com/Mykola-CI/carols-whimsy/issues)
-The stories had been tracked using the [Kanban board](https://github.com/users/Mykola-CI/projects/6/views/1) and some other table views utilized during development, such as MoSCoW table, Themes and Epic-to-Stories tables. 
+User stories as a guidance for the project can be found on my GitHub [here](https://github.com/Mykola-CI/carols-whimsy/issues).\
+__Note__: To see all issues the `is:open` filter must be removed or follow [this link](https://github.com/Mykola-CI/carols-whimsy/issues?q=is%3Aissue+sort%3Acreated-asc).
+
+
+The stories had been tracked using the [Kanban board](https://github.com/users/Mykola-CI/projects/6/views/1) and some other table views utilized during development, such as MoSCoW (prioritizing), Themes (functionality grouping), Epic-to-Stories (epic-to-story dependencies) and Roles (grouped by User roles) tables. 
 
 
 In total there are 55 GitHub issues including 6 epics that evolved into stories. As a summary:
