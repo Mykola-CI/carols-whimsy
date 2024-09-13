@@ -217,6 +217,7 @@ __NOTE!__:
 | 6 | Sorting | Test price sorting descending order | [#34](https://github.com/Mykola-CI/carols-whimsy/issues/34) | Tested sorting by selecting 'prices from high to low' from the select menu. Sorting implemented as expected. The 'high to low' selected option is displayed inside the select element |
 | 7 | Sorting after Filter | Test price sorting after applying a filter | [#34](https://github.com/Mykola-CI/carols-whimsy/issues/34) | Tested sorting after applying filters one-by-one. Sorting implemented within the filtered set only and correct. No conflicts found |
 | 8 | Link to Product detail view | Check for broken or wrong links to product detail view | [#2](https://github.com/Mykola-CI/carols-whimsy/issues/2) | the Links tested. All is good |
+| | | | | 
 | | | __Shopping Cart features__ |
 | 9 | Add to cart | Test add to cart button on the Product Detail view | [#6](https://github.com/Mykola-CI/carols-whimsy/issues/6) | The button adds product to the cart. Manifestations: Amount shown beside the cart icon increases, offcanvas cart shows the added product and quantity, Shopping cart view shows the product is there, the session object (a dictionary) logged and checked. Success message pops up temporarily in the toast style |
 | 10 | Add to cart | Test adding to cart item "Pearl needle burst stem" quantity=2, repeat the same item quantity=1 from Product Detail view | [#6](https://github.com/Mykola-CI/carols-whimsy/issues/6) | The product item added to the cart first time (the log from session {"5": 2}), if the same item added second or multiple times, the new line in the cart is not added - only quantity of previously added item increases {"5": 3}. Tested for different products |
@@ -236,8 +237,33 @@ __NOTE!__:
 | 15 | Remove line items from Cart | Test the "X" buttons to check if the item is removed  | [#7](https://github.com/Mykola-CI/carols-whimsy/issues/7) | Clicking on "X" to the right end in the same line removes item |
 | 16 | Clear entire Cart | Test if the underlined "Clear cart" link clears the cart  | [#38](https://github.com/Mykola-CI/carols-whimsy/issues/38) | Clicking on "Clear cart" link clears the cart |
 | 17 | Order summary | Test if the order summary on the side panel displays the correct numbers | [#66](https://github.com/Mykola-CI/carols-whimsy/issues/66) | Checked. Saving = 0 if no promo code is utilized. Delivery costs amount to 10%, when the cart net totals are £50+ delivery costs are 0 |
-| 18 | Cart Total in the Navbar | Test if the Cart total is displayed dynamically against the cart icon | [#36](https://github.com/Mykola-CI/carols-whimsy/issues/36) | Checked. Cart total , i.e.  |
+| 18 | Cart Total in the Navbar | Test if the Cart total is displayed dynamically against the cart icon | [#36](https://github.com/Mykola-CI/carols-whimsy/issues/36) | Checked. Cart total , i.e. Order's grand total, is displayed with saving and delivery cost applied |
+| | |  |
+| | | __Checkout Features__ |
+| 19 | Checkout shipping form | Test if the shipping details stored in the user session | [#9](https://github.com/Mykola-CI/carols-whimsy/issues/9) | the shipping details from the filled form are saved into the user session | Checked for anonymous user: the details a saved on clicking the button "Continue" | 
+
+- Passing from the checkout shipping form Step 1 to the checkout payment form Step 2 of the checkout flow.\
+Details saved to the session.
+
+![Shipping Details Saved to the session](documentation/manual_tests/shipping_saved_to_session.png)
 
 
+| num. | Test Name | Purpose | User Story | Findings
+| ---- | ---- | ---- | ---- | ---- |
+| | |__Checkout Features__ | __continue..__ |
+| 20 | Checkout shipping form | Test if the shipping details are kept in the form filled | [#53](https://github.com/Mykola-CI/carols-whimsy/issues/53) | If the shipping form is submitted, whenever a customer returns to the checkout shipping form within the same session the form is filled |
+| 21 | Checkout payment form | Test payment for appropriate messages when the form filled with invalid data or incomplete | [#9](https://github.com/Mykola-CI/carols-whimsy/issues/9) | Checked different scenarios for different form fields. Messages are displayed clearly |
+
+- Invalid data or form is incomplete
+
+![Invalid payment form data messages](documentation/manual_tests/messages_card_element.png)
+
+| num. | Test Name | Purpose | User Story | Findings
+| ---- | ---- | ---- | ---- | ---- |
+| | |__Checkout Features__ | __continue..__ |
+| 22 | Checkout card payment form | Test successful card payment with UK Mastercard 5555 5582 6555 4449 provided by Stripe| [#12](https://github.com/Mykola-CI/carols-whimsy/issues/12) | Webhook received with the required and modified data, order  created in db, order confirmation page displayed with the correct data, order confirmation email received by the customer |
+| 23 | Checkout PayPall payment | Test successful payment with the PayPal method | [#12](https://github.com/Mykola-CI/carols-whimsy/issues/12) | Webhook received with the required and modified data, order created in db, order confirmation page displayed with the correct data, order confirmation email received by the customer |
+| 24 | Checkout card payment form | Test card payment with  4000 0000 0000 9995 insufficient funds provided by Stripe| [#12](https://github.com/Mykola-CI/carols-whimsy/issues/12) | Webhook received with the required and modified data, order  created in db, order confirmation page displayed with the correct data, order confirmation email received by the customer |
+| 25 | Checkout PayPall payment | Test payment declined with the PayPal method | [#12](https://github.com/Mykola-CI/carols-whimsy/issues/12) | Webhook received with the required and modified data, order created in db, order confirmation page displayed with the correct data, order confirmation email received by the customer |
 
 
