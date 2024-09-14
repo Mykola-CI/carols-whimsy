@@ -1,6 +1,6 @@
 # Carol's Whimsy
 Carol's Whimsy Online Boutique can be accessed 
-[here](https://carols-whimsy-bba92a6158ba.herokuapp.com/)
+[here](https://carols-whimsy-bba92a6158ba.herokuapp.com/) (test mode).
 
 ![Home page Responsive mockup](documentation/screens/home_responsive_mockup.png)
 
@@ -15,6 +15,10 @@ Carol's Whimsy intends to become an online B2C (Business-to-Consumer) platform s
 
 The platform focuses on seasonal decorations for Christmas, Easter, and Halloween, targeting the UK market. The business model is designed to leverage the convenience of online shopping to reach a broad audience, offering a diverse range of products such as ornaments, figures, home decor, dolls, flowers, branches, trees, wreaths, balls, and baubles etc.
 
+### Choosing Brand Name
+The draft Brand Name or trademark was chosen by its versatility as to Christmas and Easter whereas the word "whimsy" adds a playful and enchanting feel, suitable for a boutique offering unique and festive decorations. The team conducted the trademark search and at the moment the search gives negative result to the favor of the chosen name:
+
+![UK GOV trademark search](documentation/marketing/carolswhimsyIPO.png)
 
 ### Purpose and Core Business Intents
 - **Direct-to-Consumer Sales:**
@@ -35,13 +39,39 @@ Offering a comprehensive range of decorative items ensures that customers can fi
 
 Implementing robust SEO strategies will enhance online visibility, driving organic traffic to the website. This includes optimizing product descriptions, using relevant keywords, and ensuring the website is mobile-friendly.
 
+I conducted the search for keywords using google search prompts and [Moz keyword explorer](https://moz.com/explorer).\
+<ins>Relevant topics identified in the order of priority:</ins>\
+1. Christmas Ornaments & gifts
+2. Easter Decorations
+3. Halloween Gifts
+4. Seasonal Home Decor
+
+<ins>Keyword ideas found and shortlisted.</ins>\
+short-tail:  Christmas decorations, Christmas tree decorations, homebase Christmas decorations, Christmas sale, Christmas ornaments, Christmas baubles, Christmas trees, Christmas home decorations, luxury Christmas decorations, Christmas decor, Easter eggs, Easter gifts, Easter decorations, halloween gifts\
+long-tail: Easter egg decorating kits, handmade Christmas tree ornaments, unique Halloween gift ideas, affordable seasonal home decor for holidays 
+
+MOZ Keyword search for Christmas related topics:
+![MOZ search for Christmas keywords](documentation/marketing/keywords-christmas-moz.png)
+MOZ Keyword search for Easter related topics:
+![MOZ search for Easter keywords](documentation/marketing/keywords_easter_moz.png)
+
 - **Social Media Marketing:** 
 
 Utilizing platforms like Instagram and Facebook to showcase products and engage with customers. Social media campaigns can highlight new arrivals, seasonal collections, and special promotions.
 
+The relevant pages are created on Facebook and Instagram for Carol's Whimsy:\
+[Carol's Whimsy FB page](https://www.facebook.com/profile.php?id=61565541958488)\
+[Carol's Whimsy Instagram page](https://www.instagram.com/carolswhimsy.deco/?hl=en)
+
+Youtube, X and Telegram standing in line.
+
 - **Email Marketing:** 
 
 Building an email list to send targeted promotions, newsletters, and personalized recommendations to customers. This strategy helps in maintaining customer engagement and encouraging repeat purchases.
+
+I set up a subscription form at the footer with large eye-catching title. 
+
+I signed up for MailChimp services 
 
 - **Customer Loyalty Programs:** 
 
