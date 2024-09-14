@@ -262,8 +262,72 @@ Details saved to the session.
 | ---- | ---- | ---- | ---- | ---- |
 | | |__Checkout Features__ | __continue..__ |
 | 22 | Checkout card payment form | Test successful card payment with UK Mastercard 5555 5582 6555 4449 provided by Stripe| [#12](https://github.com/Mykola-CI/carols-whimsy/issues/12) | Webhook received with the required and modified data, order  created in db, order confirmation page displayed with the correct data, order confirmation email received by the customer |
-| 23 | Checkout PayPall payment | Test successful payment with the PayPal method | [#12](https://github.com/Mykola-CI/carols-whimsy/issues/12) | Webhook received with the required and modified data, order created in db, order confirmation page displayed with the correct data, order confirmation email received by the customer |
+| 23 | Checkout PayPall payment | Test successful payment with the PayPal method | [#12](https://github.com/Mykola-CI/carols-whimsy/issues/12), [#51](https://github.com/Mykola-CI/carols-whimsy/issues/51) | Webhook received with the required and modified data, order created in db, order confirmation page displayed with the correct data, order confirmation email received by the customer |
 | 24 | Checkout card payment form | Test card payment with  4000 0000 0000 9995 insufficient funds provided by Stripe| [#12](https://github.com/Mykola-CI/carols-whimsy/issues/12) | Webhook received with the required and modified data, order  created in db, order confirmation page displayed with the correct data, order confirmation email received by the customer |
-| 25 | Checkout PayPall payment | Test payment declined with the PayPal method | [#12](https://github.com/Mykola-CI/carols-whimsy/issues/12) | Webhook received with the required and modified data, order created in db, order confirmation page displayed with the correct data, order confirmation email received by the customer |
+| 25 | Checkout PayPall payment | Test payment declined with the PayPal method | [#12](https://github.com/Mykola-CI/carols-whimsy/issues/12), [#51](https://github.com/Mykola-CI/carols-whimsy/issues/51) | Webhook received with the required and modified data, order created in db, order confirmation page displayed with the correct data, order confirmation email received by the customer |
+
+- Payment declined insufficient funds - Card payment Test 24
+
+![Card Payment declined](documentation/manual_tests/insufficient_funds.png)
+
+- Payment failed - PayPal payment Test 25
+
+![Payment failed via PayPal](documentation/manual_tests/PayPal_stripe_simulation.png)
+![User_endpoint payment failed PayPal](documentation/manual_tests/payment_failed_PayPal.png)
+
+| num. | Test Name | Purpose | User Story | Findings
+| ---- | ---- | ---- | ---- | ---- |
+| | |__Checkout Features__ | __continue..__ |
+| 26 | Differentiate billing and shipping details | Check billing info and delivery address when different in successful payment for the registered User | [#52](https://github.com/Mykola-CI/carols-whimsy/issues/52) | Webhook received with the required and modified data, billing data (name, email and phone) belong to the payer, the delivery is made to the name and address from the shipping form, order created in db, order confirmation page displayed with the correct data, order confirmation email received by the paying customer |
+
+- Confirmation email showing the email receiver different from the delivery name
+
+![Confirmation email with different payer and addressee](documentation/manual_tests/confirmation_different_address.png)
+
+![Webhook billing_info](documentation/manual_tests/billing_is_different.png)
+![Shipping details](documentation/manual_tests/wh_shipping_details.png)
 
 
+| num. | Test Name | Purpose | User Story | Findings |
+| ---- | ---- | ---- | ---- | ---- |
+| | |__Checkout Features__ | __continue..__ |
+| 27 | Shipping details prefilled for registered customers | Check shipping details are pre-filled for the registered User | [#10](https://github.com/Mykola-CI/carols-whimsy/issues/10) | The shipping details are pre-filled with the default shipping address if user saves at least one in the user's account pages - shipping addresses |
+| | | |  |
+| | |__Authentication & Profile__ |  |
+| 28 | Signup | Check Signup flows | [#13](https://github.com/Mykola-CI/carols-whimsy/issues/13) | The Signup works as expected, both email and username are required, the allauth styles are customised and import from the base.html topbar, header and footer, email verification checked, user is required to login |
+| 29 | Login | Check Login flows | [#14](https://github.com/Mykola-CI/carols-whimsy/issues/14) | The Login works as expected, either email or username are required to login, the allauth styles are customised and import from the base.html topbar, header and footer, user is redirected to the home page, the greeting is displayed addressing user with user's username |
+| 30 | Personal Info edit | Test all personal info forms  | [#15](https://github.com/Mykola-CI/carols-whimsy/issues/15) | Tested all 4 forms present on User Profile page: personal info form, phone number form, email form, password form. All work well, saved to the database, email verification required and redirects to the allauth "confirm email" page |
+| 31 | test CRUD for User's shipping addresses | test create and edit shipping addresses forms | [#45](https://github.com/Mykola-CI/carols-whimsy/issues/45) | "Delete address" button retrieves modal with reassurance question empty form to fill delivery name, email and address. "Edit" button retrieves a modal with the same fields but pre-filled with the existing data. Form is validated and saved to db correctly |
+| 32 | Delete shipping addresses | test deletion of shipping address | [#45](https://github.com/Mykola-CI/carols-whimsy/issues/45) | "Delete address" button retrieves modal with reassurance question. The address is deleted from db, confirmed via admin |
+| 33 | Setting default shipping address | test how the default shipping address is set | [#44](https://github.com/Mykola-CI/carols-whimsy/issues/44) | the checkbox "Set as default" if checked saves the "default" status. If there is only one address it becomes default automatically |
+| 34 | Wishlist functionality | test adding product to a wishlist | [#22](https://github.com/Mykola-CI/carols-whimsy/issues/22) | the button to add products to the wishlist available for authenticated users in product detail view. Check via admin: click on the button saves the product id to the Wishlist model. Success Message is displayed in the Bootstrap toast wrapping. The product card appears on the Account wishlist page |
+| 35 | Wishlist functionality | test removing product from a wishlist | [#22](https://github.com/Mykola-CI/carols-whimsy/issues/22) | the button to remove products from the wishlist requires to select at least one item. If no item is selected the message pops up warning customer that no items is selected. Once item or items are selected the product disappears from the wishlist page. The selected item is deleted from the database |
+| 36 | Wishlist functionality | test adding product from a wishlist to the shopping cart | [#23](https://github.com/Mykola-CI/carols-whimsy/issues/23) | the button to add products from wishlist to the cart lives inside product cards in the wishlist. the button works as expected - the cart is updated, showing in the cart summary, message displayed |
+| | | |  |
+| | |__Promotions & Management__ |  |
+| 37 | Delivery percentage | Test calculation and presentation of delivery costs | [#62](https://github.com/Mykola-CI/carols-whimsy/issues/62) | Delivery costs are calculated correctly according to the percentage saved in the CommercialConstants model and displayed in the order summary on the cart page and checkout pages |
+| 38 | Promo Code | Test promo code discount applied | [#41](https://github.com/Mykola-CI/carols-whimsy/issues/41) | Promocode 'CAROLS-WHIMSY-START' sets discount at 20%. Test purchase showed correct calculation of 'saving' and displaying it in the cart's grand total amount |
+| 39 | Promo Code usage | Test if promo code can be used by the same registered user more than once | [#41](https://github.com/Mykola-CI/carols-whimsy/issues/41) | Promocode once submitted can update total cart amount multiple times whenever the cart total is updated until the moment customer commits the payment. After that moment the customer's username and the promocode value are saved into the database PromoCodeUsage model |
+
+- Saving and delivery costs displayed at the order summary
+
+![Order summary test](documentation/manual_tests/saving_delivery_shown.png)
+
+| Num. | Test Name | Purpose | User Story | Findings |
+| ---- | ---- | ---- | ---- | ---- |
+| | |__Promotions & Management__ | __continue..__ |
+| 40 | Free Delivery Threshold | Test calculation of delivery costs  | [#40](https://github.com/Mykola-CI/carols-whimsy/issues/40) | The free delivery threshold is set currently at £50. When cart net total is above the threshold the delivery cost is 0 |
+| 41 | Presentation of cart amount left to free delivery | Test the value of the progress bar  | [#39](https://github.com/Mykola-CI/carols-whimsy/issues/39) | Setting total cart amount less than the threshold displays the progress bar and the amount left to the free delivery threshold |
+
+- The progress bar presentation test
+
+![The progress bar](documentation/manual_tests/progress_bar_to%20free_delivery.png)
+
+| Num. | Test Name | Purpose | User Story | Findings |
+| ---- | ---- | ---- | ---- | ---- |
+| | |__Promotions & Management__ | __continue..__ |
+| 42 | Newsletter signup | Test if user's email submitted by the form in the footer appears in Accounts list with MailChimp | [#21](https://github.com/Mykola-CI/carols-whimsy/issues/21) | User's email is registered, success message displayed |
+| | |__Product Management__ |  |
+| 43 | Add Products to Catalog | Test adding products to the shop's portfolio | [#57](https://github.com/Mykola-CI/carols-whimsy/issues/57) | Added successfully. Success message displayed. The form cannot be submitted without all the required fields filled |
+| 44 | Update details of existing Products | Test editing details of existing products | [#58](https://github.com/Mykola-CI/carols-whimsy/issues/58) | Edit buttons are available for authenticated shop personnel users (.is_staff) in the Catalog and Product Detail views. Form submits with success. The details are updated |
+| 45 | Delete existing Product | Test deleting an existing product | [#59](https://github.com/Mykola-CI/carols-whimsy/issues/59) | Delete buttons are available for authenticated shop personnel users (.is_staff) in the Catalog and Product Detail views. Form submits with success. The product is deleted from the database |
