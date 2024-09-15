@@ -74,7 +74,7 @@
     <div
         class="top-bar container-xxl position-relative d-flex align-items-center justify-content-between z-3 pt-2 pb-1 fw-light">
         <div class="nav principal-logo ms-4">
-            <a class="nav-link p-0 text-reset" href="https://goodwill.be/en/home-eng/" target="_blank">
+            <a class="nav-link p-0 text-reset" href="https://goodwill.be/en/home-eng/" rel="external" target="_blank">
                 <img src="{{ MEDIA_URL }}goodwillangel_xl_glow_poster.png" class="img-fluid"
                     alt="Goodwill commercial sign">
             </a>
@@ -84,7 +84,7 @@
             Explore the enchanting worlds of Christmas, Easter and Halloween.
             <span class="d-none d-xl-inline">A World of Enchanting Decorations & Gifts</span>
         </a>
-        <ul class="nav gap-2 gap-sm-4 me-4 align-items-start align-items-sm-end flex-column flex-sm-row">
+        <ul class="nav gap-2 gap-sm-4 me-4 align-items-start align-items-sm-baseline flex-column flex-sm-row">
             {% if user.is_authenticated %}
             <li>
                 <div class="p-0 text-reset ls-wider fs-sm text-decoration-none">Hello,

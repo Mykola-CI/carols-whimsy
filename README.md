@@ -156,7 +156,7 @@ In total there are 59 GitHub issues including 6 epics that evolved into stories.
 
 ## Application Overview & Features
 
-### [All Users] flows
+### Features for [All Users]
 
 #### Top bar & Navigation Bar
 
@@ -278,11 +278,11 @@ or:
 
 #### Checkout - Payment scenarios
 
-![Payment scenarios](documentation/flowcharts/payment_scenarios.webp)
+![Payment scenarios](documentation/flowcharts/payment_scenarios_chart.webp)
 
 ___________________
 
-### [Registered Users] flows.
+### Features for [Registered Users].
 
 #### Login
 
@@ -297,6 +297,327 @@ ___________________
 - Logout link appears
 - The named greeting appears
 
-#### 
+#### Account menus
+
+Become accessible to Registered Users.\
+When Anonymous user hits one of the menus such user gets redirected to the Login page with Account Benefits pane.
+
+- Left Side Navigation Pane - enhances UX making navigation easier and isolates Account pages in a stand-alone privileged module.
+
+![Account Navigation Pane](documentation/features/account_navigation_pane.png)
+
+- <ins>Personal Info page features:</ins>
+  - __Basic info managing__.\
+  Click [Edit] to make changes and toggle the Bootstrap 'collapse' element.\
+  Make changes and submit the form
+  - __Contact__.\
+  There are 2 forms here; e-mail and phone. The reason for dividing this section in 2 forms is that email requires verification, and the phone does not.
+
+![Basic Info and Contact section](documentation/features/basic_and_contact.png)
+
+- ... continue personal info page features
+  - __Password__ change
+  - __Delete Account__\
+  Hitting delete shows modal with the explanation text what can happen next.
+
+![Password and delete account section](documentation/features/password_and_delete.png)
+
+![Delete Account modal](documentation/features/delete_modal.png)
+
+__DISCLAIMER.__\
+The modal warns a customer that the profile will be deactivated immediately but it will be kept in records up to 14 days.\
+THIS FUNCTIONALITY HAS NOT BEEN REALISED YET AND AT THE MOMENT ACCOUNT IS PERMANENTLY DELETED.\
+The User Story is included to the project, but not done within this timeframe, [refer to the User Story](https://github.com/Mykola-CI/carols-whimsy/issues/67)
+
+- <ins>Shipping addresses</ins>
+
+![Shipping addresses](documentation/features/shipping_addresses.png)
+
+![Shipping details form](documentation/features/shipping_details_profile.png)
+
+_The Features worth mentioning:_\
+   -The button [Edit] initiates the modal form for shipping address to edit\
+   -Inside the form User can find the checkbox 'Set as default shipping address'\
+   -The page has a link to add one more address to the list
+
+
+- <ins>Order History</ins> 
+
+![Order History](documentation/features/order_history.png)
+
+![Order Details collapse element](documentation/features/order_details_collapse_element.png)
+
+_This Account Page Features:_\
+-Table of historical orders, each order being displayed as row\
+-Table columns depict Order num., Order Date, Status (pending, delivered etc), Order total\
+-Each order line is decorated with small thumbnails of product photos from the order\
+-Order line items can be quickly looked at by toggling the collapse element button down or up.\
+-Registered customer can look up particular order confirmation details by hitting the order number link  
+
+![Order Confirmation - historical](documentation/features/historical_order_conf.png)
+
+- <ins>Wishlist</ins> 
+
+Registered and authenticated User can add product to the wishlist vie Product detail view.\
+Only authenticated users can see the secret button
+
+![Add to Wishlist](documentation/features/product_fragment_wishlist_btn.png) ![No Add to Wishlist](documentation/features/product_fragment_no_button.png)
+
+_The Wishlist view features:_\
+-add to cart button\
+-checkboxes inside each product card to select or unselect item\
+-one master checkbox to select all or unselect all\
+-and remove selected button and icon 
+
+![Wishlist](documentation/features/wishlist.png)
+
+#### Checkout Features for Registered Customers
+
+- <ins>Shipping Details Form pre-fill</ins>
+- <ins>Save changes or new details as a new shipping address</ins>
+
+
+![Wishlist](documentation/features/prefill_order_save_checkbox.png)
+
+__NOTE.__ Only registered and authenticated users can see the checkbox "Save to your profile"
+
+
+### Features for [Shop Personnel]
+
+Technically "Shop Personnel" are those users who are given the "staff" status by the superuser.
+
+For the Shop personnel users teh Account menus reveal the chapter "Management Pages".\
+![Management pages menu](documentation/features/management_pages.png)
+
+#### Dashboard
+
+All Management pages feature the left navigation pane similar to User Account pages:\
+![Management pages menu](documentation/features/dashboard_and_pane.png)
+
+The dashboard gives quantitative overview of the entire product portfolio actively on sale via the platform.
+
+#### Add product
+
+Hitting + Add Product on the left navigation pane opens up the product form
+
+#### Edit or Remove Product 
+
+Hitting Edit Product on the left navigation pane redirects the shop personnel user to the catalog view
+![Catalog view for personnel](documentation/features/edit_or_remove_prod.png)
+
+There the user can either open the pre-filled form for the existing product or just remove it from the database.\
+The Edit form features the small thumbnail of the photo currently uploaded for that product.
+
+![Thumbnail photo](documentation/features/edit_form_img_thumbnail.png)
+
+Cancelling the operation redirects the shop personnel user to the Dashboard page.
+
+#### Orders LookUp
+
+![Orders Lookup](documentation/features/orders_lookup.png)
+
+
+The order number is a clickable link to the historical order confirmation similar to the Registered User flows.\
+However, there is one distinction though.\
+Under order confirmation line items:
+- Anonymous User can see 'Continue shopping' link
+- Authenticated User can see 'Return to Order History' link 
+- Shop personnel user can see 'Return to Shop Orders' link
+
+![Return to shop](documentation/features/return_to_shop_orders.png)
+
+## Data Modeling
+
+Apart from all built-in django models or those of 3d party vendors like django-allauth I have to deploy 12 custom models to provide for the current levels of the application functionality.  
+![ERD diagram](documentation/data_modeling/carols_schema.jpg)
+
+
+### Brand, Category, Theme, Season
+
+Technically these models are almost identical in structure and serve as quasi-categories altogether
+
+| Name          | Field Type    | Validation |
+| ------------- | ------------- | ---------- |
+| name          | CharField | max_length=255, unique=True |
+| friendly_name | CharField | max_length=254, null=True, blank=True |
+| description | TextField | blank=True, null=True |
+
+However, this kind of categorization is required by business model and the nature of merchandise to market.
+
+### Product
+
+| Name          | Field Type    | Validation |
+| ------------- | ------------- | ---------- |
+| name          | CharField | max_length=255 |
+| sku | CharField | max_length=100, unique=True, blank=False |
+| brand | ForeignKey | on_delete=models.CASCADE, default=1, related_name='branded_products' |
+| category | ForeignKey | on_delete=models.CASCADE, default=1, related_name='group_of_products' |
+| theme | ForeignKey | on_delete=models.CASCADE, default=1, related_name='theme_products' |
+| season | ForeignKey | on_delete=models.CASCADE, default=1, related_name='season_products' |
+| price | DecimalField | max_digits=6, decimal_places=2 |
+| promo_text | TextField | blank=True, null=True |
+| size | CharField | max_length=255, blank=True, null=True |
+| material | CharField | blank=True, null=True |
+| color | CharField | max_length=255, blank=True, null=True |
+| other_details | TextField | blank=True, null=True |
+| discount | DecimalField | max_digits=3, decimal_places=2, default=0, validators=[MinValueValidator(0), MaxValueValidator(1)] |
+| image | ImageField | upload_to='', blank=True, null=True |
+| image_url | URLField | max_length=1024, blank=True, null=True |
+
+__NOTES__.\
+The discount field must be commented. It is the Decimal type of value with minimum and maximum limits : from 0 to 1.\
+The backend logic treats it as a decimal discount ratio. For example, discount = 0.1 means 10% discount and the price after discount must be calculated:\
+price = old_price * (1 - 0.1)
+
+### Order
+
+| Name          | Field Type    | Validation |
+| ------------- | ------------- | ---------- |
+| order_number | CharField | max_length=32, null=False, editable=False |
+| user_profile | ForeignKey | UserProfile, on_delete=models.SET_NULL, null=True, blank=True, related_name='orders' |
+| first_name | CharField | max_length=40, null=False, blank=False |
+| last_name | CharField | max_length=40, null=False, blank=False |
+| email | EmailField | max_length=254, null=False, blank=False |
+| phone_number | CharField | max_length=20, null=False, blank=False |
+| country | CharField |  blank_label='Select country', null=False, blank=False |
+| postcode | CharField | max_length=20, null=True, blank=True |
+| town_city | CharField | max_length=40, null=False, blank=False |
+| street_address | CharField | max_length=254, null=False, blank=False |
+| county | CharField | max_length=80, null=True, blank=True |
+| date | DateTimeField | auto_now_add=True |
+| delivery_cost | DecimalField |  max_digits=6, decimal_places=2, null=False, default=0 |
+| saving | DecimalField | max_digits=10, decimal_places=2, null=False, default=0 |
+| order_total | DecimalField | max_digits=10, decimal_places=2, null=False, default=0 |
+| grand_total | DecimalField |  max_digits=10, decimal_places=2, null=False, default=0 |
+| original_cart | TextField | null=False, blank=False, default='' |
+| stripe_pid | CharField |  max_length=254, unique=True, null=False, blank=False, default='' |
+| status | CharField |  max_length=20, choices=STATUS_CHOICES, null=False, blank=False, default='Pending' |
+
+__NOTES__.
+1. Status. It is defined by the choices:
+~~~
+STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Processing', 'Processing'),
+        ('Shipped', 'Shipped'),
+        ('Delivered', 'Delivered'),
+        ('Cancelled', 'Cancelled'),
+    ]
+~~~
+2. Saving. This field stores the discount information derived from the promo code application.
+
+### OrderLineItem
+
+| Name          | Field Type    | Validation |
+| ------------- | ------------- | ---------- |
+| order | ForeignKey |  Order, null=False, blank=False, on_delete=models.CASCADE, related_name='lineitems' |
+| product | ForeignKey | Product, null=False, blank=False, on_delete=models.CASCADE |
+| quantity | IntegerField | null=False, blank=False, default=0 |
+| item_total | DecimalField | max_digits=6, decimal_places=2, null=False, blank=False, editable=False |
+
+### UserProfile
+
+| Name          | Field Type    | Validation |
+| ------------- | ------------- | ---------- |
+| user | OneToOneField | User, on_delete=models.CASCADE |
+| profile_phone_number | CharField | max_length=20, null=True, blank=True |
+| profile_street_address | CharField | max_length=255, null=True, blank=True |
+| profile_town_city | CharField | max_length=40, null=True, blank=True |
+| profile_county | CharField | max_length=80, null=True, blank=True |
+| profile_postcode | CharField | max_length=20, null=True, blank=True |
+| profile_country | CountryField | blank_label='Country', null=True, blank=True |
+| profile_date_of_birth | DateField | null=True, blank=True | 
+| profile_title | CharField | max_length=5, choices=TITLE_CHOICES, blank=True, null=True |
+
+__NOTES__.\
+Django Signal is used to create or update user profile whenever a new instance of User is created and/or updated.
+
+### ShippingAddress
+
+| Name          | Field Type    | Validation |
+| ------------- | ------------- | ---------- |
+| user_profile | ForeignKey | UserProfile, related_name='addresses', on_delete=models.CASCADE |
+| delivery_first_name | CharField | max_length=50 |
+| delivery_last_name | CharField  | max_length=50 | 
+| delivery_phone_number | CharField  | max_length=20 | 
+| delivery_email | EmailField  | max_length=254 | 
+| shipping_street_address | CharField  | max_length=255 | 
+| shipping_town_city | CharField  | max_length=40 | 
+| shipping_county | CharField  | max_length=80 | 
+| shipping_postcode | CharField  | max_length=20 | 
+| shipping_country | CountryField  | blank_label='Country' | 
+| shipping_is_default | BooleanField  | default=False | 
+
+__NOTES__.
+1. shipping_is_default: this name is self-explaining as it is to put a "default" tag on the address
+2. The model has an intricate custom save method to ensure that if at least one address exists there is always a default and it is the only one.
+~~~
+def save(self, *args, **kwargs):
+        """ Override save method to set default shipping address
+        to ensure there is only one default address per user"""
+
+        if (
+            not self.pk
+                and ShippingAddress.objects.filter(
+                    user_profile=self.user_profile).count() == 0):
+            self.shipping_is_default = True
+        elif self.shipping_is_default:
+            # Set all other addresses for this user to non-default
+            ShippingAddress.objects.filter(
+                user_profile=self.user_profile, shipping_is_default=True
+            ).update(shipping_is_default=False)
+        super().save(*args, **kwargs)
+~~~ 
+
+### Wishlist
+
+| Name          | Field Type    | Validation |
+| ------------- | ------------- | ---------- |
+| user | OneToOneField | User, on_delete=models.CASCADE |
+| products | ManyToManyField | Product, blank=True |
+
+__NOTES__. There is not much to say about this one. A user selects a product and saves it until further action is taken.
+
+### CommercialConstant
+
+This model allows the owner to set different values, such as, delivery percentage, delivery threshold, promocode key value pairs, even taxes or other rates if needed.
+
+| Name          | Field Type    | Validation |
+| ------------- | ------------- | ---------- |
+| name | CharField | max_length=50, unique=True |
+| friendly_name | CharField | max_length=150, blank=True, null=True |
+| value | CharField | max_length=255 |
+| constant_type | CharField | max_length=5, choices=CONSTANT_TYPES |
+| description | TextField | blank=True, null=True |
+
+__NOTES__.
+1. The choices for the constant types are:
+CONSTANT_TYPES = [
+        ('int', 'Integer'),
+        ('str', 'String'),
+        ('float', 'Float'),
+    ]
+2. The value derived from the field is defined by the `get_value` method:
+~~~
+ def get_value(self):
+        if self.constant_type == 'int':
+            return int(self.value)
+        elif self.constant_type == 'float':
+            return float(self.value) / 100
+        return self.value
+~~~
+
+### PromoCodeUsage
+
+This model is used for tracking promo code usage by users to prevent from misuse and to track the usage statistics.
+
+| Name          | Field Type    | Validation |
+| ------------- | ------------- | ---------- |
+| user | ForeignKey | User, on_delete=models.CASCADE |
+| promo_code | CharField | max_length=50 |
+| used_at | DateTimeField | auto_now_add=True |
+
+
+## Flowcharts on Major Logic
 
 
