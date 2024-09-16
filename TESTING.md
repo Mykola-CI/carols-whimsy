@@ -333,6 +333,10 @@ Details saved to the session.
 | 45 | Setting discounts to Products | Test setting a discount and presentation on the front end | [#27](https://github.com/Mykola-CI/carols-whimsy/issues/27) | Discount is set only by shop personnel via 'edit' product functionality. Discount can be set as a ratio from 0 to 1, otherwise the changes to the product form fields cannot be saved. Presentation changes immediately by setting the strikethrough old price in small fonts beside the new price and an % icon at the left top corner of the card.
 | 46 | Delete existing Product | Test deleting an existing product | [#59](https://github.com/Mykola-CI/carols-whimsy/issues/59) | Delete buttons are available for authenticated shop personnel users (.is_staff) in the Catalog and Product Detail views. Form submits with success. The product is deleted from the database |
 
+### 404 page tests
+
+![404 page](documentation/manual_tests/404page.png)
+
 
 ## BUGS
 
@@ -428,4 +432,23 @@ grand_total = Decimal(stripe_charge.amount) / Decimal('100.00')
 order_total = grand_total + saving - shipping_cost  # updated
 ~~~
 
-3. 
+3. The First and Last Names are not immediately updated on the front end
+
+<ins>Problem Description:</ins>\
+Task: edit first and last name\
+Page: view-profile.html\
+The view: def update_user_basic_info\
+Form of POST request: AJAX\
+Other pre-requisites: the form submits for editing - names , title and DOB.\
+JsonResponse from the view provides all updated context.
+
+BUG:\
+Both names are not changed on the page immediately upon the form submission, whereas the DOB and Title update as expected.\
+After re-load of the page the names update to the new ones , which signals that they are saved to the database.
+
+Solution:
+Refresh the User instance from the database to get the latest data before sending it back to the client
+
+~~~
+user.refresh_from_db()
+~~~

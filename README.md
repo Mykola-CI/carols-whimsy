@@ -143,7 +143,7 @@ The "About Us" and "FAQ" pages contain generic content and will require detailed
 User stories as a guidance for the project can be found on my GitHub [here](https://github.com/Mykola-CI/carols-whimsy/issues).\
 __Note__: To see all issues the `is:open` filter must be removed or follow [this link](https://github.com/Mykola-CI/carols-whimsy/issues?q=is%3Aissue+sort%3Acreated-asc).
 
-
+<ins>Agile Methodology used when moving the project forward.</ins>
 The stories had been tracked using the [Kanban board](https://github.com/users/Mykola-CI/projects/6/views/1) and some other table views utilized during development, such as MoSCoW (prioritizing), Themes (functionality grouping), Epic-to-Stories (epic-to-story dependencies) and Roles (grouped by User roles) tables. 
 
 
@@ -158,7 +158,7 @@ In total there are 59 GitHub issues including 6 epics that evolved into stories.
 
 #### Top bar & Navigation Bar
 
-![Desctops&laptops navbar](documentation/features/navigation_bar_lg.png)
+![Desktops&laptops navbar](documentation/features/navigation_bar_lg.png)
 
 ![Tablets & Mobiles navbar](documentation/features/navbar_mobile.png)
 
@@ -307,6 +307,10 @@ When Anonymous user hits one of the menus such user gets redirected to the Login
 
 ![Account Navigation Pane](documentation/features/account_navigation_pane.png)
 
+- and in responsive mode it is fixed to the bottom of the screen
+
+![Account menu responsive](documentation/features/navigation-pane-responsive.gif)
+
 - <ins>Personal Info page features:</ins>
   - __Basic info managing__.\
   Click [Edit] to make changes and toggle the Bootstrap 'collapse' element.\
@@ -426,6 +430,11 @@ Under order confirmation line items:
 - Shop personnel user can see 'Return to Shop Orders' link
 
 ![Return to shop](documentation/features/return_to_shop_orders.png)
+
+### 404
+
+![404page](documentation/manual_tests/404page.png)
+
 
 ## Data Modeling
 
@@ -640,8 +649,107 @@ This model is used for tracking promo code usage by users to prevent from misuse
 ## Design
 
 ### Colors
+- Color palette 
+![Colors palette](documentation/design/color-palette.png)
+
+The standard Bootstrap5 colors were also used occasionally:
+- `--bs-primary-rgb` rgb(13,10,253) as a text color for User Profile username icon
+- `--bs-primary-bg-subtle` #cfe2ff for the icon backgrounds
+- standard Bootstrap theme colors for bullets depicting order status in orders history and orders look up pages.
 
 ### Typography
 
-### Bootstrap elements
+-Font-family: "Inter", sans-serif; 
 
+- Titles
+
+![Titles](documentation/design/inter-family-titles.png)
+
+- Regular fonts
+
+![Fonts](documentation/design/inter-family-fonts.png)
+
+### Bootstrap
+
+All html front end was designed using Bootstrap-5 global styles and utility classes.
+
+The following Bootstrap components have been employed for enhancing UX:
+- Offcanvas
+- Toasts
+- Spinners
+- Tooltips
+- Navbar
+- Modal
+- Collapse
+- Card
+- Buttons
+- Breadcrumb
+
+## Technologies used
+- ### Languages:
+    
+    - [Python 3.12.4](https://www.python.org/downloads/release/python-3124/): the primary language used to develop the server-side of the website.
+    - [JS](https://www.javascript.com/): the primary language used to develop interactive components of the website.
+    - [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML): the markup language used to create the website.
+    - [CSS](https://developer.mozilla.org/en-US/docs/Web/css): the styling language used to style the website.
+
+- ### Frameworks and libraries:
+
+    - [Django](https://www.djangoproject.com/): python framework used to create all the logic.
+    - [jQuery](https://jquery.com/): was used to control click events and sending AJAX requests.
+
+- ### Databases:
+
+    - [SQLite](https://www.sqlite.org/): was used as a development database.
+    - [PostgreSQL](https://www.postgresql.org/): the database used to store all the data.
+
+
+- ### Other tools:
+
+    - [Git](https://git-scm.com/): the version control system used to manage the code.
+    - [Pip3](https://pypi.org/project/pip/): the package manager used to install the dependencies.
+    - [Gunicorn](https://gunicorn.org/): the web server used to run the website.
+    - [Psycopg2](https://www.psycopg.org/): the database driver used to connect to the database.
+    - [Django-allauth](https://django-allauth.readthedocs.io/en/latest/): the authentication library used to create the user accounts.
+    - [Django-crispy-forms](https://django-cryptography.readthedocs.io/en/latest/): was used to control the rendering behavior of Django forms.
+    - [GitHub](https://github.com/): used to host the website's source code.
+    - [VSCode](https://code.visualstudio.com/): the IDE used to develop the website.
+    - [Chrome DevTools](https://developer.chrome.com/docs/devtools/open/): was used to debug the website.
+    - [Font Awesome](https://fontawesome.com/): was used to create the icons used in the website.
+    - [Draw.io](https://www.lucidchart.com/) was used to make a flowchart for the README file.
+    - [W3C Validator](https://validator.w3.org/): was used to validate HTML5 code for the website.
+    - [W3C CSS validator](https://jigsaw.w3.org/css-validator/): was used to validate CSS code for the website.
+    - [JShint](https://jshint.com/): was used to validate JS code for the website.
+    - [PEP8](https://pep8.org/): was used to validate Python code for the website.
+    - [stripe](https://stripe.com/): was used to create the payment system.
+    - [birme.net](https://www.birme.net/): was used to crop and center unsplash images.
+    - [Sitemap Generator](https://www.xml-sitemaps.com/) was used to create the sitemap.xml file.
+    - [Swiper js sliding tool](https://swiperjs.com/get-started) was used to create the front page slide swiper.
+
+------
+
+## Testing
+
+Refer to the [TESTING.md](TESTING.md).
+
+## Deployment And Stripe setup
+
+- The application was deployed to Heroku [here](https://carols-whimsy-bba92a6158ba.herokuapp.com/)
+
+Refer to the [DEPLOYMENT.md](DEPLOYMENT.md)
+
+## Credits
+
+[Code Institute, Dublin](https://codeinstitute.net/) For the remarkable journey inside Boutique Ado chambers, especially for the Stripe pages, which logic I humbly dared to modify though.
+
+[Cartzilla-Multipurpose E-Commerce Template](https://themes.getbootstrap.com/product/cartzilla-bootstrap-e-commerce-template-ui-kit/) inspired many macro and micro design ideas for most of the pages of Carol's Whimsy app. It was a real pleasure, sometimes a quest, good school and always a challenge to reach even half of their level of mastership.
+
+[Swiper - Effect Coverflow](https://swiperjs.com/demos#effect-coverflow) is a main feature of the landing page. Working on Touchable Screens, mobiles and tablets.
+
+[Codemy.com E-commerce](https://www.youtube.com/playlist?list=PLCC34OHNcOtpRfBYk-8y0GMO4i1p1zn50) for several useful django tricks and some revelations on User Session as a tool
+
+Content and images
+[Goodwill product imagery, catalogs and event sessions](https://sheprd.app/goodwill-mg/home/expanded/76f30e70-2b14-11eb-9adb-696fc144bd2c) the priceless and yet publicly accessible resource the Goodwill provides for their distributors.
+
+## Acknowledgements
+Natalia Zamula - friend and a partner who is a Goodwill reseller for a number of years, and helped me with product descriptions and overall app requirements.
