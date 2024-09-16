@@ -11,12 +11,6 @@ from .models import Order, OrderLineItem
 from products.models import Product
 
 import json
-# import logging
-
-
-# Set up logging
-# logger = logging.getLogger(__name__)
-# logging.basicConfig(level=logging.ERROR)  # You can configure this as needed
 
 
 class WH_Handler:

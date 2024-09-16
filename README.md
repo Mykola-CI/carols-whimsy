@@ -91,6 +91,8 @@ The platform is now ready for distribution of newsletter with new deals, bundle 
 
 ![Promo Code Demo](documentation/marketing/promo_code_demo.png)
 
+__Note.__ Current Promo Code for testing purposes at the moment is CAROLS-WHIMSY-START . Needs to register first.
+
 
 ### Implications for the E-commerce Platform
 - **User Experience:** 

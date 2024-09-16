@@ -15,8 +15,6 @@ Your order will be shipped to:
 Phone: {{ order.phone_number }}
 {{ order.street_address }} in {{ order.town_city }}, {% if order.county %} {{ order.county }}, {% endif %} {{ order.postcode }}, {{ order.country }}.
 
-We've got your phone number on file as {{ billing_phone }}.
-
 If you have any questions, feel free to contact us at {{ contact_email }}.
 
 Thank you for your order!
