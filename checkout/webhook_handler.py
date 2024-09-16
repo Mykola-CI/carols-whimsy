@@ -109,7 +109,7 @@ class WH_Handler:
 
             # Accurately converting to a Decimal
             grand_total = Decimal(stripe_charge.amount) / Decimal('100.00')
-            order_total = grand_total + saving - shipping_cost  # updated
+            order_total = grand_total + saving - shipping_cost
 
             try:
                 order = Order(

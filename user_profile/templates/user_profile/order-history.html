@@ -140,8 +140,8 @@
                                         <ul class="list-unstyled fw-normal text-body m-0 d-md-none">
                                             <li>{{ order_with_items.order.date|date:"M d, Y" }}</li>
                                             <li class="d-flex align-items-center">
-                                                <span class="bg-info rounded-circle p-1 me-2"></span>
-                                                In progress
+                                                <span class="{% if order_with_items.order.status == 'Pending' %}bg-danger{% elif order_with_items.order.status == 'Processing' %}bg-info{% elif order_with_items.order.status == 'Shipped' %}bg-success{% elif order_with_items.order.status == 'Cancelled' %}bg-secondary{% elif order_with_items.order.status == 'Delivered' %}bg-warning{% endif %} rounded-circle p-1 me-2"></span>
+                                                {{ order_with_items.order.status }}
                                             </li>
                                             <li class="fw-medium text-body-emphasis">
                                                 {{ order_with_items.order.grand_total }}

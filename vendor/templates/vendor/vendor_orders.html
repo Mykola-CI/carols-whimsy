@@ -129,8 +129,9 @@
                                         <ul class="list-unstyled fw-normal text-body m-0 d-md-none">
                                             <li>{{ order_set.order.date|date:"M d, Y" }}</li>
                                             <li class="d-flex align-items-center">
-                                                <span class="bg-info rounded-circle p-1 me-2"></span>
-                                                In progress
+                                                <span
+                                                    class="{% if order_set.order.status == 'Pending' %}bg-danger{% elif order_set.order.status == 'Processing' %}bg-info{% elif order_set.order.status == 'Shipped' %}bg-success{% endif %} rounded-circle p-1 me-2"></span>
+                                                {{ order_set.order.status }}
                                             </li>
                                             <li class="fw-medium text-body-emphasis">
                                                 {{ order_set.order.grand_total }}
@@ -157,11 +158,13 @@
                                                 {% csrf_token %}
                                                 <div class="d-flex align-items-center gap-2">
                                                     <div id="div_id_status_{{ forloop.counter }}">
-                                                        <select name="status" class="form-select m-0" required id="id_status_{{ forloop.counter }}">
+                                                        <select name="status" class="form-select m-0" required
+                                                            id="id_status_{{ forloop.counter }}">
                                                             {% for choice in form.fields.status.choices %}
-                                                                <option value="{{ choice.0 }}" {% if choice.0 == form.initial.status %}selected{% endif %}>
-                                                                    {{ choice.1 }}
-                                                                </option>
+                                                            <option value="{{ choice.0 }}"
+                                                                {% if choice.0 == form.initial.status %}selected{% endif %}>
+                                                                {{ choice.1 }}
+                                                            </option>
                                                             {% endfor %}
                                                         </select>
                                                     </div>

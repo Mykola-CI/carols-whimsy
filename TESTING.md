@@ -332,3 +332,100 @@ Details saved to the session.
 | 44 | Update details of existing Products | Test editing details of existing products | [#58](https://github.com/Mykola-CI/carols-whimsy/issues/58) | Edit buttons are available for authenticated shop personnel users (.is_staff) in the Catalog and Product Detail views. Form submits with success. The details are updated |
 | 45 | Setting discounts to Products | Test setting a discount and presentation on the front end | [#27](https://github.com/Mykola-CI/carols-whimsy/issues/27) | Discount is set only by shop personnel via 'edit' product functionality. Discount can be set as a ratio from 0 to 1, otherwise the changes to the product form fields cannot be saved. Presentation changes immediately by setting the strikethrough old price in small fonts beside the new price and an % icon at the left top corner of the card.
 | 46 | Delete existing Product | Test deleting an existing product | [#59](https://github.com/Mykola-CI/carols-whimsy/issues/59) | Delete buttons are available for authenticated shop personnel users (.is_staff) in the Catalog and Product Detail views. Form submits with success. The product is deleted from the database |
+
+
+## BUGS
+
+1. The problem of multiple identical IDs in templates.
+
+In one of my templates (vendor_orders.html) I needed to run a {% for %} loop to render the django form with one field multiple times:
+~~~
+{% for order_set in orders_with_items %}
+
+# some other lines of code
+
+<form method="post" action="{% url 'update_order' order_set.order.id %}">
+    {% csrf_token %}
+    <div class="d-flex align-items-center gap-2">
+        {{ form.status|as_crispy_field }}
+        <div class="mt-2">
+            <button type="submit"
+                class="btn btn-icon fs-lg btn-secondary rounded-circle mt-1 me-1"
+                data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm"
+                data-bs-title="Click to change status"
+                aria-label="Submit to change order status">
+                <i class="fa-solid fa-arrow-up-right text-white"></i>
+            </button>
+        </div>
+    </div>
+</form>
+
+{% endfor %}
+~~~
+
+By rendering the form this way I could not control the generation of html elements' IDs and IDs were identical with each iteration of the 'for' loop.
+
+The solution was to exert deeper control over form rendering by doing it manually as opposed to just `{{ form.status|as_crispy_field }}`:
+
+~~~
+<form method="post" action="{% url 'update_order' order_set.order.id %}">
+    {% csrf_token %}
+    <div class="d-flex align-items-center gap-2">
+        <div id="div_id_status_{{ forloop.counter }}">
+            <select name="status" class="form-select m-0" required
+                id="id_status_{{ forloop.counter }}">
+                {% for choice in form.fields.status.choices %}
+                <option value="{{ choice.0 }}"
+                    {% if choice.0 == form.initial.status %}selected{% endif %}>
+                    {{ choice.1 }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <button type="submit"
+                class="btn btn-icon fs-lg btn-secondary rounded-circle mt-1 me-1"
+                data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm"
+                data-bs-title="Click to change status"
+                aria-label="Submit to change order status">
+                <i class="fa-solid fa-arrow-up-right text-white"></i>
+            </button>
+        </div>
+    </div>
+</form>
+~~~
+
+- Instead of using `as_crispy_field`, the select element is rendered manually, allowing me to control the id attribute.
+- By appending {{ forloop.counter }} to the ID, each form element gets a unique identifier based on its position in the loop
+
+2. Type mismatch between decimal.Decimal and float
+
+I encountered with this TypeError when tried to use the update_total method of my Order model:
+~~~
+def update_total(self):
+        """
+        Update grand total each time a line item is added,
+        accounting for delivery costs.
+        """
+        self.order_total = self.lineitems.aggregate(
+            Sum('item_total')
+        )['item_total__sum'] or 0
+        self.grand_total = self.order_total + self.delivery_cost - self.saving
+        self.save() 
+~~~
+
+It appeared that in my Webhook Handler when retrieving form the JSON the values of `saving` , `shipping_cost` and `grand_total` I converted them to `float` numbers, whereas I was supposed to ensure they were Decimals:
+~~~
+# Get the cart from the event's metadata
+metadata = intent.metadata
+cart = metadata.cart
+
+    # Accurately converting to a Decimal
+shipping_cost = Decimal(metadata.shipping_cost)
+saving = Decimal(metadata.saving)
+
+grand_total = Decimal(stripe_charge.amount) / Decimal('100.00')
+order_total = grand_total + saving - shipping_cost  # updated
+~~~
+
+3. 

@@ -4,8 +4,6 @@ Carol's Whimsy Online Boutique can be accessed
 
 ![Home page Responsive mockup](documentation/screens/home_responsive_mockup.png)
 
-![Catalog page Responsive mockup](documentation/screens/catalog_responsive_mockups.png)
-
 ![About page Responsive mockup](documentation/screens/about_responsive_mockup.png)
 
 ## E-commerce Business Model for Carol's Whimsy
@@ -212,7 +210,10 @@ __FEATURES INCLUDE__:
 
 #### Catalog features
 
-- Number of products filtered
+![Catalog page Responsive mockup](documentation/screens/catalog_responsive_mockups.png)
+
+<ins>Features include:</ins>
+- Number of products found / filtered
 - [Clear all] button to clear filters and get all products grid
 - [Sort by..] select to sort prices in both orders
 - Breadcrumb element with clickable Home link
@@ -464,10 +465,18 @@ However, this kind of categorization is required by business model and the natur
 | image | ImageField | upload_to='', blank=True, null=True |
 | image_url | URLField | max_length=1024, blank=True, null=True |
 
-__NOTES__.\
-The discount field must be commented. It is the Decimal type of value with minimum and maximum limits : from 0 to 1.\
+__NOTES__.
+1. The discount field must be commented. It is the Decimal type of value with minimum and maximum limits : from 0 to 1.\
 The backend logic treats it as a decimal discount ratio. For example, discount = 0.1 means 10% discount and the price after discount must be calculated:\
 price = old_price * (1 - 0.1)
+2. Import of data to excel.\
+There are total of 286 products in the database at the moment. It is expected that the number is going to triple in the least.\
+At that there will be some important challenges to deal with as to the processing time to deliver User's GET requests. For the time being there was only one micro challenge how to import that number of products to the database.\
+Most of the time was spent on preparing contents for the Excel spreadsheets, especially the promo_text or product descriptions.
+Then I used Pandas package to do the import.
+
+The management files are located at '/products/management/commands/'.\
+The spreadsheets themselves are at '/data/' 
 
 ### Order
 
@@ -618,6 +627,21 @@ This model is used for tracking promo code usage by users to prevent from misuse
 | used_at | DateTimeField | auto_now_add=True |
 
 
-## Flowcharts on Major Logic
+## Flowcharts for some Custom Logic
 
+### From Payment Form to Order Confirmation
+
+![Logic flowchart checkout](documentation/flowcharts/checkout_payment_order_create.png)
+
+### Promo Code application
+
+![Logic flowchart promocode](documentation/flowcharts/promo_code_logic.png)
+
+## Design
+
+### Colors
+
+### Typography
+
+### Bootstrap elements
 
