@@ -742,7 +742,7 @@ Refer to the [DEPLOYMENT.md](DEPLOYMENT.md)
 
 ## Credits
 
-[Code Institute, Dublin](https://codeinstitute.net/) For the remarkable journey inside Boutique Ado chambers, especially for the Stripe pages, which logic I humbly dared to modify though.
+[Code Institute, Dublin](https://codeinstitute.net/) For the remarkable journey inside Boutique Ado chambers, especially for the Stripe pages, which logic I humbly dared to modify though. Many pieces of the code are quite close to those of the tutorial.
 
 [Cartzilla-Multipurpose E-Commerce Template](https://themes.getbootstrap.com/product/cartzilla-bootstrap-e-commerce-template-ui-kit/) inspired many macro and micro design ideas for most of the pages of Carol's Whimsy app. It was a real pleasure, sometimes a quest, good school and always a challenge to reach even half of their level of mastership.
 
