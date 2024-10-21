@@ -32,6 +32,9 @@ def catalog(request):
             products = products.filter(season__name=season)
         if 'deals_query' in request.GET:
             products = products.filter(discount__gt=0)
+        if 'preorder_status' in request.GET:
+            preorder_status = request.GET['preorder_status']
+            products = products.filter(preorder_status=preorder_status)
 
         if 'search' in request.GET:
             search = request.GET['search']
@@ -66,6 +69,7 @@ def catalog(request):
         'products': products,
         'products_count': products_count,
         'sortkey': sortkey,
+        'preorder_status_choices': Product.PREORDER_STATUS_CHOICES,
     }
 
     return render(request, 'products/catalog.html', context)

@@ -43,6 +43,16 @@
                 <option value="price_desc" {% if sortkey == 'price_desc' %}selected{% endif %}>Price (high to low)
                 </option>
             </select>
+            <div class="dropdown">
+                <a class="nav-link dropdown-toggle fs-sm btn btn-large ms-2 p-3 border rounded-pill" href="#" role="button" data-bs-toggle="dropdown"
+                                data-bs-trigger="hover" data-bs-auto-close="outside" aria-expanded="false">Filter by:</a>
+                <ul class="dropdown-menu mt-3 custom-dropdown-menu">
+                    {% for value, text in preorder_status_choices %}
+                    <li class="dropdown-item">{{ text }}</li>
+                    {% endfor %}
+                    <li class="dropdown-item">All</li>
+                </ul>
+            </div>
             <a class="px-2 link-secondary" href="{% url 'catalog' %}" aria-label="Clear all filters">
                 <i class="fa-regular fa-filter-circle-xmark d-none d-sm-inline"></i>
                 <span class="text-nowrap">Clear All</span>
