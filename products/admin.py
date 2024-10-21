@@ -26,7 +26,7 @@ class SeasonAdmin(admin.ModelAdmin):
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'name', 'sku', 'brand', 'category',
-        'theme', 'season', 'price', 'promo_text', 'image')
+        'theme', 'season', 'price', 'stock', 'preorder_status', 'image')
     readonly_fields = ('id',)
 
 

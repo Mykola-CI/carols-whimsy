@@ -80,6 +80,41 @@ class Product(models.Model):
     image = models.ImageField(upload_to='', blank=True, null=True)
     image_url = models.URLField(max_length=1024, blank=True, null=True)
 
+    # New fields to control stocks (21/10/24)
+    stock = models.PositiveIntegerField(
+        default=0,
+        help_text="Stock must be a non-negative integer."
+    )
+
+    # Define choices for preorder_status
+    NOT_AVAILABLE = 1
+    AVAILABLE = 2
+    PRE_ORDER = 3
+
+    PREORDER_STATUS_CHOICES = [
+        (NOT_AVAILABLE, 'not available'),
+        (AVAILABLE, 'available'),
+        (PRE_ORDER, 'pre-order'),
+    ]
+
+    # Define the preorder_status field
+    preorder_status = models.IntegerField(
+        choices=PREORDER_STATUS_CHOICES,
+        default=NOT_AVAILABLE,
+        help_text="Preorder status based on stock availability."
+    )
+
+    def save(self, *args, **kwargs):
+        # Only set the preorder_status default when creating a new instance
+        if self.pk is None and self.preorder_status not in [
+                self.NOT_AVAILABLE, self.AVAILABLE, self.PRE_ORDER]:
+            if self.stock == 0:
+                self.preorder_status = self.NOT_AVAILABLE
+            else:
+                self.preorder_status = self.AVAILABLE
+
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
