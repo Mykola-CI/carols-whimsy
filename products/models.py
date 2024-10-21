@@ -105,9 +105,8 @@ class Product(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        # Only set the preorder_status default when creating a new instance
-        if self.pk is None and self.preorder_status not in [
-                self.NOT_AVAILABLE, self.AVAILABLE, self.PRE_ORDER]:
+        # Only override if not set to pre-order
+        if self.preorder_status != self.PRE_ORDER:
             if self.stock == 0:
                 self.preorder_status = self.NOT_AVAILABLE
             else:
