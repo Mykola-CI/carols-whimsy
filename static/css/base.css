@@ -94,7 +94,7 @@ me-n1 {
     background: rgba(255, 255, 255, 0.843);
 }
 
-select:hover {
+.sorting-select:hover {
     cursor: pointer;
     background-color: rgba(255, 228, 196, 0.522) !important;
 }

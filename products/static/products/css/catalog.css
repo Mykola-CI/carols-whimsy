@@ -1,6 +1,15 @@
+/* Remove arrow from select element */
 #sorting-select {
     width: 40%;
     overflow: hidden;
+    -webkit-appearance: none; /* Chrome, Safari */
+    -moz-appearance: none;    /* Firefox */
+    appearance: none;         /* Standard */
+}
+
+/* Remove caret from dropdown toggle button */
+.dropdown-toggle::after {
+    display: none;
 }
 
 #sorting-select option {
