@@ -44,13 +44,22 @@
                 </option>
             </select>
             <div class="dropdown">
-                <a class="nav-link dropdown-toggle fs-sm btn btn-large ms-2 p-3 border rounded-pill" href="#" role="button" data-bs-toggle="dropdown"
-                                data-bs-trigger="hover" data-bs-auto-close="outside" aria-expanded="false">Filter by:</a>
+                <a class="nav-link dropdown-toggle fs-sm btn btn-large ms-2 p-3 border rounded-pill" href="#"
+                    role="button" data-bs-toggle="dropdown" data-bs-trigger="hover" data-bs-auto-close="outside"
+                    aria-expanded="false">Filter by:</a>
                 <ul class="dropdown-menu mt-3 custom-dropdown-menu">
                     {% for value, text in preorder_status_choices %}
-                    <li class="dropdown-item">{{ text }}</li>
+                    <li class="dropdown-item">
+                        <a href="?{% if request.GET.brand_query %}brand_query={{ request.GET.brand_query }}{% elif request.GET.category_query %}category_query={{ request.GET.category_query }}{% elif request.GET.theme_query %}theme_query={{ request.GET.theme_query }}{% elif request.GET.season_query %}season_query={{ request.GET.season_query }}{% elif request.GET.deals_query %}deals_query{% endif %}{% if value %}&preorder_status={{ value }}{% endif %}">
+                            {{ text }}
+                        </a>
+                    </li>
                     {% endfor %}
-                    <li class="dropdown-item">All</li>
+                    <li class="dropdown-item">
+                        <a href="?{% if request.GET.deals_query %}deals_query{% elif request.GET.brand_query %}brand_query={{ request.GET.brand_query }}{% elif request.GET.category_query %}category_query={{ request.GET.category_query }}{% elif request.GET.theme_query %}theme_query={{ request.GET.theme_query }}{% elif request.GET.season_query %}season_query={{ request.GET.season_query }}{% endif %}">
+                            All
+                        </a>
+                    </li>
                 </ul>
             </div>
             <a class="px-2 link-secondary" href="{% url 'catalog' %}" aria-label="Clear all filters">
@@ -115,7 +124,8 @@
                                     </a>
                                 </p>
                                 {% endif %}
-                                <p class="mt-2 {% if product.preorder_status == 1 %}text-danger{% elif product.preorder_status == 2 %}text-success{% else %}text-info{% endif %}">
+                                <p
+                                    class="mt-2 {% if product.preorder_status == 1 %}text-danger{% elif product.preorder_status == 2 %}text-success{% else %}text-info{% endif %}">
                                     <!-- <small class="text-muted">
                                         <i class="fa-solid fa-star-sharp"></i>
                                         <i class="fa-solid fa-star-sharp"></i>

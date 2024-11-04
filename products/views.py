@@ -32,9 +32,13 @@ def catalog(request):
             products = products.filter(season__name=season)
         if 'deals_query' in request.GET:
             products = products.filter(discount__gt=0)
-        if 'preorder_status' in request.GET:
-            preorder_status = request.GET['preorder_status']
-            products = products.filter(preorder_status=preorder_status)
+        if 'preorder_status' in request.GET and request.GET['preorder_status']:
+            try:
+                preorder_status = int(request.GET['preorder_status'])
+                products = products.filter(preorder_status=preorder_status)
+            except ValueError:
+                # Invalid preorder_status value - skip this filter
+                pass
 
         if 'search' in request.GET:
             search = request.GET['search']
