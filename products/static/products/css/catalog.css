@@ -9,7 +9,7 @@
 
 /* Remove caret from dropdown toggle button */
 .dropdown-toggle::after {
-    display: none;
+    display: none !important;
 }
 
 #sorting-select option {
