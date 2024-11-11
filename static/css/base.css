@@ -94,7 +94,8 @@ me-n1 {
     background: rgba(255, 255, 255, 0.843);
 }
 
-.sorting-select:hover {
+#sorting-select:hover,
+#availability-dropdown:hover {
     cursor: pointer;
     background-color: rgba(255, 228, 196, 0.522) !important;
 }
