@@ -1,18 +1,24 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
+from django.views.decorators.cache import cache_page
 
 from .models import Product, Brand, Category, Theme, Season
 
 
+@cache_page(60 * 15)   # Cache this view for 15 minutes
 def catalog(request):
     """ A view to return the catalog page """
 
-    brands = Brand.objects.all()
-    categories = Category.objects.all()
-    themes = Theme.objects.all()
-    seasons = Season.objects.all()
-    products = Product.objects.all()
+    # brands = Brand.objects.all()
+    # categories = Category.objects.all()
+    # themes = Theme.objects.all()
+    # seasons = Season.objects.all()
+    # products = Product.objects.all()
+
+    # Optimize queries with select_related and prefetch_related
+    products = Product.objects.select_related(
+        'brand', 'category', 'theme', 'season')
 
     search = None
     sortkey = None
@@ -66,10 +72,10 @@ def catalog(request):
     products_count = products.count()
 
     context = {
-        'brands': brands,
-        'categories': categories,
-        'themes': themes,
-        'seasons': seasons,
+        'brands': Brand.objects.all(),
+        'categories': Category.objects.all(),
+        'themes': Theme.objects.all(),
+        'seasons': Season.objects.all(),
         'products': products,
         'products_count': products_count,
         'sortkey': sortkey,
