@@ -236,6 +236,11 @@ a:not(.btn):focus {
     max-width: 70px;
 }
 
+#navbar-shop-dropdown {
+    max-height: calc(100vh - 150px); /* Adjust 150px based on your header/footer height */
+    overflow-y: auto;
+}
+
 #navbarLogo {
     font-family: "Clicker Script", cursive;
     font-size: 1.2rem;
