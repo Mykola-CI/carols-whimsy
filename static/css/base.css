@@ -241,6 +241,11 @@ a:not(.btn):focus {
     font-size: 1.2rem;
 }
 
+#navbar-shop-dropdown {
+    max-height: calc(100vh - 150px); /* Adjust 150px based on your header/footer height */
+    overflow-y: auto;
+}
+
 swiper-container {
     width: 100%;
     padding-top: 20px;

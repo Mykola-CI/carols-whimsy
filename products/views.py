@@ -1,12 +1,10 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
-# from django.views.decorators.cache import cache_page
 
 from .models import Product, Brand, Category, Theme, Season
 
 
-# @cache_page(60 * 15)   # Cache this view for 15 minutes
 def catalog(request):
     """ A view to return the catalog page """
 
