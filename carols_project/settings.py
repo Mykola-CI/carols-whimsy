@@ -246,6 +246,11 @@ else:
     EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASS')
     DEFAULT_FROM_EMAIL = os.getenv('EMAIL_SHOP')
 
-# OpenExchange Rates API
-EXCHANGE_BACKEND = 'djmoney.contrib.exchange.backends.OpenExchangeRatesBackend'
+# OpenExchange Rates API and Djmoney
+DJANGO_MONEY_RATES = {
+    'DEFAULT_BACKEND': 'djmoney.contrib.exchange.backends.OpenExchangeRatesBackend',
+    'OPENEXCHANGE_URL': 'https://openexchangerates.org/api/latest.json',
+    'OPEN_EXCHANGE_RATES_APP_ID': os.getenv('OPEN_RATES_APP_ID'),
+    'OPENEXCHANGE_BASE_CURRENCY': 'USD',
+}
 OPEN_EXCHANGE_RATES_APP_ID = os.getenv('OPEN_RATES_APP_ID')
