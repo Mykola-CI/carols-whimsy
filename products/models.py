@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal, ROUND_HALF_UP
+from djmoney.models.fields import MoneyField
 
 
 class Brand(models.Model):
@@ -66,6 +67,8 @@ class Product(models.Model):
         Season, on_delete=models.SET_NULL, blank=True, null=True,
         related_name='season_products')
     price = models.DecimalField(max_digits=6, decimal_places=2)
+    price_money = MoneyField(
+        max_digits=10, decimal_places=2, default_currency='GBP', null=True)  # Temporary field
     promo_text = models.TextField(blank=True, null=True)
     size = models.CharField(max_length=255, blank=True, null=True)
     material = models.TextField(blank=True, null=True)
