@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'django_countries',
     'storages',
+    'djmoney',
+    'djmoney.contrib.exchange',
 ]
 
 MIDDLEWARE = [
@@ -233,7 +235,7 @@ STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET')
 DEVELOPMENT = os.getenv('DEVELOPMENT') == 'True'
 if DEVELOPMENT:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-    DEFAULT_FROM_EMAIL = 'carols_whimsy@gmail.com'
+    DEFAULT_FROM_EMAIL = 'orders@carolswhimsy.com'
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_USE_TLS = True
@@ -243,3 +245,7 @@ else:
     EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASS')
     DEFAULT_FROM_EMAIL = os.getenv('EMAIL_SHOP')
+
+# OpenExchange Rates API
+EXCHANGE_BACKEND = 'djmoney.contrib.exchange.backends.OpenExchangeRatesBackend'
+OPEN_EXCHANGE_RATES_APP_ID = os.getenv('OPEN_RATES_APP_ID')
