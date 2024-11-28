@@ -8,12 +8,6 @@ from .models import Product, Brand, Category, Theme, Season
 def catalog(request):
     """ A view to return the catalog page """
 
-    # brands = Brand.objects.all()
-    # categories = Category.objects.all()
-    # themes = Theme.objects.all()
-    # seasons = Season.objects.all()
-    # products = Product.objects.all()
-
     # Optimize queries with select_related and prefetch_related
     products = Product.objects.select_related(
         'brand', 'category', 'theme', 'season')

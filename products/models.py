@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal, ROUND_HALF_UP
 from djmoney.models.fields import MoneyField
+from djmoney.money import Money
 
 
 class Brand(models.Model):
@@ -124,10 +125,17 @@ class Product(models.Model):
         """
         Returns the price after applying the discount.
         """
-        discounted_price = self.price * (1 - self.discount)
+
+        # Extract amount and currency from MoneyField
+        amount = self.price_money.amount
+        currency = self.price_money.currency
+
+        # Calculate discounted price
+        discounted_amount = amount * (1 - self.discount)
 
         # Round to 2 decimal places
-        rounded_price = Decimal(discounted_price).quantize(
+        rounded_amount = Decimal(discounted_amount).quantize(
             Decimal('0.00'), rounding=ROUND_HALF_UP)
 
-        return rounded_price
+        # Return as a Money object
+        return Money(rounded_amount, currency)

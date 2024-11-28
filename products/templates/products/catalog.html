@@ -48,20 +48,6 @@
                     <a id="availability-dropdown" class="sorting-select dropdown-toggle btn btn-large ms-2 p-3 border rounded-pill" href="#"
                         role="button" data-bs-toggle="dropdown" data-bs-trigger="hover" data-bs-auto-close="outside"
                         aria-expanded="false">Filter by Available</a>
-                    <!-- <ul class="dropdown-menu mt-3 custom-dropdown-menu">
-                        {% for value, text in preorder_status_choices %}
-                        <li class="dropdown-item">
-                            <a href="?{% if request.GET.brand_query %}brand_query={{ request.GET.brand_query }}{% elif request.GET.category_query %}category_query={{ request.GET.category_query }}{% elif request.GET.theme_query %}theme_query={{ request.GET.theme_query }}{% elif request.GET.season_query %}season_query={{ request.GET.season_query }}{% elif request.GET.deals_query %}deals_query{% endif %}{% if value %}&preorder_status={{ value }}{% endif %}">
-                                {{ text }}
-                            </a>
-                        </li>
-                        {% endfor %}
-                        <li class="dropdown-item">
-                            <a href="?{% if request.GET.brand_query %}brand_query={{ request.GET.brand_query }}{% elif request.GET.category_query %}category_query={{ request.GET.category_query }}{% elif request.GET.theme_query %}theme_query={{ request.GET.theme_query }}{% elif request.GET.season_query %}season_query={{ request.GET.season_query }}{% elif request.GET.deals_query %}deals_query{% endif %}">
-                                All
-                            </a>
-                        </li>
-                    </ul> -->
                     <ul class="dropdown-menu mt-3 custom-dropdown-menu">
                         {% for value, text in preorder_status_choices %}
                         <li class="dropdown-item">
@@ -70,7 +56,6 @@
                             </a>
                         </li>
                         {% endfor %}
-                        
                         <li class="dropdown-item">
                             <a href="?{% for key, val in request.GET.items %}{% if key != 'preorder_status' %}{{ key }}={{ val }}&{% endif %}{% endfor %}">
                                 All
@@ -111,10 +96,10 @@
                             <div class="col">
                                 {% if product.discount %}
                                 <p class="lead mb-0 text-left font-weight-bold"><span
-                                        class="small text-decoration-line-through text-warning">£{{ product.price }}</span><span
-                                        class="ps-2">£{{ product.get_discounted_price }}</span></p>
+                                        class="small text-decoration-line-through text-warning">{{ product.price_money }}</span><span
+                                        class="ps-2">{{ product.get_discounted_price }}</span></p>
                                 {% else %}
-                                <p class="lead mb-0 text-left font-weight-bold">£{{ product.price }}</p>
+                                <p class="lead mb-0 text-left font-weight-bold">{{ product.price_money }}</p>
                                 {% endif %}
                                 {% if product.brand %}
                                 <p class="small mt-1 mb-0 text-truncate">
