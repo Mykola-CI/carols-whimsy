@@ -29,8 +29,16 @@
 
         <!-- Page title -->
         <div
-            class="d-flex justify-content-end justify-content-sm-between align-items-center position-relative pb-sm-2 pb-md-3">
+            class="d-flex justify-content-between align-items-center position-relative pb-sm-2 pb-md-3">
             <h1 class="h3 d-none d-sm-block">Carol's catalog</h1>
+            <form method="post" action="{% url 'set_currency' %}">
+                {% csrf_token %}
+                <select name="currency" onchange="this.form.submit()">
+                    <option value="GBP" {% if request.session.currency == 'GBP' %}selected{% endif %}>GBP £</option>
+                    <option value="EUR" {% if request.session.currency == 'EUR' %}selected{% endif %}>EUR €</option>
+                    <option value="USD" {% if request.session.currency == 'USD' %}selected{% endif %}>USD $</option>
+                </select>
+            </form>
             <div class="px-2"><span class="h6">{{ products_count }}</span> <span class="text-muted">Product items
                     found</span></div>
         </div>

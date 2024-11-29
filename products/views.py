@@ -96,3 +96,10 @@ def product_detail(request, product_id):
     }
 
     return render(request, 'products/product_detail.html', context)
+
+
+def set_currency(request):
+    if request.method == "POST":
+        selected_currency = request.POST.get("currency", "GBP")
+        request.session["currency"] = selected_currency
+    return redirect(request.META.get("HTTP_REFERER", "/"))
