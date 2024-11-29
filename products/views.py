@@ -16,18 +16,11 @@ def catalog(request):
     products = Product.objects.select_related(
         'brand', 'category', 'theme', 'season')
 
-    # Convert each product's price to the target currency
-    for product in products:
-        # Assuming `price` is a MoneyField, it already contains currency information
-        converted_price = convert_price(product.price_money, target_currency)
-        product.converted_price = converted_price
-        product.discounted_price_converted = (
-            product.get_discounted_price_converted(target_currency))
-
     search = None
     sortkey = None
 
     if request.GET:
+
         if 'brand_query' in request.GET:
             brand = request.GET['brand_query']
             products = products.filter(brand__name=brand)
@@ -73,6 +66,14 @@ def catalog(request):
             if sortkey == 'price_desc':
                 products = products.order_by('-price')
 
+        # Convert each product's price to the target currency
+    for product in products:
+        # Assuming `price` is a MoneyField, it already contains currency information
+        converted_price = convert_price(product.price_money, target_currency)
+        product.converted_price = converted_price
+        product.discounted_price_converted = (
+            product.get_discounted_price_converted(target_currency))
+
     products_count = products.count()
 
     context = {
@@ -97,7 +98,14 @@ def product_detail(request, product_id):
     themes = Theme.objects.all()
     seasons = Season.objects.all()
 
+    # Get the selected currency from the session, default to GBP if not set
+    target_currency = request.session.get("currency", "GBP")
+
     product = get_object_or_404(Product, pk=product_id)
+    converted_price = convert_price(product.price_money, target_currency)
+    product.converted_price = converted_price
+    product.discounted_price_converted = (
+            product.get_discounted_price_converted(target_currency))
 
     context = {
         'brands': brands,

@@ -136,13 +136,6 @@
                                 {% endif %}
                                 <p
                                     class="mt-2 {% if product.preorder_status == 1 %}text-danger{% elif product.preorder_status == 2 %}text-success{% else %}text-info{% endif %}">
-                                    <!-- <small class="text-muted">
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-regular fa-star-half-stroke"></i>
-                                        <i class="fa-regular fa-star-sharp"></i>
-                                    </small> -->
                                     {{ product.get_preorder_status_display }}
                                 </p>
                             </div>
