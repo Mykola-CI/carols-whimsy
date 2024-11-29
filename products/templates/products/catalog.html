@@ -105,7 +105,7 @@
                                 {% if product.discount %}
                                 <p class="lead mb-0 text-left font-weight-bold"><span
                                         class="small text-decoration-line-through text-warning">{{ product.converted_price }}</span><span
-                                        class="ps-2">{{ product.get_discounted_price }}</span></p>
+                                        class="ps-2">{{ product.discounted_price_converted }}</span></p>
                                 {% else %}
                                 <p class="lead mb-0 text-left font-weight-bold">{{ product.converted_price }}</p>
                                 {% endif %}

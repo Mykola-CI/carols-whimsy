@@ -21,6 +21,8 @@ def catalog(request):
         # Assuming `price` is a MoneyField, it already contains currency information
         converted_price = convert_price(product.price_money, target_currency)
         product.converted_price = converted_price
+        product.discounted_price_converted = (
+            product.get_discounted_price_converted(target_currency))
 
     search = None
     sortkey = None

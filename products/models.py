@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal, ROUND_HALF_UP
 from djmoney.models.fields import MoneyField
 from djmoney.money import Money
+from djmoney.contrib.exchange.models import convert_money
 
 
 class Brand(models.Model):
@@ -139,3 +140,29 @@ class Product(models.Model):
 
         # Return as a Money object
         return Money(rounded_amount, currency)
+
+    def get_discounted_price_converted(self, target_currency=None):
+        """
+        Returns the price after applying the discount, optionally converting
+        to a target currency.
+        """
+
+        # Extract amount and currency from MoneyField
+        amount = self.price_money.amount
+        currency = self.price_money.currency
+
+        # Calculate discounted price
+        discounted_amount = amount * (1 - self.discount)
+
+        # Round to 2 decimal places
+        rounded_amount = Decimal(discounted_amount).quantize(
+            Decimal('0.00'), rounding=ROUND_HALF_UP)
+
+        # Create a Money object for the discounted price
+        discounted_price = Money(rounded_amount, currency)
+
+        # Convert to target currency if specified
+        if target_currency and currency != target_currency:
+            discounted_price = convert_money(discounted_price, target_currency)
+
+        return discounted_price
