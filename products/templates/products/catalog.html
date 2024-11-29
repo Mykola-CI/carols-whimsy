@@ -39,7 +39,7 @@
                     <option value="USD" {% if request.session.currency == 'USD' %}selected{% endif %}>USD $</option>
                 </select>
             </form>
-            <div class="px-2"><span class="h6">{{ products_count }}</span> <span class="text-muted">Product items
+            <div class="px-2"><span class="h6">{{ products_count }}</span> <span class="text-muted">Items
                     found</span></div>
         </div>
         <nav class="d-flex flex-wrap justify-content-between py-3 align-items-baseline mb-3">
@@ -104,10 +104,10 @@
                             <div class="col">
                                 {% if product.discount %}
                                 <p class="lead mb-0 text-left font-weight-bold"><span
-                                        class="small text-decoration-line-through text-warning">{{ product.price_money }}</span><span
+                                        class="small text-decoration-line-through text-warning">{{ product.converted_price }}</span><span
                                         class="ps-2">{{ product.get_discounted_price }}</span></p>
                                 {% else %}
-                                <p class="lead mb-0 text-left font-weight-bold">{{ product.price_money }}</p>
+                                <p class="lead mb-0 text-left font-weight-bold">{{ product.converted_price }}</p>
                                 {% endif %}
                                 {% if product.brand %}
                                 <p class="small mt-1 mb-0 text-truncate">

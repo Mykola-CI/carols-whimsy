@@ -3,14 +3,24 @@ from django.contrib import messages
 from django.db.models import Q
 
 from .models import Product, Brand, Category, Theme, Season
+from .convert_price_utility import convert_price
 
 
 def catalog(request):
     """ A view to return the catalog page """
 
+    # Get the selected currency from the session, default to GBP if not set
+    target_currency = request.session.get("currency", "GBP")
+
     # Optimize queries with select_related and prefetch_related
     products = Product.objects.select_related(
         'brand', 'category', 'theme', 'season')
+
+    # Convert each product's price to the target currency
+    for product in products:
+        # Assuming `price` is a MoneyField, it already contains currency information
+        converted_price = convert_price(product.price_money, target_currency)
+        product.converted_price = converted_price
 
     search = None
     sortkey = None
