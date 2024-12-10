@@ -126,7 +126,7 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
@@ -234,7 +234,12 @@ STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET')
 
 DEVELOPMENT = os.getenv('DEVELOPMENT') == 'True'
 if DEVELOPMENT:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    # DEFAULT_FROM_EMAIL = 'orders@carolswhimsy.com'
+
+    # temporary settings for mailersend service for testing
+    EMAIL_BACKEND = 'django_mailersend.backend.MailerSendEmailBackend'
+    MAILERSEND_API_KEY = os.getenv('MAILERSEND_API_KEY')
     DEFAULT_FROM_EMAIL = 'orders@carolswhimsy.com'
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
