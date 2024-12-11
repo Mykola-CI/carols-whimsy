@@ -234,22 +234,21 @@ STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET')
 
 DEVELOPMENT = os.getenv('DEVELOPMENT') == 'True'
 if DEVELOPMENT:
-    # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-    # DEFAULT_FROM_EMAIL = 'orders@carolswhimsy.com'
-
-    # temporary settings for mailersend service for testing
-    EMAIL_BACKEND = 'django_mailersend.backend.MailerSendEmailBackend'
-    MAILERSEND_API_KEY = os.getenv('MAILERSEND_API_KEY')
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     DEFAULT_FROM_EMAIL = 'orders@carolswhimsy.com'
 else:
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_USE_TLS = True
-    EMAIL_USE_SSL = False
-    EMAIL_PORT = 587
-    EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASS')
+    # settings for mailersend service to send emails
+    EMAIL_BACKEND = 'django_mailersend.backend.MailerSendEmailBackend'
+    MAILERSEND_API_KEY = os.getenv('MAILERSEND_API_KEY')
     DEFAULT_FROM_EMAIL = os.getenv('EMAIL_SHOP')
+    # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    # EMAIL_USE_TLS = True
+    # EMAIL_USE_SSL = False
+    # EMAIL_PORT = 587
+    # EMAIL_HOST = 'smtp.gmail.com'
+    # EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+    # EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASS')
+    # DEFAULT_FROM_EMAIL = os.getenv('EMAIL_SHOP')
 
 # OpenExchange Rates API and Djmoney
 DJANGO_MONEY_RATES = {
