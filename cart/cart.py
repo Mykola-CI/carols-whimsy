@@ -34,16 +34,26 @@ class Cart:
             try:
                 # Fetch product stock level from the database
                 product = Product.objects.get(id=product_id)
-                if quantity > product.stock:
+                if quantity > product.stock and product.stock > 0:
                     # Update quantity to match stock level
                     updated_cart[product_id] = product.stock
 
                     warnings.append(
-                        f"We had to decrease the quantity of"
-                        f'"{product.name}" to {product.stock} item(s) in '
-                        f"line with the available stock. "
+                        f"We had to decrease the quantity of \n"
+                        f"'{product.name}' to {product.stock} item(s) in "
+                        f"line with the available stock. \n"
                         f"Somebody must have been ahead of you. Sorry!"
                     )
+
+                elif product.stock == 0:
+                    warnings.append(
+                        f"Unfortunately we had to remove the \n"
+                        f"'{product.name}' from your cart as it is no longer "
+                        f"available. "
+                        f"Somebody must have been ahead of you. Sorry!"
+                    )
+                    # Remove product from cart if stock is depleted
+                    updated_cart.pop(product_id)
 
             except Product.DoesNotExist:
                 # If product is not found, remove it from the cart

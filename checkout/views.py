@@ -124,6 +124,12 @@ def checkout_shipping(request):
         order_form = OrderForm(
             initial=request.session.get('shipping_details', {}))
 
+    cart = Cart(request)
+    warnings = cart._check_and_update_stock()  # Get warnings from stock check
+
+    for warning in warnings:
+        messages.warning(request, warning)  # Add each warning as a message
+
     template = 'checkout/checkout-shipping.html'
 
     context = {

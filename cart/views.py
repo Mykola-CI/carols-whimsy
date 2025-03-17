@@ -56,7 +56,7 @@ def cart_summary(request):
     cart = Cart(request)
     warnings = cart._check_and_update_stock()  # Get warnings from stock check
 
-    print("Warnings:", warnings)  # Debug: Check if warnings are generated
+    # print("Warnings:", warnings)  # Debug: Check if warnings are generated
 
     for warning in warnings:
         messages.warning(request, warning)  # Add each warning as a message
