@@ -278,10 +278,10 @@
 
     <div class="container-xxl position-relative">
         {% if messages %}
-        <div class="toast-container position-absolute top-0 end-0 p-3" style="z-index: 11;">
+        <div class="toast-container position-fixed top-50 start-50 translate-middle p-3" style="z-index: 11;">
             {% for message in messages %}
             <div class="toast align-items-center {{ message.tags }} border-0" role="alert" aria-live="assertive"
-                aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                aria-atomic="true" data-bs-autohide="true" data-bs-delay="10000">
                 <div class="toast-header bg-light bg-gradient">
                     {% if message.tags == 'alert-success' %}
                     <i class="fa-duotone fa-solid fa-thumbs-up me-2 text-success fs-xl"></i>

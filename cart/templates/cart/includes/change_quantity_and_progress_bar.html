@@ -21,8 +21,9 @@
             var productId = $(this).closest('.count-input').data('product-id');
 
             if (currentQuantity > 1) {
+                var previousQuantity = currentQuantity; // Store previous quantity
                 $input.val(currentQuantity - 1);
-                updateCart(productId, $input.val());
+                updateCart(productId, $input.val(), previousQuantity, $input);
             }
         });
 
@@ -32,12 +33,13 @@
             var currentQuantity = parseInt($input.val());
             var productId = $(this).closest('.count-input').data('product-id');
 
+            var previousQuantity = currentQuantity; // Store previous quantity
             $input.val(currentQuantity + 1);
-            updateCart(productId, $input.val());
+            updateCart(productId, $input.val(), previousQuantity, $input);
         });
 
         // Function to send AJAX request
-        function updateCart(productId, newQuantity) {
+        function updateCart(productId, newQuantity, previousQuantity, $input) {
             $.ajax({
                 url: '/cart/update/',
                 type: 'POST',
@@ -54,6 +56,9 @@
                 error: function (xhr, status, error) {
                     // Handle error
                     console.error('Error updating cart:', error);
+                    $input.val(previousQuantity);
+                    window.location.reload();
+                    
                 }
             });
         }
