@@ -4,7 +4,7 @@ from django.views.decorators.http import require_POST
 from django.contrib import messages
 
 from .cart import Cart
-from products.models import Product, Brand, Category, Theme, Season
+from products.models import Product
 from .forms import PromoCodeForm
 from vendor.models import CommercialConstant, PromoCodeUsage
 
@@ -54,6 +54,13 @@ def cart_summary(request):
 
     # Calculation of amount left to free delivery
     cart = Cart(request)
+    warnings = cart._check_and_update_stock()  # Get warnings from stock check
+
+    print("Warnings:", warnings)  # Debug: Check if warnings are generated
+
+    for warning in warnings:
+        messages.warning(request, warning)  # Add each warning as a message
+
     totals = cart.get_totals
     threshold = CommercialConstant.objects.get(
         name="free_delivery_threshold"
@@ -65,17 +72,9 @@ def cart_summary(request):
         left_to_free_delivery = 0
         percent_of_threshold = 100
 
-    brands = Brand.objects.all()
-    categories = Category.objects.all()
-    themes = Theme.objects.all()
-    seasons = Season.objects.all()
     products = Product.objects.all()
 
     context = {
-        "brands": brands,
-        "categories": categories,
-        "themes": themes,
-        "seasons": seasons,
         "products": products,
         "form": form,
         "left_to_free_delivery": left_to_free_delivery,
