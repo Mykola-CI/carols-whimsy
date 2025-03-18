@@ -124,10 +124,11 @@ class WH_Handler:
                     stripe_pid=pid,
                 )
                 order.save()
+
                 # Create order line items
                 for item_id, quantity in json.loads(cart).items():
                     product = Product.objects.get(id=item_id)
-                    print(f'Webhook: {item_id} - {quantity}')
+                    # print(f'Webhook: {item_id} - {quantity}')
                     order_line_item = OrderLineItem(
                         order=order,
                         product=product,
@@ -138,6 +139,14 @@ class WH_Handler:
 
                 # Send confirmation email
                 self._send_confirmation_email(order, billing_details)
+
+                # Update product stock
+                for item_id, quantity in json.loads(cart).items():
+                    product = Product.objects.get(id=item_id)
+                    product.stock -= quantity
+                    if product.stock < 0:
+                        product.stock = 0
+                    product.save()
 
                 return HttpResponse(
                     content=(
