@@ -181,6 +181,10 @@ def checkout_payment(request):
 
     else:
         cart = Cart(request)
+        warnings = cart._check_and_update_stock()  # Get from stock check
+
+        for warning in warnings:
+            messages.warning(request, warning)  # Add each warning as a message
 
         if cart.is_empty:
             messages.error(

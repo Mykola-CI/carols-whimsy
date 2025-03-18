@@ -77,10 +77,6 @@ def catalog(request):
     products_count = products.count()
 
     context = {
-        'brands': Brand.objects.all(),
-        'categories': Category.objects.all(),
-        'themes': Theme.objects.all(),
-        'seasons': Season.objects.all(),
         'products': products,
         'products_count': products_count,
         'sortkey': sortkey,
