@@ -138,7 +138,7 @@ class WH_Handler:
                     order_line_item.save()
 
                 # Send confirmation email
-                self._send_confirmation_email(order, billing_details)
+                # self._send_confirmation_email(order, billing_details)
 
                 # Update product stock
                 for item_id, quantity in json.loads(cart).items():
