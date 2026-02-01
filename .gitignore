@@ -308,3 +308,22 @@ FodyWeavers.xsd
 check_sqlite_tables.py
 migration_script.py
 media/
+
+# DB Archives
+*.db
+*.sql
+*.sqlite
+*.sqlite3
+*.dump
+*.bak
+*.backup
+*.tar.gz
+*.zip
+*.rar
+*.7z
+*.gz
+*.tgz
+*.xz
+*.Z
+
+drafts_info/
